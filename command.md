@@ -4,10 +4,14 @@ Run these top to bottom from the project root (`~/Desktop/SoftwareDev/YouCanDoIt
 says otherwise.
 
 **Where things stand:** the lessons feature is built (API `lessons-api`, web `lessons-web`, QA
-`lessons-qa`), and all 20 Track 0 lessons exist. Tracks 1–11 are still to write: 207 sessions.
+`lessons-qa`), and Tracks 0–6 have all their lessons (145) on `feature/lessons`. Tracks 7–11 are
+still to write: 82 sessions.
 
-| Track | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 |
-|---|---|---|---|---|---|---|---|---|---|---|---|
+| Track | 7 | 8 | 9 | 10 | 11 |
+|---|---|---|---|---|---|
+| Sessions | 10 | 20 | 28 | 11 | 13 |
+
+---|---|---|---|---|---|---|---|---|---|---|---|
 | Sessions | 26 | 17 | 24 | 19 | 24 | 15 | 10 | 20 | 28 | 11 | 13 |
 
 ---
@@ -23,13 +27,18 @@ cp .env.example .env                  # optional: add ANTHROPIC_API_KEY, OLLAMA_
 cd apps/web && npm ci && npx playwright install chromium && cd ../..
 ```
 
-Optional, makes the tutor much faster on a Mac (native Ollama gets the GPU):
+Ollama runs natively on the Mac (it gets the GPU, so the tutor is much faster). As a Homebrew
+service it starts on every login; `.env` points the API at it instead of the `ollama` container:
 
 ```sh
-brew install ollama && ollama serve &
+brew install ollama && brew services start ollama
 ollama pull llama3.2:3b && ollama pull nomic-embed-text
 echo "OLLAMA_URL=http://host.docker.internal:11434" >> .env
 ```
+
+If `index-sources` or the tutor fails with "Ollama embeddings unavailable at
+http://host.docker.internal:11434", the service isn't running: `brew services start ollama`
+(check with `curl localhost:11434/api/tags`).
 
 ## 1. Start the stack
 
@@ -68,13 +77,10 @@ Each agent works in its own git worktree, so you can run several at once in sepa
 Runs can be resumed: the agent skips lessons that already exist. Start with 2–3 tracks in parallel
 (each agent calls WebFetch and Docker a lot).
 
+New worktrees branch off `main`, which doesn't have the lesson format or `test_lessons.py` yet. Tell
+the agent to run `git merge --ff-only feature/lessons` first, or it writes without the format guide.
+
 ```sh
-claude --agent lesson-writer -w lessons-track-1  "Write the lessons for track 1"
-claude --agent lesson-writer -w lessons-track-2  "Write the lessons for track 2"
-claude --agent lesson-writer -w lessons-track-3  "Write the lessons for track 3"
-claude --agent lesson-writer -w lessons-track-4  "Write the lessons for track 4"
-claude --agent lesson-writer -w lessons-track-5  "Write the lessons for track 5"
-claude --agent lesson-writer -w lessons-track-6  "Write the lessons for track 6"
 claude --agent lesson-writer -w lessons-track-7  "Write the lessons for track 7"
 claude --agent lesson-writer -w lessons-track-8  "Write the lessons for track 8"
 claude --agent lesson-writer -w lessons-track-9  "Write the lessons for track 9"
@@ -87,10 +93,10 @@ To redo a single session: `claude --agent lesson-writer "Write the lesson for se
 
 ## 5. Merge each finished track into `feature/lessons`
 
-Repeat for every track (N = 1…11) once its agent has finished:
+Repeat for every track (N = 7…11) once its agent has finished:
 
 ```sh
-N=1
+N=7
 git -C .claude/worktrees/lessons-track-$N status                # must be clean (everything committed)
 BR=$(git -C .claude/worktrees/lessons-track-$N branch --show-current)
 git merge --no-edit "$BR"
