@@ -32,7 +32,7 @@ What remains to complete the app. Updated at the end of every phase.
 - [ ] Sentry + OpenTelemetry in the app itself (Track 5 practice)
 
 ## Later
-- [ ] Full lesson content per session (MDX in `content/lessons/`: text, colour-coded sections, Mermaid diagrams, quiz), then index lessons into RAG
+- [x] Full lesson content per session (Markdown in `content/lessons/`: text, colour-coded callouts, Mermaid diagrams, quiz), indexed into RAG — pilot 0.1.1 done; content for later tracks is being written
 - [ ] Spaced-repetition review of quiz mistakes
 - [ ] Auth + multi-user (needed before any public deploy)
 - [ ] Free cloud deploy (Vercel + Render + Neon) and a public demo with seeded data

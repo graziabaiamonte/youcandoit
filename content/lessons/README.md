@@ -11,7 +11,7 @@ into RAG. `apps/api/tests/test_lessons.py` enforces the rules below.
   (the `Practice:` bullet too). Use `###` for anything below that.
 - **At least one quiz block** (see below); each quiz answer index must be valid.
 - **Mermaid blocks must not be empty.**
-- 1,200–2,500 words. Audience: a junior developer without a CS degree aiming at a senior role —
+- 1,200–2,500 words (guideline, not tested). Audience: a junior developer without a CS degree aiming at a senior role —
   analogies first, then the precise term, then a concrete example.
 - Link the session's sources from `ROADMAP.md` where they back a claim. Don't invent URLs.
 - Never rename or reorder `ROADMAP.md` bullets to fit a lesson: subchapter ids are positional.

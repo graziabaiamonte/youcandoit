@@ -27,8 +27,9 @@ def test_lesson_matches_roadmap(path: Path):
     assert path.stem in sessions, f"{path.name} is not a ROADMAP session"
     text = path.read_text()
     prose = re.sub(r"^```.*?^```", "", text, flags=re.M | re.S)  # `## ` in code isn't a heading
-    headings = re.findall(r"^## ", prose, re.M)
-    assert len(headings) == len(sessions[path.stem].subchapters)
+    assert not re.search(r"^# ", prose, re.M), "no H1: the title comes from ROADMAP.md"
+    headings = [h.strip() for h in re.findall(r"^## (.+)$", prose, re.M)]
+    assert headings == sessions[path.stem].subchapters
     quizzes = _blocks(text, "quiz")
     assert quizzes, "needs at least one ```quiz block"
     for raw in quizzes:
