@@ -360,6 +360,8 @@ export interface components {
             prev_id: string | null;
             /** Next Id */
             next_id: string | null;
+            /** Lesson */
+            lesson?: string | null;
         };
         /** SessionNode */
         SessionNode: {
