@@ -1,0 +1,8 @@
+# Overlay for end-to-end tests: separate database, deterministic fake LLM, no background jobs.
+#   ./scripts/e2e.sh   (creates the DB, starts the stack, seeds, runs Playwright)
+services:
+  api:
+    environment:
+      DATABASE_URL: postgresql+asyncpg://ycdi:ycdi@db:5432/ycdi_e2e
+      LLM_PROVIDER: fake
+      SCHEDULER_ENABLED: "false"

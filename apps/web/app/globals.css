@@ -1,0 +1,169 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Design tokens: palette from research/ui-notes.md (Ronas IT e-learning reference + Uniroma5).
+   Every text/background pair is WCAG AA; contrast ratios are noted there. */
+:root {
+  --radius: 1rem;
+
+  --background: #f7f7f8;
+  --foreground: #18181b;
+  --card: #ffffff;
+  --card-foreground: #18181b;
+  --popover: #ffffff;
+  --popover-foreground: #18181b;
+  --primary: #4865ff;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f2f4;
+  --secondary-foreground: #18181b;
+  --muted: #f1f2f4;
+  --muted-foreground: #5f6168;
+  --accent: #eef1ff;
+  --accent-foreground: #2f4be0;
+  --destructive: #dc2626;
+  --success: #0f766e;
+  --xp: #7e22ce;
+  --streak: #c2410c;
+  --border: #e4e5e9;
+  --input: #e4e5e9;
+  --ring: #4865ff;
+
+  --sidebar: #ffffff;
+  --sidebar-foreground: #18181b;
+  --sidebar-primary: #4865ff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eef1ff;
+  --sidebar-accent-foreground: #2f4be0;
+  --sidebar-border: #e4e5e9;
+  --sidebar-ring: #4865ff;
+
+  /* one colour per roadmap track (Track 0 → --track-1) */
+  --track-1: #1d4ed8;
+  --track-2: #4338ca;
+  --track-3: #6d28d9;
+  --track-4: #a21caf;
+  --track-5: #be185d;
+  --track-6: #b91c1c;
+  --track-7: #c2410c;
+  --track-8: #b45309;
+  --track-9: #4d7c0f;
+  --track-10: #15803d;
+  --track-11: #0f766e;
+  --track-12: #0e7490;
+}
+
+.dark {
+  --background: #151516;
+  --foreground: #f2f2f3;
+  --card: #1e1f22;
+  --card-foreground: #f2f2f3;
+  --popover: #1e1f22;
+  --popover-foreground: #f2f2f3;
+  --primary: #7088ff;
+  --primary-foreground: #151516;
+  --secondary: #28292c;
+  --secondary-foreground: #f2f2f3;
+  --muted: #28292c;
+  --muted-foreground: #9a9ba1;
+  --accent: #28292c;
+  --accent-foreground: #f2f2f3;
+  --destructive: #f87171;
+  --success: #2dd4bf;
+  --xp: #b57cf0;
+  --streak: #fb923c;
+  --border: rgb(255 255 255 / 0.08);
+  --input: rgb(255 255 255 / 0.12);
+  --ring: #7088ff;
+
+  --sidebar: #0f0f10;
+  --sidebar-foreground: #f2f2f3;
+  --sidebar-primary: #4865ff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1e1f22;
+  --sidebar-accent-foreground: #f2f2f3;
+  --sidebar-border: rgb(255 255 255 / 0.06);
+  --sidebar-ring: #7088ff;
+
+  --track-1: #60a5fa;
+  --track-2: #818cf8;
+  --track-3: #a78bfa;
+  --track-4: #e879f9;
+  --track-5: #f472b6;
+  --track-6: #f87171;
+  --track-7: #fb923c;
+  --track-8: #fbbf24;
+  --track-9: #a3e635;
+  --track-10: #4ade80;
+  --track-11: #2dd4bf;
+  --track-12: #22d3ee;
+}
+
+@theme inline {
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-xp: var(--xp);
+  --color-streak: var(--streak);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  /* the current track's colour, set per element via style={{ "--track": ... }} */
+  --color-track: var(--track);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

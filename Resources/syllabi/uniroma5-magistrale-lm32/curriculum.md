@@ -1,0 +1,459 @@
+# Uniroma5 (San Raffaele) LM-32 Ingegneria Informatica e dell'Intelligenza Artificiale Applicata — course lesson lists
+
+Source: https://www.uniroma5.it/magistrale/ingegneria-informatica-e-intelligenza-artificiale-applicata (per-course pages under https://www.uniroma5.it/insegnamenti/<code>)
+Retrieved: 2026-10-19. Lesson titles copied verbatim (Italian) from the 'Lezioni' list on each official course page.
+
+## IoT e Sistemi intelligenti 3D (Year 1, 9 CFU)
+URL: https://www.uniroma5.it/insegnamenti/0322509INGINF05III
+
+- Presentazione dell'insegnamento di IoT e Sistemi intelligenti 3D
+- Introduzione, Ecosistema e Toolchain
+- Metodologie e architetture per progetti embedded I
+- Metodologie e architetture per progetti embedded II
+- Procedure di Avvio dei Sistemi Embedded - Fondamenti
+- Procedure di Avvio dei Sistemi Embedded - Architetture Avanzate
+- Gestione della memoria I - Architettura e stack di esecuzione
+- Gestione della memoria II - allocazione dinamica
+- Gestione della memoria III - sicurezza e protezione hardware
+- Controllore degli Interrupt (NVIC) e Clock di Sistema
+- System Time, Timer Generici e Watchdog
+- Periferiche GPIO - Configurazione Output Digitale e PWM
+- Periferiche GPIO II - Input Digitale e Acquisizione Analogica
+- Fondamenti della comunicazione seriale e UART
+- Protocolli sincroni master-slave SPI e I2C
+- Configurazione hardware e profilazione energetica
+- Strategie firmware e macchine a stati a basso consumo
+- Interfacce di rete e topologie IoT
+- Protocolli, sicurezza, e architetture distribuite
+- Introduzione al TinyML: implementazione dell?intelligenza artificiale su dispositivi IoT
+- Hello world in TinyML: costruzione e addestramento di un modello
+- Hello world in TinyML: costruzione dell'applicazione
+- Deploy dell'applicazione di Hello World
+- Ottimizzazione dei Modelli: Quantizzazione - Teoria e Metodi
+- Quantizzazione in Pratica: Hardware, Toolchain e Deployment
+- Pruning: Sparsità dei Modelli tra Teoria e Hardware
+- ONNX: Rappresentazioni Intermedie per il Deployment
+- Deployment Hardware-Accelerated TensorRT
+- Introduzione alla percezione 3D e sensori
+- Sensori inerziali (IMU) e modellazione del rumore
+- Sensori 3D: Lidar, ToF e modelli di camera
+- Dalla Scansione al Dato Spaziale
+- Preprocessing 1 - Filtraggio Point Cloud
+- Preprocessing 2 - Geometria locale e normali
+- Preprocessing 3 - Descrittori e feature 3D
+- Casi di studio - snippet C-C++ per driver IMU e pipeline PCL
+- Fondamenti di geometria multivista
+- Geometria epipolare
+- Stereoscopia e triangolazione
+- Il Limite degli Approcci Classici
+- Caso di studio - Pipeline di neural matching
+- Framework di integrazione Edge-IoT (ROS 2)
+- Protocolli industriali: middleware DDS e QoS
+- Gestione spazio-temporale e TF2
+- Connettività Cloud e Bridge MQTT
+- Digital twin visualization e rendering web
+
+## Apprendimento automatico e apprendimento profondo (Year 1, 9 CFU)
+URL: https://www.uniroma5.it/insegnamenti/0322509INGINF05
+
+- Introduzione all'insegnamento di Apprendimento automatico e apprendimento profondo
+- Richiami di matematica per l'intelligenza artificiale
+- Dati e Pattern
+- Introduzione al Machine Learning e al Deep Learning
+- Metriche di valutazione
+- Gestione dei progetti di Apprendimento Automatico e Apprendimento Profondo
+- Configurare l'ambiente di sviluppo
+- Ambienti di sviluppo preconfigurati
+- Lavorare con i dati in python
+- Librerie per il machine learning e il deep learning
+- Gestire un progetto in python
+- Naïve Bayes
+- Nearest Neighbor e KNN
+- Support Vector Machine
+- Decision tree
+- Random Forest
+- Regressione Lineare Modello lineare semplice
+- Regressione Lineare Multipla
+- Logistic Regression
+- Regressione Ridge e Lasso (Regolarizzazione)
+- Modelli di Regressione basati su alberi
+- Clustering gerarchico
+- K-Means
+- PCA
+- DBSCAN
+- t-SNE
+- Percettrone
+- Reti Neurali Multistrato (MLP)
+- Convolutional Neural Network (CNN)
+- Recurrent Neural Network (RNN)
+- Classificazione e Regressione con Reti Neurali
+- Fondamenti del Deep Learning
+- Ottimizzazione nelle Reti Profonde
+- Reti Convoluzionali Avanzate
+- Reti Ricorrenti Avanzate
+- Generative Deep Learning
+- Introduzione ai Transformer
+- Meccanismo di Attenzione
+- Architetture di Riferimento
+- Fine-Tuning e Prompt Engineering
+- Applicazioni dei Transformer
+- Introduzione alla Spiegabilità
+- Metodi Post-hoc per Modelli Classici
+- Spiegabilità nel Deep Learning
+- XAI per Transformer e NLP
+
+## Introduzione al trattamento quantistico delle informazioni (Year 1, 6 CFU)
+URL: https://www.uniroma5.it/insegnamenti/0322506FIS03
+
+- Introduzione al quantum computing
+- Algebra lineare: i vettori
+- Probabilità e basi associate
+- Qubit e non entangled Qubits
+- Entanglement
+- Il teorema di Bell
+- Logica classica
+- I Quantum gate
+- Trasmettere informazioni tramite i Qubit
+- I primi algoritmi quantistici
+- Due algoritmi fondamentali del quantum computing
+- Algoritmo di Shor
+- Algoritmo di Grover e le tecnologie del quantum computing
+- Realizzazione ed emulazione dei computer quantistici
+- Field Programmable Gate Arrays
+- Introduzione al VHDL
+- Oggetti e tipi VHDL
+- Logica Combinatoria in VHDL
+- Logica Sequenziale in VHDL
+- I più comuni circuiti sequenziali
+- Esempio di FSM: la Snack Drink Machine
+- Lavorare con i vettori in VHDL
+- Lavorare con le matrici in VHDL
+- Static Timing Analysis (STA)
+- Test-bench e verification
+- Introduzione a Vivado
+- Circuito combinatorio semplice su Vivado
+- Circuito sequenziale semplice su Vivado
+- Prodotto scalare su Vivado
+- Prodotto matrice-vettore su Vivado
+
+## Visione computerizzata e sistemi cognitivi (Year 1, 9 CFU)
+URL: https://www.uniroma5.it/insegnamenti/0322509INGINF05V
+
+- Introduzione all'insegnamento
+- Fondamenti di fotometria e colorimetria
+- Dalla luce ai pixel
+- Introduzione al campionamento fisico e digitale
+- Filtraggio 2D
+- Operatori puntuali e locali
+- Interpolazione e trasformata di Fourier
+- Filtraggio avanzato e gradienti d'immagine
+- Edge Detection
+- Corner Detection
+- Rilevamento di feature invarianti alla scala e blob detector
+- Descrittori di Feature Invarianti e Matching
+- La pinhole camera e la proiezione prospettica
+- Trasformazioni geometriche e allineamento di immagini
+- Allineamento robusto di immagini e RANSAC
+- Dal riconoscimento classico al machine learning
+- Il classificatore lineare per la visione artificiale?
+- Oltre la linearità
+- Loss Functions
+- Addestramento delle reti neurali
+- Tecniche Pratiche di Addestramento
+- Layers convoluzionali
+- Assemblare una Rete Convoluzionale (CNN)
+- Transfer Learning e Fine-Tuning
+- Architetture Profonde
+- Architetture Efficienti
+- Introduzione all'Object Detection
+- Object Detection a due stadi
+- Evoluzioni della Object Detection
+- Segmentazione Semantica con Reti Fully Convolutional
+- Architetture per la segmentazione d'istanza
+- Introduzione al meccanismo di attenzione
+- Self-Attention e Multi-Head Attention
+- L'Architettura Transformer Completa e le sue Evoluzioni
+- Vision Transformer e Segmentazione Semantica
+- Architetture per la video understanding
+- Transformer per video
+- Self-Supervised Learning SSL 1
+- Self-Supervised Learning SSL 2
+- Self-Supervised Learning SSL 3
+- Modelli Generativi I VAE & GAN
+- Modelli Generativi II Diffusion Models
+- Modelli Generativi III Diffusione Avanzata
+- Visione 3D I Rappresentazioni e Metodi Base
+- Visione 3D II (Point Cloud e Funzioni Implicite)
+- Visione 3D III (Neural Rendering e 3DGS)
+
+## Trattamento dei dati multimediali (Year 1, 9 CFU)
+URL: https://www.uniroma5.it/insegnamenti/0322509INGINF05IV
+
+- Trattamento dei Dati Multimediali
+- Introduzione al Trattamento di Dati Multimediali
+- Rappresentazione digitale delle immagini
+- Formati popolari per immagini
+- Scienza dei colori
+- Modelli di Colore nelle Immagini
+- Concetti Fondamentali nel Video Analogico
+- Concetti Fondamentali nel Video Digitale
+- Video ad alta definizione
+- Video 3D
+- Video 360° e Video Quality Assessment
+- Digitalizzazione del suono
+- Rapporto segnale rumore e quantizzazione lineare e non-lineare
+- Audio Filtering e Audio Quality
+- MIDI
+- Quantizzazione e trasmissione dell'audio
+- Codifiche audio differenziali
+- Algoritmi di Compressione Lossless
+- Codifica basata su dizionario
+- Algoritmo LZW
+- Codifica Aritmetica
+- Compressione Lossless di Immagini
+- Algoritmi di Compressione con Perdita: Distorsione, Rateo e Quantizzazione
+- Codifica mediante Trasformate
+- Codifica delle immagini basata su trasformata wavelet
+- Codifica Embedded a Wavelet: Wavelet Packets, EZW e SPIHT
+- Lo standard JPEG
+- JPEG 2000 e JPEG-LS: Compressione Basata su EBCOT
+- Lo standard JPEG-LS: predizione, context modeling e codifica near-lossless
+- Compressione di immagini bi-livello: gli standard JBIG e JBIG2
+- JBIG2: Compressione Model-Based delle Immagini Bi-Livello
+- Compressione Video: Fondamenti e Ricerca del Vettore di Movimento
+- Il Codec Video H.261
+- Il Codec H.263
+- Il Codec MPEG-1
+- MPEG-2: Profili, Scalabilit
+- MPEG-4: Codifica Video Basata su Oggetti
+- MPEG-7: Descrizione del Contenuto Multimediale
+- H.264/AVC: Standard di Codifica Video Avanzata
+- H.265/HEVC: Standard di Codifica Video ad Alta Efficienza
+- H.266/VVC: Versatile Video Coding
+- ADPCM nella Codifica Vocale: lo Standard G.726
+- Vocoder: Tecniche di Codifica Vocale a Basso Bitrate
+- Psicoacustica: Sonorità e Mascheramento Uditivo
+- La Compressione Audio MPEG
+- Altri Codec Audio
+
+## Intelligenza artificiale distribuita (Year 1, 9 CFU)
+URL: https://www.uniroma5.it/insegnamenti/0322509INGINF05I
+
+- Trailer dell'insegnamento
+- Introduzione alla Intelligenza Artificiale Distribuita e Sistemi Complessi
+- Concetti Fondamentali dei Sistemi Distribuiti
+- Caratteristiche Essenziali dei Sistemi Distribuiti
+- Sfide nei Sistemi Distribuiti (Eterogeneità e Apertura)
+- Sfide nei Sistemi Distribuiti (Scalabilità e Sicurezza)
+- Sfide nei Sistemi Distribuiti (Gestione dei Guasti e Trasparenza)
+- Modelli Architetturali dei Sistemi Distribuiti: Dal Client-Server al Cloud
+- Sistemi Peer-2-Peer
+- Fondamenti di Networking
+- Internetworking e Instradamento (Routing)
+- Protocolli di Trasporto TCP e UDP
+- Interfacce di Programmazione per i Protocolli Internet
+- Rappresentazione Dati Esterna e Marshalling
+- Java Remote Method Invocation (RMI)
+- Comunicazione Interprocesso Richiesta-Risposta (Request-Reply)
+- Broadcast
+- Multicast
+- Differenza Tra Multicast e Broadcast
+- L'ordinamento FIFO
+- L'ordinamento causale
+- Comunicazione Indiretta
+- Consenso nei Sistemi Distribuiti
+- I Failure Detector (I rilevatori di guasti)
+- Stati Globali Consistenti e Snapshot
+- Mutua Esclusione (Algoritmo Centralizzato)
+- Mutua Esclusione (Token Ring)
+- Elezione del Coordinatore (Bully Algorithm)
+- Elezione del Coordinatore (Ring Algorithm)
+- Sicurezza nei Sistemi Distribuiti (privacy e Integrità)
+- Introduzione alle Transazioni e proprietà ACID
+- I Lock
+- I Deadlock
+- Controllo Ottimistico della Concorrenza
+- Transazioni Distribuite
+- Ordinamento Tramite Marche Temporali
+- I Deadlock Distribuiti
+- Ripristino delle Transazioni nei Sistemi Distribuiti
+- Replicazione nei Sistemi Distribuiti
+- Consistenza nei Sistemi Distribuiti
+- Replica basata sul quorum nei Sistemi Distribuiti
+- Gli Agenti Intelligenti
+- Fondamenti dei Sistemi Multi-Agente
+- Architetture per Agenti Intelligenti
+- Comunicazione e Negoziazione tra Agenti
+- Cooperazione tra Agenti
+
+## Intelligenza artificiale scalabile (Year 1, 9 CFU)
+URL: https://www.uniroma5.it/insegnamenti/0322509INGINF05II
+
+- Introduzione al corso di Intelligenza Artificiale Scalabile
+- Introduzione ai sistemi di machine learning distribuiti
+- Pattern per Data Ingestion
+- Batching Pattern
+- Sharding pattern
+- Caching Pattern
+- Pattern per il training distribuito: Parameter Server Pattern
+- Collective Communication Pattern
+- Elasticity e fault-tolerance pattern
+- Model serving patterns: Replicated services pattern
+- Model serving patterns: Sharded-service pattern
+- Event-driven processing pattern
+- Workflow patterns
+- Fan-in Fan-out pattern
+- Synchronous and asynchronous pattern
+- Step memorization pattern
+- Operation patterns
+- Machine learning workflow: project overview and system architecture
+- Introduzione ai sistemi di High-Performance Computing (HPC)
+- Progettazione di gerarchie di memoria
+- Parallelismo a livello istruzione
+- Scheduling Dinamico ed Esecuzione Speculativa
+- Sfruttare il Parallelismo a Livello di Istruzione: Emissione Multipla, Scheduling Dinamico e Speculazione
+- Tecniche Architetturali per il Miglioramento del Throughput nei Processori Moderni
+- Architetture vettoriali e parallelismo a livello dati
+- Estensioni SIMD dell'insieme di istruzioni per il multimediale?
+- Rilevamento e miglioramento del parallelismo a livello di ciclo
+- Parallelismo a Livello di Thread: Architetture Multiprocessore e Modelli MIMD
+- Prestazioni dei Multiprocessori a Memoria Condivisa
+- Memoria Condivisa Distribuita e Coerenza basata su Directory
+- Sincronizzazione e Consistenza della Memoria nei Sistemi Multiprocessore
+- Processori Multicore: Prestazioni, Scalabilità e Fallacie di Valutazione
+- Warehouse-scale Computers: Architettura, Modelli di Programmazione e Carichi di Lavoro
+- Warehouse-scale Computers: Architettura di Rete, Efficienza dei Costi e Cloud Computing
+- Warehouse-Scale Computer: Rete, Efficienza Energetica e il Caso Google
+- Architetture Specifiche di Dominio: Linee Guida e il Caso delle Reti Neurali Profonde
+- Deep Learning con GPU: Introduzione, Reti Convoluzionali e Reti Ricorrenti
+- Deep Learning con GPU: Accelerazione Hardware e Addestramento di un Modello
+- Framework di Deep Learning e Configurazione del Supporto GPU
+- Deep Learning con GPU: Strategie Multi-GPU, Ottimizzazione della Memoria e Deployment
+- Deep Learning con GPU: Transfer Learning e Fine-Tuning di Modelli Pre-addestrati
+- Ricerca Vettoriale e Fine-Tuning Accelerati da GPU
+- Il Modello di Programmazione CUDA
+- Programmazione e Ottimizzazione GPU in CUDA
+- Addestramento Distribuito e Multi-GPU
+- Framework, Cloud/HPC e Monitoraggio per il Training Distribuito
+
+## Robotica intelligente (Year 2, 8 CFU)
+URL: https://www.uniroma5.it/insegnamenti/0322508INGINF04
+
+- Introduzione al corso Robotica Intelligente
+- Introduzione alla Teoria del Controllo
+- Regolatore PID
+- Tipologie di Robot
+- MATLAB
+- Gradi di libert
+- Spazio delle configurazioni
+- Sistemi di riferimento
+- Cinematica Diretta
+- Cinematica Inversa geometrica
+- Jacobiano geometrico
+- Esempi di Jacobiano e Singolarità
+- Ridondanza e inversione cinematica differenziale
+- Jacobiano analitico
+- Cineto-statica dei manipolatori
+- Dinamica dei manipolatori con Eulero-Lagrange
+- Dinamica dei manipolatori
+- Controllo del moto
+- Fondamenti di visione per il controllo
+- Controllo di visione
+- Introduzione ai robot mobili
+- Modelli cinematici di robot mobili
+- Modello dinamico e pianificazione traiettorie
+- Controllo del movimento
+- Localizzazione per robot mobili
+- Pianificazione di traiettorie
+- Interpolazione nella pianificazione della traiettoria
+- Scelta della legge temporale
+- Traiettorie nello spazio operativo
+- Traiettorie per l'orientamento nello spazio operativo
+- Introduzione alla pianificazione del movimento
+- Approcci deterministici alla pianificazione
+- Approcci probabilistici alla pianificazione
+- Pianificazione tramite potenziali artificiali
+- Potenziali artificiali per la pianificazione del moto
+- Manipolatori cooperativi
+- Controllo di manipolatori cooperativi
+- Architetture cognitive per robot intelligenti autonomi
+- Apprendimento Profondo nella Robotica Intelligente
+- Il futuro della robotica intelligente
+
+## Intelligenza artificiale nella Bioinformatica (Year 2, 8 CFU)
+URL: https://www.uniroma5.it/insegnamenti/0322508INGINF05I
+
+- Intelligenza Artificiale nella Bioinformatica
+- I dati biologici: DNA, proteine, cellule, immagini
+- L'Intelligenza Artificiale in breve
+- LLM e AI generativa: come cambiano la bioinformatica
+- Colab: primi passi con Python e i dati biologici
+- Come il computer vede i dati biologici
+- Classificazione: insegnare al computer a distinguere
+- Altre tecniche di ML e il problema dello sbilanciamento
+- Dalle reti neurali semplici al deep learning
+- CNN e RNN: estrarre pattern da sequenze e immagini
+- Il Transformer: l'architettura che ha cambiato tutto
+- Foundation model: addestrare una volta, usare per tutto
+- AlphaFold: la rivoluzione nella predizione delle strutture
+- Usare LLM generalisti per la bioinformatica
+- Modelli generativi: l'AI che crea
+- Scoprire nuovi farmaci con l'AI generativa
+- Progettare proteine che non esistono in natura
+- L'imaging biomedico: tipi di immagini e sfide
+- Come le reti neurali analizzano le immagini
+- AI generativa per le immagini biomediche
+- Perch
+- Metodi per combinare dati multi-omici
+- LLM e foundation model per dati multi-omici
+- Caso studio: sottotipi tumorali da dati multi-omici
+- Come si costruisce una pipeline bioinformatica
+- LLM come orchestratori: agenti AI per la bioinformatica
+- Etica, bias e regolamentazione dell'AI in bioinformatica
+- Il futuro: dove sta andando l'AI in bioinformatica
+
+## Elementi di Bioinformatica (Year elective, 8 CFU)
+URL: https://www.uniroma5.it/insegnamenti/0322508INGINF06
+
+- Introduzione alla statistica: statistica descrittiva e inferenziale
+- Statistica descrittiva: tipi di variabili, rappresentazione grafica e tabellare
+- Introduzione alla bioinformatica: definizione e applicazioni
+- Statistica descrittiva: Misure di centralità e dispersione
+- Gli indici di posizione: i quantili
+- Elementi di biologia molecolare: DNA, RNA, Proteine
+- Il range interquartile e la rappresentazione grafica come boxplot
+- Distribuzione di Probabilità: La Distribuzione Normale (o Gaussiana)
+- Elementi di biologia molecolare: gene, espressione genica e regolazione dell'espressione genica
+- Distribuzione di Probabilità: lo z-score
+- Statistica inferenziale: introduzione ai test di ipotesi
+- Statistica inferenziale: procedura test di ipotesi, test per la media e calcolo del p-value
+- Statistica inferenziale: Test t-Student (t-test) per campioni appaiati e indipendenti
+- Elementi di biologia molecolare: RNA non codificanti proteina
+- Test del Chi Quadro e ipergeometrico: principi teorici
+- Analisi di arricchimento funzionale e lo strumento EnrichR
+- Sequenze biologiche e introduzione alle banche dati biologiche
+- Indice di correlazione lineare e sue applicazioni
+- Analisi delle componenti principali (PCA)
+- Analisi di clustering gerarchico e applicazioni del clustering ai dati biologici
+- Analisi di clustering partizionale e applicazioni ai dati biologici
+- La teoria delle reti in biologica e medicina
+- La banca dati NCBI (National Center for Biotechnology Information): NCBI Gene
+- La banca dati NCBI PubMed e NCBI RefSeq
+- La banca dati The Human Protein Atlas
+- L'allineamento di sequenze e lo strumento BLAST: principi di funzionamento, tipologie di ricerca e interpretazione dei risultati
+- Il progetto Gene Ontology (GO): classificazione funzionale dei geni. Termini GO e struttura gerarchica
+- I pathways biologici e la banca dati KEGG: mappe interattive e analisi dei percorsi biologici
+- Lo strumento Biomart: la conversione di identificativi dei geni, estrazione di caratteristiche e termini GO
+- Le banche dati di interazione microRNA-target
+- Dati di espressione genica: la banca dati Gene Expression Omnibus (GEO) e il The Cancer Genome Atlas (TCGA)
+- Applicazioni di statistica in R: funzioni statistiche di base, visualizzazione dei dati
+- Analisi dei geni differenzialmente espressi: tipo di dato, tecniche di analisi, visualizzazione dei risultati
+- Introduzione al corso di Elementi di Bioinformatica
+- Applicazione dell'analisi dei geni differenzialmente espressi ad un caso studio
+- Introduzione al linguaggio R: installazione, interfaccia e ambiente di sviluppo RStudio, vettori
+- Elementi di programmazione R: matrici, liste e data frame
+- Elementi di programmazione R: lettura e scrittura, input/output, funzioni
+- Elementi di programmazione R: strutture e funzioni di controllo
+- Elementi di programmazione R: boxplot, grafici multipli e librerie grafiche
+- Elementi di programmazione R: elementi grafici di base
+

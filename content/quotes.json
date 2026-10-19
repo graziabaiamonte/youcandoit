@@ -1,0 +1,526 @@
+[
+ {
+  "text": "We are what we repeatedly do. Excellence, then, is not an act, but a habit.",
+  "author": "Will Durant (summarizing Aristotle)"
+ },
+ {
+  "text": "It is not that we have a short time to live, but that we waste a lot of it.",
+  "author": "Seneca"
+ },
+ {
+  "text": "Luck is what happens when preparation meets opportunity.",
+  "author": "Attributed to Seneca"
+ },
+ {
+  "text": "While we are postponing, life speeds by.",
+  "author": "Seneca"
+ },
+ {
+  "text": "No man is free who is not master of himself.",
+  "author": "Epictetus"
+ },
+ {
+  "text": "First say to yourself what you would be; and then do what you have to do.",
+  "author": "Epictetus"
+ },
+ {
+  "text": "The impediment to action advances action. What stands in the way becomes the way.",
+  "author": "Marcus Aurelius"
+ },
+ {
+  "text": "You have power over your mind — not outside events. Realize this, and you will find strength.",
+  "author": "Marcus Aurelius (paraphrase)"
+ },
+ {
+  "text": "Waste no more time arguing about what a good man should be. Be one.",
+  "author": "Marcus Aurelius"
+ },
+ {
+  "text": "The unexamined life is not worth living.",
+  "author": "Socrates (Plato, Apology)"
+ },
+ {
+  "text": "The beginning is the most important part of the work.",
+  "author": "Plato"
+ },
+ {
+  "text": "Knowing yourself is the beginning of all wisdom.",
+  "author": "Attributed to Aristotle"
+ },
+ {
+  "text": "Patience is bitter, but its fruit is sweet.",
+  "author": "Attributed to Aristotle"
+ },
+ {
+  "text": "Dripping water hollows out stone, not through force but through persistence.",
+  "author": "Ovid"
+ },
+ {
+  "text": "Fortune favours the bold.",
+  "author": "Virgil (Aeneid)"
+ },
+ {
+  "text": "Perfer et obdura; dolor hic tibi proderit olim. — Be patient and tough; one day this pain will be useful to you.",
+  "author": "Ovid"
+ },
+ {
+  "text": "Dimidium facti qui coepit habet: sapere aude. — He who has begun is half done: dare to know.",
+  "author": "Horace"
+ },
+ {
+  "text": "Per aspera ad astra. — Through hardships to the stars.",
+  "author": "Latin proverb"
+ },
+ {
+  "text": "Festina lente. — Make haste slowly.",
+  "author": "Augustus (via Suetonius)"
+ },
+ {
+  "text": "Nulla dies sine linea. — No day without a line.",
+  "author": "Pliny the Elder, about Apelles"
+ },
+ {
+  "text": "Fatti non foste a viver come bruti, ma per seguir virtute e canoscenza.",
+  "author": "Dante Alighieri (Inferno XXVI)"
+ },
+ {
+  "text": "Learning never exhausts the mind.",
+  "author": "Leonardo da Vinci"
+ },
+ {
+  "text": "Simplicity is the ultimate sophistication.",
+  "author": "Attributed to Leonardo da Vinci"
+ },
+ {
+  "text": "I have been impressed with the urgency of doing. Knowing is not enough; we must apply.",
+  "author": "Leonardo da Vinci"
+ },
+ {
+  "text": "Ancora imparo. — I am still learning.",
+  "author": "Attributed to Michelangelo"
+ },
+ {
+  "text": "Sapere aude! Have courage to use your own understanding.",
+  "author": "Immanuel Kant"
+ },
+ {
+  "text": "He who has a why to live for can bear almost any how.",
+  "author": "Friedrich Nietzsche"
+ },
+ {
+  "text": "That which does not kill us makes us stronger.",
+  "author": "Friedrich Nietzsche"
+ },
+ {
+  "text": "Life can only be understood backwards; but it must be lived forwards.",
+  "author": "Søren Kierkegaard"
+ },
+ {
+  "text": "I think, therefore I am.",
+  "author": "René Descartes"
+ },
+ {
+  "text": "Divide each difficulty into as many parts as is feasible and necessary to resolve it.",
+  "author": "René Descartes"
+ },
+ {
+  "text": "Genius is eternal patience.",
+  "author": "Michelangelo (attributed)"
+ },
+ {
+  "text": "It does not matter how slowly you go as long as you do not stop.",
+  "author": "Attributed to Confucius"
+ },
+ {
+  "text": "Real knowledge is to know the extent of one's ignorance.",
+  "author": "Confucius"
+ },
+ {
+  "text": "The journey of a thousand miles begins with one step.",
+  "author": "Lao Tzu"
+ },
+ {
+  "text": "Ever tried. Ever failed. No matter. Try again. Fail again. Fail better.",
+  "author": "Samuel Beckett"
+ },
+ {
+  "text": "We must imagine Sisyphus happy.",
+  "author": "Albert Camus"
+ },
+ {
+  "text": "In the midst of winter, I found there was, within me, an invincible summer.",
+  "author": "Albert Camus"
+ },
+ {
+  "text": "Somewhere, something incredible is waiting to be known.",
+  "author": "Sharon Begley (often attributed to Carl Sagan)"
+ },
+ {
+  "text": "It always seems impossible until it's done.",
+  "author": "Attributed to Nelson Mandela"
+ },
+ {
+  "text": "The secret of getting ahead is getting started.",
+  "author": "Attributed to Mark Twain"
+ },
+ {
+  "text": "I have not failed. I've just found 10,000 ways that won't work.",
+  "author": "Attributed to Thomas Edison"
+ },
+ {
+  "text": "Genius is one percent inspiration and ninety-nine percent perspiration.",
+  "author": "Thomas Edison"
+ },
+ {
+  "text": "The important thing is not to stop questioning.",
+  "author": "Albert Einstein"
+ },
+ {
+  "text": "It's not that I'm so smart, it's just that I stay with problems longer.",
+  "author": "Attributed to Albert Einstein"
+ },
+ {
+  "text": "Anyone who has never made a mistake has never tried anything new.",
+  "author": "Attributed to Albert Einstein"
+ },
+ {
+  "text": "Nothing in life is to be feared, it is only to be understood.",
+  "author": "Marie Curie"
+ },
+ {
+  "text": "Be less curious about people and more curious about ideas.",
+  "author": "Marie Curie"
+ },
+ {
+  "text": "If I have seen further it is by standing on the shoulders of giants.",
+  "author": "Isaac Newton"
+ },
+ {
+  "text": "What I cannot create, I do not understand.",
+  "author": "Richard Feynman"
+ },
+ {
+  "text": "The first principle is that you must not fool yourself — and you are the easiest person to fool.",
+  "author": "Richard Feynman"
+ },
+ {
+  "text": "Study hard what interests you the most in the most undisciplined, irreverent and original manner possible.",
+  "author": "Richard Feynman"
+ },
+ {
+  "text": "Measure what is measurable, and make measurable what is not so.",
+  "author": "Attributed to Galileo Galilei"
+ },
+ {
+  "text": "Eppur si muove.",
+  "author": "Attributed to Galileo Galilei"
+ },
+ {
+  "text": "Mathematics is the language in which God has written the universe.",
+  "author": "Galileo Galilei (paraphrase)"
+ },
+ {
+  "text": "The more I learn, the more I realize how much I don't know.",
+  "author": "Attributed to Albert Einstein"
+ },
+ {
+  "text": "Tell me and I forget. Teach me and I remember. Involve me and I learn.",
+  "author": "Traditional (often attributed to Benjamin Franklin)"
+ },
+ {
+  "text": "An investment in knowledge pays the best interest.",
+  "author": "Attributed to Benjamin Franklin"
+ },
+ {
+  "text": "Well done is better than well said.",
+  "author": "Benjamin Franklin"
+ },
+ {
+  "text": "Whether you think you can, or you think you can't — you're right.",
+  "author": "Attributed to Henry Ford"
+ },
+ {
+  "text": "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+  "author": "Often attributed to Winston Churchill"
+ },
+ {
+  "text": "Do what you can, with what you have, where you are.",
+  "author": "Theodore Roosevelt (quoting Bill Widener)"
+ },
+ {
+  "text": "Nothing will work unless you do.",
+  "author": "Maya Angelou"
+ },
+ {
+  "text": "You may encounter many defeats, but you must not be defeated.",
+  "author": "Maya Angelou"
+ },
+ {
+  "text": "The expert in anything was once a beginner.",
+  "author": "Helen Hayes"
+ },
+ {
+  "text": "Optimism is the faith that leads to achievement.",
+  "author": "Helen Keller"
+ },
+ {
+  "text": "Alone we can do so little; together we can do so much.",
+  "author": "Helen Keller"
+ },
+ {
+  "text": "I am always doing that which I cannot do, in order that I may learn how to do it.",
+  "author": "Pablo Picasso"
+ },
+ {
+  "text": "Inspiration exists, but it has to find you working.",
+  "author": "Pablo Picasso"
+ },
+ {
+  "text": "Done is better than perfect.",
+  "author": "Sheryl Sandberg (Facebook poster motto)"
+ },
+ {
+  "text": "The best way to predict the future is to invent it.",
+  "author": "Alan Kay"
+ },
+ {
+  "text": "Simple things should be simple, complex things should be possible.",
+  "author": "Alan Kay"
+ },
+ {
+  "text": "We can only see a short distance ahead, but we can see plenty there that needs to be done.",
+  "author": "Alan Turing"
+ },
+ {
+  "text": "Sometimes it is the people no one imagines anything of who do the things that no one can imagine.",
+  "author": "The Imitation Game (film, about Alan Turing)"
+ },
+ {
+  "text": "The most dangerous phrase in the language is: We've always done it this way.",
+  "author": "Grace Hopper"
+ },
+ {
+  "text": "A ship in port is safe, but that's not what ships are built for.",
+  "author": "Grace Hopper"
+ },
+ {
+  "text": "That brain of mine is something more than merely mortal, as time will show.",
+  "author": "Ada Lovelace"
+ },
+ {
+  "text": "The more I study, the more insatiable do I feel my genius for it to be.",
+  "author": "Ada Lovelace"
+ },
+ {
+  "text": "Programs must be written for people to read, and only incidentally for machines to execute.",
+  "author": "Harold Abelson & Gerald Sussman (SICP)"
+ },
+ {
+  "text": "Simplicity is prerequisite for reliability.",
+  "author": "Edsger W. Dijkstra"
+ },
+ {
+  "text": "The question of whether a computer can think is no more interesting than the question of whether a submarine can swim.",
+  "author": "Edsger W. Dijkstra"
+ },
+ {
+  "text": "Premature optimization is the root of all evil.",
+  "author": "Donald Knuth"
+ },
+ {
+  "text": "Science is what we understand well enough to explain to a computer. Art is everything else we do.",
+  "author": "Donald Knuth"
+ },
+ {
+  "text": "Talk is cheap. Show me the code.",
+  "author": "Linus Torvalds"
+ },
+ {
+  "text": "Given enough eyeballs, all bugs are shallow.",
+  "author": "Eric S. Raymond (Linus's Law)"
+ },
+ {
+  "text": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+  "author": "Martin Fowler"
+ },
+ {
+  "text": "If it hurts, do it more often.",
+  "author": "Martin Fowler"
+ },
+ {
+  "text": "Make it work, make it right, make it fast.",
+  "author": "Kent Beck"
+ },
+ {
+  "text": "I'm not a great programmer; I'm just a good programmer with great habits.",
+  "author": "Kent Beck"
+ },
+ {
+  "text": "First, solve the problem. Then, write the code.",
+  "author": "John Johnson"
+ },
+ {
+  "text": "There are only two hard things in Computer Science: cache invalidation and naming things.",
+  "author": "Phil Karlton"
+ },
+ {
+  "text": "Controlling complexity is the essence of computer programming.",
+  "author": "Brian Kernighan"
+ },
+ {
+  "text": "Debugging is twice as hard as writing the code in the first place.",
+  "author": "Brian Kernighan"
+ },
+ {
+  "text": "Walking on water and developing software from a specification are easy if both are frozen.",
+  "author": "Edward V. Berard"
+ },
+ {
+  "text": "The function of good software is to make the complex appear to be simple.",
+  "author": "Grady Booch"
+ },
+ {
+  "text": "Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away.",
+  "author": "Antoine de Saint-Exupéry"
+ },
+ {
+  "text": "A goal without a plan is just a wish.",
+  "author": "Attributed to Antoine de Saint-Exupéry"
+ },
+ {
+  "text": "Everything should be made as simple as possible, but no simpler.",
+  "author": "Attributed to Albert Einstein"
+ },
+ {
+  "text": "Stay hungry. Stay foolish.",
+  "author": "Stewart Brand (Whole Earth Catalog), via Steve Jobs"
+ },
+ {
+  "text": "You can't connect the dots looking forward; you can only connect them looking backwards.",
+  "author": "Steve Jobs"
+ },
+ {
+  "text": "The people who are crazy enough to think they can change the world are the ones who do.",
+  "author": "Apple 'Think Different' (1997)"
+ },
+ {
+  "text": "If you want to go fast, go alone. If you want to go far, go together.",
+  "author": "African proverb"
+ },
+ {
+  "text": "Fall seven times, stand up eight.",
+  "author": "Japanese proverb"
+ },
+ {
+  "text": "The best time to plant a tree was 20 years ago. The second best time is now.",
+  "author": "Proverb"
+ },
+ {
+  "text": "Little by little, one travels far.",
+  "author": "J. R. R. Tolkien"
+ },
+ {
+  "text": "All we have to decide is what to do with the time that is given us.",
+  "author": "J. R. R. Tolkien"
+ },
+ {
+  "text": "It is our choices that show what we truly are, far more than our abilities.",
+  "author": "J. K. Rowling"
+ },
+ {
+  "text": "Do. Or do not. There is no try.",
+  "author": "Yoda (The Empire Strikes Back)"
+ },
+ {
+  "text": "I am not afraid of storms, for I am learning how to sail my ship.",
+  "author": "Louisa May Alcott"
+ },
+ {
+  "text": "Education is not the filling of a pail, but the lighting of a fire.",
+  "author": "Attributed to W. B. Yeats (after Plutarch)"
+ },
+ {
+  "text": "The mind is not a vessel to be filled, but a fire to be kindled.",
+  "author": "Plutarch"
+ },
+ {
+  "text": "Learning is not attained by chance; it must be sought for with ardor and attended to with diligence.",
+  "author": "Abigail Adams"
+ },
+ {
+  "text": "Live as if you were to die tomorrow. Learn as if you were to live forever.",
+  "author": "Attributed to Mahatma Gandhi"
+ },
+ {
+  "text": "The capacity to learn is a gift; the ability to learn is a skill; the willingness to learn is a choice.",
+  "author": "Brian Herbert"
+ },
+ {
+  "text": "Practice isn't the thing you do once you're good. It's the thing you do that makes you good.",
+  "author": "Malcolm Gladwell"
+ },
+ {
+  "text": "You do not rise to the level of your goals. You fall to the level of your systems.",
+  "author": "James Clear"
+ },
+ {
+  "text": "Every action you take is a vote for the type of person you wish to become.",
+  "author": "James Clear"
+ },
+ {
+  "text": "Becoming is better than being.",
+  "author": "Carol Dweck"
+ },
+ {
+  "text": "Discipline is choosing between what you want now and what you want most.",
+  "author": "Attributed to Abraham Lincoln"
+ },
+ {
+  "text": "Give me six hours to chop down a tree and I will spend the first four sharpening the axe.",
+  "author": "Attributed to Abraham Lincoln"
+ },
+ {
+  "text": "Our greatest weakness lies in giving up. The most certain way to succeed is always to try just one more time.",
+  "author": "Attributed to Thomas Edison"
+ },
+ {
+  "text": "Hard work beats talent when talent doesn't work hard.",
+  "author": "Tim Notke"
+ },
+ {
+  "text": "Strive not to be a success, but rather to be of value.",
+  "author": "Albert Einstein"
+ },
+ {
+  "text": "I never lose. I either win or learn.",
+  "author": "Attributed to Nelson Mandela"
+ },
+ {
+  "text": "Courage doesn't always roar. Sometimes courage is the quiet voice at the end of the day saying, 'I will try again tomorrow.'",
+  "author": "Mary Anne Radmacher"
+ },
+ {
+  "text": "Chi va piano va sano e va lontano.",
+  "author": "Italian proverb"
+ },
+ {
+  "text": "Volere è potere.",
+  "author": "Italian proverb"
+ },
+ {
+  "text": "Non scholae sed vitae discimus. — We learn not for school, but for life.",
+  "author": "After Seneca"
+ },
+ {
+  "text": "Repetita iuvant. — Repetition helps.",
+  "author": "Latin proverb"
+ },
+ {
+  "text": "Gutta cavat lapidem. — The drop hollows the stone.",
+  "author": "Ovid"
+ },
+ {
+  "text": "Labor omnia vincit. — Work conquers all.",
+  "author": "Virgil (Georgics)"
+ }
+]

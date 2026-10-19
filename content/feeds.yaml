@@ -1,0 +1,21 @@
+# Daily news sources (verified 2026-10-19, see research/official-docs.md).
+# Edit freely: name + url of any RSS/Atom feed.
+feeds:
+  - { name: Hacker News Best, url: "https://hnrss.org/best" }
+  - { name: GitHub Blog, url: "https://github.blog/feed/" }
+  # Anthropic publishes no official feed: unofficial mirror, drop it if it goes stale
+  - { name: Anthropic News, url: "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml" }
+  - { name: Anthropic Engineering, url: "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_engineering.xml" }
+  - { name: OpenAI, url: "https://openai.com/news/rss.xml" }
+  - { name: Hugging Face, url: "https://huggingface.co/blog/feed.xml" }
+  - { name: Simon Willison, url: "https://simonwillison.net/atom/everything/" }
+  - { name: Martin Fowler, url: "https://martinfowler.com/feed.atom" }
+  - { name: InfoQ, url: "https://feed.infoq.com/" }
+  - { name: The Pragmatic Engineer, url: "https://newsletter.pragmaticengineer.com/feed" }
+  - { name: CNCF, url: "https://www.cncf.io/feed/" }
+  - { name: Kubernetes, url: "https://kubernetes.io/feed.xml" }
+  - { name: Docker, url: "https://www.docker.com/blog/feed/" }
+  - { name: AWS Architecture, url: "https://aws.amazon.com/blogs/architecture/feed/" }
+  - { name: "dev.to #ai", url: "https://dev.to/feed/tag/ai" }
+  - { name: "dev.to #devops", url: "https://dev.to/feed/tag/devops" }
+  - { name: "dev.to #python", url: "https://dev.to/feed/tag/python" }
