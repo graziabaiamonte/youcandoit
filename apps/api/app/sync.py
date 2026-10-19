@@ -49,13 +49,24 @@ async def sync_roadmap(db: AsyncSession) -> int:
 
 
 async def index_sources(db: AsyncSession) -> int:
-    """Index every source page linked in the roadmap. Unchanged pages are skipped by hash."""
+    """Index every source page linked in the roadmap, plus each session's lesson
+    (content/lessons/<id>.md). Unchanged pages are skipped by hash."""
     changed = 0
     for s in await db.scalars(select(Session)):
+        lesson = settings.content_dir / "lessons" / f"{s.id}.md"
+        if lesson.exists() and await rag.index_text(
+            db,
+            url=f"/session/{s.id}#lesson",
+            title=f"Lesson {s.id}",
+            text=lesson.read_text(),
+            kind="source",
+            session_id=s.id,
+        ):
+            changed += 1
         for src in s.sources:
             if await rag.index_url(
                 db, url=src["url"], title=src["title"], kind="source", session_id=s.id
             ):
                 changed += 1
-    log.info("indexed %d changed source pages", changed)
+    log.info("indexed %d changed source pages and lessons", changed)
     return changed

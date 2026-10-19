@@ -1,5 +1,9 @@
-from app import rag
+from sqlalchemy import select
+
+from app import rag, sync
+from app.config import settings
 from app.db import SessionLocal
+from app.models import Document
 
 
 async def test_roadmap_progress_and_stats(client):
@@ -40,3 +44,22 @@ async def test_tutor_cites_indexed_sources(client):
 async def test_quote(client):
     q = (await client.get("/quotes/random")).json()
     assert q["text"] and q["author"]
+
+
+async def test_session_lesson_served_and_indexed(client, tmp_path, monkeypatch):
+    (tmp_path / "lessons").mkdir()
+    (tmp_path / "lessons" / "0.1.1.md").write_text("## What is a shell\n\nA lesson body.")
+    monkeypatch.setattr(settings, "content_dir", tmp_path)
+
+    assert (await client.get("/sessions/0.1.1")).json()["lesson"].startswith("## What is a shell")
+    assert (await client.get("/sessions/0.1.2")).json()["lesson"] is None
+
+    async def no_fetch(*args, **kwargs):
+        return False
+
+    monkeypatch.setattr(rag, "index_url", no_fetch)  # keep source pages off the network
+    async with SessionLocal() as db:
+        assert await sync.index_sources(db) == 1
+        doc = await db.scalar(select(Document).where(Document.url == "/session/0.1.1#lesson"))
+        assert doc.session_id == "0.1.1"
+        assert await sync.index_sources(db) == 0  # unchanged lesson is skipped
