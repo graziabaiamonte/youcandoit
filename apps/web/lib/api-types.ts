@@ -361,7 +361,7 @@ export interface components {
             /** Next Id */
             next_id: string | null;
             /** Lesson */
-            lesson?: string | null;
+            lesson: string | null;
         };
         /** SessionNode */
         SessionNode: {
