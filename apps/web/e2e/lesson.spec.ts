@@ -7,9 +7,10 @@ test.beforeEach(async ({ page }) => {
 
 test("a session with a lesson renders text, a diagram and callouts", async ({ page }) => {
   await page.goto("/session/0.1.1");
-  const lesson = page.locator("#lesson");
+  // Each subchapter expands to its lesson section; the first one has the diagram and a callout.
+  await page.getByRole("button", { name: /How memory works/ }).click();
+  const lesson = page.getByRole("region", { name: /How memory works/ });
   await expect(lesson).toBeVisible();
-  await expect(lesson.getByRole("heading", { name: "Lesson", exact: true })).toBeVisible();
 
   // Mermaid renders client-side into an svg.
   await expect(lesson.getByRole("img", { name: "Lesson diagram" }).first().locator("svg")).toBeVisible();

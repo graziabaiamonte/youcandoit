@@ -8,11 +8,11 @@ import {
   ArrowRightIcon,
   BookOpenIcon,
   ExternalLinkIcon,
-  GraduationCapIcon,
   HammerIcon,
   NetworkIcon,
   TargetIcon,
 } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -33,6 +33,19 @@ function sessionMindmap(s: SessionDetail) {
   return ["mindmap", `  root((${clean(s.title)}))`, ...s.subchapters.map((c) => `    ${clean(c.title)}`)].join("\n");
 }
 
+/** Splits a lesson into the text before the first `##` and one body per `##` section (heading dropped). */
+function splitLesson(md: string | null | undefined) {
+  const parts: string[][] = [[]];
+  let fenced = false;
+  for (const line of (md ?? "").split("\n")) {
+    if (/^```/.test(line)) fenced = !fenced;
+    if (!fenced && line.startsWith("## ")) parts.push([]);
+    else parts[parts.length - 1].push(line);
+  }
+  const [intro, ...sections] = parts.map((p) => p.join("\n").trim());
+  return { intro, sections };
+}
+
 export function SessionView({ id }: { id: string }) {
   const key = `/sessions/${id}`;
   const { data: s, error, mutate } = useSWR<SessionDetail>(key, fetcher);
@@ -42,6 +55,7 @@ export function SessionView({ id }: { id: string }) {
   if (error) return <p className="text-destructive">{error.message}</p>;
   if (!s) return <Skeleton className="h-96 rounded-xl" />;
 
+  const { intro, sections } = splitLesson(s.lesson);
   const done = s.subchapters.filter((c) => c.done).length;
 
   async function toggle(subId: string, checked: boolean) {
@@ -93,29 +107,17 @@ export function SessionView({ id }: { id: string }) {
         </CardContent>
       </Card>
 
-      {s.lesson && (
-        <section id="lesson" aria-labelledby="lesson-heading" className="space-y-3">
-          <h2 id="lesson-heading" className="flex items-center gap-2 text-lg font-semibold">
-            <GraduationCapIcon className="size-5 text-track" aria-hidden /> Lesson
-          </h2>
-          <Lesson markdown={s.lesson} />
-        </section>
-      )}
+      {intro && <Lesson markdown={intro} />}
 
       <section aria-labelledby="subchapters-heading" className="space-y-3">
         <h2 id="subchapters-heading" className="flex items-center gap-2 text-lg font-semibold">
           <BookOpenIcon className="size-5 text-track" aria-hidden /> Subchapters
         </h2>
-        <ol className="space-y-2">
-          {s.subchapters.map((c, i) => (
-            <li key={c.id}>
-              <label
-                className={cn(
-                  "flex cursor-pointer items-center gap-4 rounded-xl border bg-card p-4 transition-colors hover:border-track/50",
-                  c.done && "bg-muted/50",
-                  isPractice(c.title) && "border-dashed border-track/60",
-                )}
-              >
+        <Accordion type="multiple" className="gap-2">
+          {s.subchapters.map((c, i) => {
+            const body = sections[i];
+            const row = (
+              <>
                 <span
                   className={cn(
                     "grid size-8 shrink-0 place-items-center rounded-full text-sm font-semibold",
@@ -135,17 +137,42 @@ export function SessionView({ id }: { id: string }) {
                     c.title
                   )}
                 </span>
+              </>
+            );
+            return (
+              <AccordionItem
+                key={c.id}
+                value={c.id}
+                className={cn(
+                  "relative rounded-xl border bg-card transition-colors hover:border-track/50",
+                  c.done && "bg-muted/50",
+                  isPractice(c.title) && "border-dashed border-track/60",
+                )}
+              >
+                {body ? (
+                  <AccordionTrigger className="items-center gap-4 border-0 p-4 pr-14 text-base font-normal hover:no-underline">
+                    {row}
+                  </AccordionTrigger>
+                ) : (
+                  <div className="flex items-center gap-4 p-4 pr-14">{row}</div>
+                )}
+                {/* sibling of the trigger: a checkbox inside a <button> is invalid and would toggle the panel */}
                 <Checkbox
                   checked={c.done}
                   onCheckedChange={(v) => toggle(c.id, v === true)}
                   aria-label={`Mark "${c.title}" as ${c.done ? "not done" : "done"}`}
                   data-testid={`sub-${c.id}`}
-                  className="size-5"
+                  className="absolute top-[22px] right-4 size-5"
                 />
-              </label>
-            </li>
-          ))}
-        </ol>
+                {body && (
+                  <AccordionContent className="px-4 pb-4 text-base">
+                    <Lesson markdown={body} />
+                  </AccordionContent>
+                )}
+              </AccordionItem>
+            );
+          })}
+        </Accordion>
       </section>
 
       <Collapsible className="rounded-xl border bg-card">
