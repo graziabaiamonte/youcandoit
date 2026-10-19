@@ -36,6 +36,7 @@ class StatsOut(BaseModel):
     best_streak: int
     completed_today: int
     badges: list[BadgeOut]
+    activity: dict[str, int]
     tracks: list[TrackProgress]
 
 

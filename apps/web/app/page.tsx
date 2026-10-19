@@ -28,43 +28,59 @@ export default function Dashboard() {
         </p>
       </section>
 
-      <section className="grid gap-4 sm:grid-cols-3" aria-label="Your stats">
-        <StatCard icon={SparklesIcon} tone="text-xp" label="Level" value={stats?.level} hint={stats && `${stats.xp} XP total`} />
-        <StatCard icon={FlameIcon} tone="text-streak" label="Streak" value={stats && `${stats.streak} days`} hint={stats && `Best: ${stats.best_streak} days`} />
-        <StatCard icon={TargetIcon} tone="text-success" label="Done today" value={stats?.completed_today} hint="subchapters completed" />
-      </section>
-
-      {next && (
-        <Card className="border-primary/30 bg-accent" style={{ "--track": trackColor(next.id.split(".")[0]) } as React.CSSProperties}>
-          <CardHeader>
-            <CardDescription>Continue where you left off</CardDescription>
-            <CardTitle className="text-xl">
-              Session {next.id} — {next.title}
-            </CardTitle>
+      <section className="grid gap-3 lg:grid-cols-4" aria-label="Overview">
+        {next ? (
+          <Card
+            className="border-primary/50 shadow-[0_0_24px_color-mix(in_srgb,var(--primary)_16%,transparent)] lg:col-span-2 lg:row-span-2"
+            style={{ "--track": trackColor(next.id.split(".")[0]) } as React.CSSProperties}
+          >
+            <CardHeader>
+              <CardDescription className="text-xs tracking-wider uppercase">Next session</CardDescription>
+              <span className="font-mono text-sm text-primary">{next.id}</span>
+              <CardTitle className="text-xl">{next.title}</CardTitle>
+            </CardHeader>
+            <CardContent className="mt-auto space-y-4">
+              <Progress value={(sessionProgress(next).done / sessionProgress(next).total) * 100} className="h-2 [&>*]:bg-track" />
+              <p className="font-mono text-xs text-muted-foreground">
+                {sessionProgress(next).done}/{sessionProgress(next).total} subchapters done
+              </p>
+              <Button asChild>
+                <Link href={`/session/${next.id}`}>
+                  Study <ArrowRightIcon aria-hidden />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+        ) : (
+          <Skeleton className="h-48 rounded-xl lg:col-span-2 lg:row-span-2" />
+        )}
+        <StatCard icon={SparklesIcon} tone="text-xp" label="Level" value={stats && `LV ${String(stats.level).padStart(2, "0")}`} hint={stats && `${stats.xp} XP total`} />
+        <StatCard icon={FlameIcon} tone="text-streak" label="Streak" value={stats && `${stats.streak} d`} hint={stats && `Best: ${stats.best_streak} days`} />
+        <Card className="gap-2 py-4 lg:col-span-2">
+          <CardHeader className="px-4">
+            <CardDescription className="flex items-center justify-between text-xs tracking-wider uppercase">
+              <span className="flex items-center gap-1.5"><TargetIcon className="size-4 text-success" aria-hidden /> Last 24 weeks</span>
+              <span className="font-mono normal-case">{stats?.completed_today ?? 0} today</span>
+            </CardDescription>
           </CardHeader>
-          <CardContent className="flex items-center gap-4">
-            <Progress value={(sessionProgress(next).done / sessionProgress(next).total) * 100} className="h-2 [&>*]:bg-track" />
-            <Button asChild>
-              <Link href={`/session/${next.id}`}>
-                Study <ArrowRightIcon aria-hidden />
-              </Link>
-            </Button>
+          <CardContent className="px-4">
+            {stats ? <Heatmap activity={stats.activity} /> : <Skeleton className="h-24" />}
           </CardContent>
         </Card>
-      )}
+      </section>
 
       <section aria-labelledby="tracks-heading" className="space-y-3">
         <h2 id="tracks-heading" className="text-lg font-semibold">Tracks</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           {!stats && Array.from({ length: 6 }, (_, i) => <Skeleton key={i} className="h-20 rounded-xl" />)}
           {stats?.tracks.map((t) => (
-            <Card key={t.id} className="gap-2 border-l-4 border-l-track py-4" style={{ "--track": trackColor(t.id) } as React.CSSProperties}>
+            <Card key={t.id} className="gap-2 py-4" style={{ "--track": trackColor(t.id) } as React.CSSProperties}>
               <CardHeader className="px-4">
                 <CardTitle className="flex items-baseline justify-between gap-2 text-sm">
                   <span>
-                    <span className="text-track">Track {t.id}</span> · {t.title}
+                    <span className="font-mono text-track">T{t.id}</span> · {t.title}
                   </span>
-                  <span className="text-xs text-muted-foreground tabular-nums">
+                  <span className="font-mono text-xs text-muted-foreground tabular-nums">
                     {t.done}/{t.total}
                   </span>
                 </CardTitle>
@@ -113,9 +129,42 @@ function StatCard({
         <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
           <Icon className={`size-4 ${tone}`} /> {label}
         </p>
-        <p className="mt-1 text-2xl font-semibold tabular-nums">{value ?? "—"}</p>
+        <p className="mt-1 font-mono text-2xl font-semibold tabular-nums">{value ?? "—"}</p>
         <p className="text-xs text-muted-foreground">{hint}</p>
       </CardContent>
     </Card>
+  );
+}
+
+const WEEKS = 24;
+const dayKey = (d: Date) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
+/** GitHub-style grid: columns are weeks (Monday first), the last column ends today. */
+function Heatmap({ activity }: { activity: Record<string, number> }) {
+  const today = new Date();
+  const cells = Array.from({ length: WEEKS * 7 }, (_, i) => {
+    const d = new Date(today);
+    d.setDate(today.getDate() - ((today.getDay() + 6) % 7) - (WEEKS - 1) * 7 + i);
+    return { key: dayKey(d), future: d > today };
+  });
+  return (
+    <div className="grid grid-flow-col grid-rows-7 gap-[3px]" role="img" aria-label="Subchapters completed per day, last 24 weeks">
+      {cells.map(({ key, future }) => {
+        const n = activity[key] ?? 0;
+        return (
+          <i
+            key={key}
+            title={future ? undefined : `${key}: ${n}`}
+            className="aspect-square rounded-[2px]"
+            style={{
+              background: future
+                ? "transparent"
+                : `color-mix(in srgb, var(--primary) ${Math.min(n, 4) * 25}%, color-mix(in srgb, var(--foreground) 8%, transparent))`,
+            }}
+          />
+        );
+      })}
+    </div>
   );
 }

@@ -44,15 +44,15 @@ const NAV = [
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader className="gap-3 p-3">
         <Link href="/" className="flex items-center gap-2 px-1 font-semibold tracking-tight">
           <span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground">
             <RocketIcon className="size-4" aria-hidden />
           </span>
-          YouCanDoIt
+          <span className="group-data-[collapsible=icon]:hidden">YouCanDoIt</span>
         </Link>
-        <StatsMini />
+        <div className="group-data-[collapsible=icon]:hidden"><StatsMini /></div>
       </SidebarHeader>
       <SidebarContent>
         <Suspense fallback={<NavSkeleton />}>
@@ -86,7 +86,7 @@ function MainNav() {
       <SidebarMenu>
         {NAV.map(({ href, label, icon: Icon }) => (
           <SidebarMenuItem key={href}>
-            <SidebarMenuButton asChild isActive={pathname === href}>
+            <SidebarMenuButton asChild isActive={pathname === href} tooltip={label}>
               <Link href={href}>
                 <Icon aria-hidden />
                 <span>{label}</span>
@@ -132,7 +132,7 @@ function RoadmapNav() {
             >
               <SidebarMenuItem style={{ "--track": trackColor(track.id) } as React.CSSProperties}>
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuButton className="h-auto py-1.5">
+                  <SidebarMenuButton className="h-auto py-1.5" tooltip={`${track.id}. ${track.title}`}>
                     <span className="size-2.5 shrink-0 rounded-full bg-track" aria-hidden />
                     <span className="flex-1 truncate">
                       <span className="text-muted-foreground">{track.id}.</span> {track.title}
@@ -195,7 +195,7 @@ function ArticleList({ favorites, limit, empty }: { favorites: boolean; limit: n
 
 function DailyNews() {
   return (
-    <SidebarGroup data-testid="daily-news">
+    <SidebarGroup data-testid="daily-news" className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel asChild>
         <Link href="/news">Daily news</Link>
       </SidebarGroupLabel>
@@ -208,7 +208,7 @@ function DailyNews() {
 
 function Favorites() {
   return (
-    <SidebarGroup data-testid="favorites">
+    <SidebarGroup data-testid="favorites" className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Favorites</SidebarGroupLabel>
       <SidebarGroupContent>
         <ArticleList favorites limit={20} empty="Star an article to keep it here." />

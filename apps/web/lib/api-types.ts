@@ -397,6 +397,10 @@ export interface components {
             completed_today: number;
             /** Badges */
             badges: components["schemas"]["BadgeOut"][];
+            /** Activity */
+            activity: {
+                [key: string]: number;
+            };
             /** Tracks */
             tracks: components["schemas"]["TrackProgress"][];
         };

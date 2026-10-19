@@ -41,3 +41,9 @@ def test_streak_counts_consecutive_days_and_allows_today_off():
 def test_streak_breaks_after_a_missed_day():
     s = compute_stats({"a": days_ago(2)}, {}, {}, now=NOW)
     assert s.streak == 0 and s.best_streak == 1
+
+
+def test_activity_counts_completions_per_day():
+    done = {"0.1.1.1": days_ago(0), "0.1.1.2": days_ago(0), "0.1.2.1": days_ago(400)}
+    s = compute_stats(done, SESSIONS, TRACKS, now=NOW)
+    assert s.activity == {"2026-10-19": 2}

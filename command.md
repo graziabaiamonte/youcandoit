@@ -56,6 +56,7 @@ The lesson-writer agent runs `test_lessons.py` in Docker, so the `db` container 
 git status
 git add .gitignore content/lessons/0.1.1.md docker-compose.yml toDo.md
 git commit -m "Update pilot lesson 0.1.1 and compose config"
+git push -u origin feature/lessons    # always push the feature branch to GitHub after committing
 ```
 
 ## 3. Clean up old agent worktrees (check before deleting)
@@ -102,6 +103,7 @@ BR=$(git -C .claude/worktrees/lessons-track-$N branch --show-current)
 git merge --no-edit "$BR"
 docker compose run --rm -v "$PWD/apps/api:/app" api pytest -q tests/test_lessons.py
 git worktree remove .claude/worktrees/lessons-track-$N && git branch -d "$BR"
+git push origin feature/lessons       # push the feature branch to GitHub after every merge
 ```
 
 ## 6. Run the full CI locally

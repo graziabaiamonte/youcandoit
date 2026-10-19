@@ -2,6 +2,7 @@
 so nothing is stored that could drift out of sync with the ticked checkboxes."""
 
 import math
+from collections import Counter
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
@@ -9,6 +10,7 @@ from zoneinfo import ZoneInfo
 XP_SUBCHAPTER = 10
 XP_SESSION_BONUS = 50
 XP_TRACK_BONUS = 300
+ACTIVITY_DAYS = 168  # 24 weeks, the dashboard heatmap
 
 
 @dataclass(frozen=True)
@@ -28,6 +30,7 @@ class Stats:
     best_streak: int
     completed_today: int
     badges: list[Badge]
+    activity: dict[str, int]  # ISO date -> subchapters completed, last ACTIVITY_DAYS days
 
 
 def level_threshold(level: int) -> int:
@@ -95,6 +98,10 @@ def compute_stats(
         Badge(f"track-{t}", f"Track {t} complete", f"Finished every session of track {t}")
         for t in sorted(done_tracks, key=int)
     ]
+    per_day = Counter(ts.astimezone(zone).date() for ts in completions.values())
+    activity = {
+        d.isoformat(): n for d, n in sorted(per_day.items()) if (today - d).days < ACTIVITY_DAYS
+    }
     return Stats(
         xp=xp,
         level=level,
@@ -106,4 +113,5 @@ def compute_stats(
             1 for ts in completions.values() if ts.astimezone(zone).date() == today
         ),
         badges=badges,
+        activity=activity,
     )
