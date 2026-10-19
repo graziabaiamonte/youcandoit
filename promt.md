@@ -1,1 +1,2 @@
 - spiegami come realizzi i grafici e accertati che i testi non vengano mai tagliati.
+-
