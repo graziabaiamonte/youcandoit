@@ -1,14 +1,13 @@
-import json
 from typing import Literal
 
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import BaseModel, Field
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app import rag
 from app.db import get_db
-from app.llm import LLMError, get_llm, provider_name
+from app.llm import get_llm, provider_name
 from app.models import Session
 
 router = APIRouter(prefix="/ai", tags=["ai"])
@@ -44,17 +43,6 @@ class Citation(BaseModel):
 class AnswerOut(BaseModel):
     answer: str
     citations: list[Citation]
-
-
-class QuizQuestion(BaseModel):
-    question: str
-    options: list[str] = Field(min_length=2, max_length=6)
-    answer: int
-    explanation: str
-
-
-class QuizOut(BaseModel):
-    questions: list[QuizQuestion]
 
 
 class StatusOut(BaseModel):
@@ -105,24 +93,3 @@ async def ask_reading_list(body: AskIn, db: AsyncSession = Depends(get_db)) -> A
     hits = await rag.retrieve(db, body.question, kind="article")
     system = "You help the learner recall and connect articles from their reading list."
     return await _answer(system, body, hits)
-
-
-@router.post("/quiz/{session_id}", response_model=QuizOut)
-async def quiz(session_id: str, db: AsyncSession = Depends(get_db)) -> QuizOut:
-    s = await _session(db, session_id)
-    hits = await rag.retrieve(db, f"{s.title}. {s.outcomes}", session_id=s.id, k=8)
-    context, _ = rag.build_context(hits)
-    raw = await get_llm().chat(
-        "Write a 5-question multiple-choice quiz that checks understanding (not trivia) of the "
-        "session below. Use the context when available. Return JSON: "
-        '{"questions": [{"question": str, "options": [4 strings], "answer": index of the '
-        'correct option, "explanation": str}]}'
-        f"\n\n{_outline(s)}\n\nContext:\n{context or '(none)'}",
-        [{"role": "user", "content": "Generate the quiz."}],
-        json_mode=True,
-    )
-    try:
-        out = QuizOut(**json.loads(raw))
-    except (json.JSONDecodeError, ValidationError, TypeError) as e:
-        raise LLMError("The model returned an invalid quiz, please try again.") from e
-    return QuizOut(questions=[q for q in out.questions if 0 <= q.answer < len(q.options)])

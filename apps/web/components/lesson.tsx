@@ -6,8 +6,6 @@ import remarkGfm from "remark-gfm";
 import { FlaskConicalIcon, InfoIcon, LightbulbIcon, TriangleAlertIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mermaid } from "@/components/mermaid";
-import { QuizQuestions } from "@/components/quiz-questions";
-import type { Quiz } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 const CALLOUTS = {
@@ -38,24 +36,6 @@ function rehypeCallouts() {
   return walk;
 }
 
-function LessonQuiz({ json }: { json: string }) {
-  let questions: Quiz["questions"] | undefined;
-  try {
-    questions = (JSON.parse(json) as Partial<Quiz>).questions;
-  } catch {}
-  if (!Array.isArray(questions))
-    return (
-      <p role="alert" className="not-prose rounded-lg border border-destructive bg-destructive/10 p-3 text-sm text-destructive">
-        This quiz could not be loaded.
-      </p>
-    );
-  return (
-    <div className="not-prose my-6 space-y-4 rounded-xl border bg-card p-4">
-      <QuizQuestions questions={questions} />
-    </div>
-  );
-}
-
 const components: Components = {
   pre({ node, children, ...props }) {
     const code = node?.children[0];
@@ -69,7 +49,6 @@ const components: Components = {
             <Mermaid chart={text} label="Lesson diagram" />
           </div>
         );
-      if (lang === "language-quiz") return <LessonQuiz json={text} />;
     }
     return <pre {...props}>{children}</pre>;
   },
@@ -90,7 +69,7 @@ const components: Components = {
   },
 };
 
-/** A session's lesson: Markdown with GFM, colour-coded callouts, Mermaid diagrams and inline quizzes. */
+/** A session's lesson: Markdown with GFM, colour-coded callouts and Mermaid diagrams. */
 export function Lesson({ markdown }: { markdown: string }) {
   return (
     <div className="prose max-w-none dark:prose-invert">

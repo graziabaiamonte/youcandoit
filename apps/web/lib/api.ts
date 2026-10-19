@@ -8,7 +8,6 @@ export type Stats = Schemas["StatsOut"];
 export type Article = Schemas["ArticleOut"];
 export type Quote = Schemas["QuoteOut"];
 export type Answer = Schemas["AnswerOut"];
-export type Quiz = Schemas["QuizOut"];
 export type Turn = Schemas["Turn"];
 
 export class ApiError extends Error {}

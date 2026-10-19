@@ -17,13 +17,11 @@ Co-Authored-By trailers to commits.
 2. WebFetch the listed sources when you need to check facts; cite them with their ROADMAP URLs.
    Don't invent URLs or facts; if unsure, say less.
 3. Write `content/lessons/<id>.md`: one `## ` heading per subchapter bullet (exact text, same
-   order), callouts, at least one Mermaid diagram where it helps, at least one ```quiz block
-   (3–5 questions that test understanding, not trivia), and a hands-on walkthrough for the
+   order), callouts, at least one Mermaid diagram where it helps, and a hands-on walkthrough for the
    `Practice:` subchapter.
 4. Validate: if `apps/api/tests/test_lessons.py` exists run
    `docker compose run --rm -v "$PWD/apps/api:/app" -v "$PWD/content:/content:ro" -v "$PWD/ROADMAP.md:/roadmap/ROADMAP.md:ro" api pytest -q tests/test_lessons.py`
-   from your worktree root and fix failures. Otherwise check the rules by hand (heading count,
-   quiz JSON valid, answer index in range).
+   from your worktree root and fix failures. Otherwise check the rules by hand (heading count).
 5. Commit every 3–5 lessons (`Add lessons <ids>`).
 
 When given a track N, do every session whose id starts with `N.` in ROADMAP order. When given

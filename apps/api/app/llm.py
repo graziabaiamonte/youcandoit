@@ -101,11 +101,6 @@ class FakeProvider:
     name = "fake"
 
     async def chat(self, system: str, messages: list[Message], json_mode: bool = False) -> str:
-        if json_mode:
-            return (
-                '{"questions": [{"question": "What does this session cover?", '
-                '"options": ["A", "B", "C", "D"], "answer": 0, "explanation": "Fake quiz."}]}'
-            )
         cited = sorted(set(re.findall(r"\[(\d+)\]", system)), key=int)
         refs = " ".join(f"[{n}]" for n in cited)
         return f"Fake answer to: {messages[-1]['content']} {refs}".strip()

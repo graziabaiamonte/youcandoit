@@ -42,7 +42,7 @@ docker compose up -d api
 ```
 
 **Optional: Claude for chat.** Set `ANTHROPIC_API_KEY` in `.env` (see [`.env.example`](.env.example)).
-Chat, summaries and quizzes switch to Claude; embeddings stay on Ollama (free, local).
+Chat and summaries switch to Claude; embeddings stay on Ollama (free, local).
 
 ## Features
 
@@ -50,14 +50,13 @@ Chat, summaries and quizzes switch to Claude; embeddings stay on Ollama (free, l
 |---|---|
 | Roadmap tracker | Left sidebar: tracks → modules → sessions with completion state. Parsed from `ROADMAP.md` on every start; progress survives roadmap edits (stable IDs). |
 | Session view | Outcomes callout, numbered subchapters with checkboxes, "Practice" tasks, a Mermaid mind map, and source cards. Colour-coded per track. |
-| Lessons | Full written lesson per session from `content/lessons/<session id>.md`: Markdown with colour-coded callouts (`[!NOTE]`, `[!TIP]`, `[!WARNING]`, `[!EXAMPLE]`), Mermaid diagrams and inline quizzes, shown on the session page and indexed into the tutor's RAG. Sessions without a file simply have no lesson section. |
+| Lessons | Full written lesson per session from `content/lessons/<session id>.md`: Markdown with colour-coded callouts (`[!NOTE]`, `[!TIP]`, `[!WARNING]`, `[!EXAMPLE]`), and Mermaid diagrams, shown on the session page and indexed into the tutor's RAG. Sessions without a file simply have no lesson section. |
 | Gamification | XP per subchapter + bonuses per session/track, levels, daily streak, badges, toasts on level-up. All derived from completions — nothing to drift. |
 | Welcome quote | 131 curated quotes (philosophers, scientists, engineers), once per browser session. |
 | Learning map | React Flow map: tracks on a serpentine path, modules as pills, "you are here" marker. |
 | Daily news | 17 RSS/Atom feeds (GitHub, Anthropic, OpenAI, Hugging Face, InfoQ, CNCF, Martin Fowler…) fetched at 07:00, deduped, kept 30 days; favorites kept forever. |
 | AI tutor (RAG) | Question → embed → pgvector cosine search over the session's indexed sources → grounded answer with numbered citations. |
 | Ask your reading list | Same RAG pipeline over articles; favorites are re-indexed with their full text. |
-| Quiz me | AI-generated multiple-choice quiz per session (retrieval practice), validated server-side. |
 | Article summaries | One click, cached. |
 
 ## Architecture
@@ -132,7 +131,7 @@ docker compose exec api python -m app.cli index-sources
 
 Lessons are authored with the `lesson-writer` Claude Code agent (`.claude/agents/lesson-writer.md`),
 which writes `content/lessons/<session id>.md` from the session's outline and sources in
-`ROADMAP.md`. The format (one `##` per subchapter bullet, at least one quiz, 1,200–2,500 words) is in
+`ROADMAP.md`. The format (one `##` per subchapter bullet, 1,200–2,500 words) is in
 `content/lessons/README.md` and enforced by `apps/api/tests/test_lessons.py`. Run
 `docker compose exec api python -m app.cli index-sources` to index new lessons for the tutor.
 

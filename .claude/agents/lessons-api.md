@@ -22,8 +22,7 @@ modules or abstractions unless needed. Never add Co-Authored-By trailers to comm
      `lessons/<id>.md` for a fixture session → `lesson` returned; missing file → `None`.
    - New `tests/test_lessons.py` modelled on `tests/test_coverage.py` (real ROADMAP, real
      `CONTENT_DIR`): for each lesson file except README.md — id is a ROADMAP session; number of
-     `## ` headings equals the session's subchapter count; at least one ```quiz block; every quiz
-     block parses into `QuizOut` from `app/routes/ai.py` with `0 <= answer < len(options)`;
+     `## ` headings equals the session's subchapter count;
      ```mermaid blocks are non-empty. Zero lesson files must pass.
    - A test that indexing a lesson creates a `Document` with that `session_id` (Fake embedder).
 4. Verify:

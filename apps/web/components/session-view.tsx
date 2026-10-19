@@ -21,7 +21,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Lesson } from "@/components/lesson";
 import { Mermaid } from "@/components/mermaid";
-import { QuizDialog } from "@/components/quiz-dialog";
 import { TutorSheet } from "@/components/tutor-sheet";
 import { api, fetcher, trackColor, type SessionDetail, type Stats } from "@/lib/api";
 import { useStats } from "@/lib/hooks";
@@ -81,7 +80,6 @@ export function SessionView({ id }: { id: string }) {
         </div>
         <div className="flex flex-wrap gap-2 pt-1">
           <TutorSheet sessionId={s.id} sessionTitle={s.title} />
-          <QuizDialog sessionId={s.id} />
         </div>
       </header>
 

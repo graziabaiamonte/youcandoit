@@ -1,6 +1,6 @@
 ---
 name: lessons-web
-description: Frontend agent for the lessons feature (apps/web only) - renders lesson Markdown with callouts, Mermaid diagrams and inline quizzes on the session page.
+description: Frontend agent for the lessons feature (apps/web only) - renders lesson Markdown with callouts, and Mermaid diagrams on the session page.
 tools: Read, Edit, Write, Bash, Grep, Glob
 ---
 
@@ -15,12 +15,8 @@ Keep diffs minimal. Never add Co-Authored-By trailers to commits.
 ## Task C
 1. `npm i remark-gfm @tailwindcss/typography`; add `@plugin "@tailwindcss/typography";` to
    `app/globals.css`; use `prose dark:prose-invert` for lesson text.
-2. Extract the question list (fieldset/options/feedback/score state) from
-   `components/quiz-dialog.tsx` into `components/quiz-questions.tsx`; `QuizDialog` uses it and
-   behaves exactly as before.
-3. New `components/lesson.tsx`: `<ReactMarkdown remarkPlugins={[remarkGfm]} components={...}>`:
-   - code fence `language-mermaid` → existing `<Mermaid>`; `language-quiz` → `JSON.parse` →
-     `<QuizQuestions>` (invalid JSON → small destructive-coloured error box, never a crash);
+2. New `components/lesson.tsx`: `<ReactMarkdown remarkPlugins={[remarkGfm]} components={...}>`:
+   - code fence `language-mermaid` → existing `<Mermaid>`;
      other languages → normal `<pre><code>`.
    - blockquote whose first text starts with `[!NOTE]`, `[!TIP]`, `[!WARNING]`, `[!EXAMPLE]` →
      coloured callout with a lucide icon and label (strip the marker), reusing the `Card` +

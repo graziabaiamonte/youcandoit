@@ -14,7 +14,7 @@ trailers to commits.
 ## Task E
 1. New `apps/web/e2e/lesson.spec.ts` (call `skipWelcome(page)` from `e2e/helpers.ts`):
    - `/session/0.1.1`: the `#lesson` section is visible, a Mermaid `svg` renders inside it, a
-     callout is visible, clicking an option in an inline quiz shows its explanation.
+     callout is visible.
    - A session without a lesson file has no `#lesson` section.
 2. Run `./scripts/e2e.sh e2e/lesson.spec.ts`, then the full CI list from `CLAUDE.md` (ruff,
    pytest, lint, typecheck, `next build`, `./scripts/e2e.sh`), then `docker compose up -d api`.

@@ -1,4 +1,3 @@
-import json
 import os
 import re
 from pathlib import Path
@@ -6,7 +5,6 @@ from pathlib import Path
 import pytest
 
 from app.roadmap_parser import parse_roadmap
-from app.routes.ai import QuizOut
 
 ROADMAP = Path(os.environ.get("REAL_ROADMAP", "/roadmap/ROADMAP.md"))
 LESSONS = sorted(
@@ -30,9 +28,4 @@ def test_lesson_matches_roadmap(path: Path):
     assert not re.search(r"^# ", prose, re.M), "no H1: the title comes from ROADMAP.md"
     headings = [h.strip() for h in re.findall(r"^## (.+)$", prose, re.M)]
     assert headings == sessions[path.stem].subchapters
-    quizzes = _blocks(text, "quiz")
-    assert quizzes, "needs at least one ```quiz block"
-    for raw in quizzes:
-        for q in QuizOut.model_validate(json.loads(raw)).questions:
-            assert 0 <= q.answer < len(q.options), q.question
     assert all(b.strip() for b in _blocks(text, "mermaid")), "empty ```mermaid block"
