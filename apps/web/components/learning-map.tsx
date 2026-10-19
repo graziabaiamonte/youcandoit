@@ -15,6 +15,8 @@ import {
 import "@xyflow/react/dist/style.css";
 import { MapPinIcon } from "lucide-react";
 import { useTheme } from "next-themes";
+import { ProgressRing } from "@/components/progress-ring";
+import { isDarkTheme } from "@/components/theme-toggle";
 import { Skeleton } from "@/components/ui/skeleton";
 import { sessionProgress, trackColor, type TrackNode } from "@/lib/api";
 import { useRoadmap } from "@/lib/hooks";
@@ -33,7 +35,7 @@ function TrackCard({ data }: NodeProps<Node<TrackData>>) {
   return (
     <div
       className={cn(
-        "w-72 rounded-2xl border-2 bg-card p-4 shadow-sm",
+        "surface-track w-72 rounded-3xl border-2 bg-card p-4 shadow-sm",
         current ? "border-track ring-4 ring-track/20" : "border-border",
       )}
       style={{ "--track": trackColor(track.id) } as React.CSSProperties}
@@ -47,13 +49,7 @@ function TrackCard({ data }: NodeProps<Node<TrackData>>) {
         <Handle key={`s-${id}`} id={`s-${id}`} type="source" position={position} className="opacity-0" />
       ))}
       <div className="flex items-start gap-3">
-        <div
-          className="grid size-12 shrink-0 place-items-center rounded-full text-xs font-semibold"
-          style={{ background: `conic-gradient(var(--track) ${percent * 3.6}deg, var(--muted) 0)` }}
-          aria-label={`${percent}% complete`}
-        >
-          <span className="grid size-9 place-items-center rounded-full bg-card">{percent}%</span>
-        </div>
+        <ProgressRing percent={percent} />
         <div className="min-w-0">
           <p className="text-xs font-semibold text-track">Track {track.id}</p>
           <p className="leading-tight font-semibold">{track.title}</p>
@@ -150,7 +146,7 @@ export function LearningMap() {
         edges={graph.edges}
         nodeTypes={nodeTypes}
         fitView
-        colorMode={resolvedTheme === "dark" ? "dark" : "light"}
+        colorMode={isDarkTheme(resolvedTheme) ? "dark" : "light"}
         nodesDraggable={false}
         nodesConnectable={false}
         proOptions={{ hideAttribution: true }}

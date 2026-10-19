@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useState } from "react";
 import { useTheme } from "next-themes";
+import { isDarkTheme } from "@/components/theme-toggle";
 
 /** Renders a Mermaid diagram client-side; mermaid is lazy-loaded so it never bloats other pages. */
 export function Mermaid({ chart, label }: { chart: string; label: string }) {
@@ -14,7 +15,7 @@ export function Mermaid({ chart, label }: { chart: string; label: string }) {
     import("mermaid").then(async ({ default: mermaid }) => {
       mermaid.initialize({
         startOnLoad: false,
-        theme: resolvedTheme === "dark" ? "dark" : "default",
+        theme: isDarkTheme(resolvedTheme) ? "dark" : "default",
         securityLevel: "strict",
       });
       try {

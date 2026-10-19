@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ProgressRing } from "@/components/progress-ring";
 import { sessionProgress, trackColor } from "@/lib/api";
 import { useRoadmap, useStats } from "@/lib/hooks";
 
@@ -31,20 +32,25 @@ export default function Dashboard() {
       <section className="grid gap-3 lg:grid-cols-4" aria-label="Overview">
         {next ? (
           <Card
-            className="border-primary/50 shadow-[0_0_24px_color-mix(in_srgb,var(--primary)_16%,transparent)] lg:col-span-2 lg:row-span-2"
+            className="surface-track rounded-3xl lg:col-span-2 lg:row-span-2"
             style={{ "--track": trackColor(next.id.split(".")[0]) } as React.CSSProperties}
           >
             <CardHeader>
               <CardDescription className="text-xs tracking-wider uppercase">Next session</CardDescription>
-              <span className="font-mono text-sm text-primary">{next.id}</span>
-              <CardTitle className="text-xl">{next.title}</CardTitle>
+              <span className="font-mono text-sm text-track">{next.id}</span>
+              <CardTitle className="font-heading text-2xl leading-tight">{next.title}</CardTitle>
             </CardHeader>
             <CardContent className="mt-auto space-y-4">
-              <Progress value={(sessionProgress(next).done / sessionProgress(next).total) * 100} className="h-2 [&>*]:bg-track" />
-              <p className="font-mono text-xs text-muted-foreground">
-                {sessionProgress(next).done}/{sessionProgress(next).total} subchapters done
-              </p>
-              <Button asChild>
+              <div className="flex items-center gap-3">
+                <ProgressRing
+                  percent={Math.round((sessionProgress(next).done / sessionProgress(next).total) * 100)}
+                  className="size-16 text-sm"
+                />
+                <p className="font-mono text-xs text-muted-foreground">
+                  {sessionProgress(next).done}/{sessionProgress(next).total} subchapters done
+                </p>
+              </div>
+              <Button asChild className="rounded-full">
                 <Link href={`/session/${next.id}`}>
                   Study <ArrowRightIcon aria-hidden />
                 </Link>
@@ -52,7 +58,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         ) : (
-          <Skeleton className="h-48 rounded-xl lg:col-span-2 lg:row-span-2" />
+          <Skeleton className="h-48 rounded-3xl lg:col-span-2 lg:row-span-2" />
         )}
         <StatCard icon={SparklesIcon} tone="text-xp" label="Level" value={stats && `LV ${String(stats.level).padStart(2, "0")}`} hint={stats && `${stats.xp} XP total`} />
         <StatCard icon={FlameIcon} tone="text-streak" label="Streak" value={stats && `${stats.streak} d`} hint={stats && `Best: ${stats.best_streak} days`} />
@@ -74,7 +80,7 @@ export default function Dashboard() {
         <div className="grid gap-3 sm:grid-cols-2">
           {!stats && Array.from({ length: 6 }, (_, i) => <Skeleton key={i} className="h-20 rounded-xl" />)}
           {stats?.tracks.map((t) => (
-            <Card key={t.id} className="gap-2 py-4" style={{ "--track": trackColor(t.id) } as React.CSSProperties}>
+            <Card key={t.id} className="surface-track gap-2 rounded-2xl py-4" style={{ "--track": trackColor(t.id) } as React.CSSProperties}>
               <CardHeader className="px-4">
                 <CardTitle className="flex items-baseline justify-between gap-2 text-sm">
                   <span>
@@ -100,7 +106,7 @@ export default function Dashboard() {
         )}
         <div className="flex flex-wrap gap-2">
           {stats?.badges.map((b) => (
-            <Badge key={b.id} variant="secondary" className="gap-1.5 py-1" title={b.description}>
+            <Badge key={b.id} variant="secondary" className="h-auto gap-1.5 px-3 py-1" title={b.description}>
               <AwardIcon className="size-3.5 text-xp" aria-hidden /> {b.title}
             </Badge>
           ))}

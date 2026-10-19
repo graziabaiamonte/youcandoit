@@ -16,7 +16,6 @@ import {
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -32,7 +31,6 @@ import {
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { StatsMini } from "@/components/stats-mini";
 import { StarButton } from "@/components/star-button";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { sessionProgress, trackColor, type SessionNode, type TrackNode } from "@/lib/api";
 import { useArticles, useRoadmap } from "@/lib/hooks";
 
@@ -47,7 +45,7 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="gap-3 p-3">
         <Link href="/" className="flex items-center gap-2 px-1 font-semibold tracking-tight">
-          <span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground">
+          <span className="grid size-8 place-items-center rounded-full bg-primary text-primary-foreground">
             <RocketIcon className="size-4" aria-hidden />
           </span>
           <span className="group-data-[collapsible=icon]:hidden">YouCanDoIt</span>
@@ -62,9 +60,6 @@ export function AppSidebar() {
         <DailyNews />
         <Favorites />
       </SidebarContent>
-      <SidebarFooter>
-        <ThemeToggle />
-      </SidebarFooter>
     </Sidebar>
   );
 }
@@ -86,7 +81,7 @@ function MainNav() {
       <SidebarMenu>
         {NAV.map(({ href, label, icon: Icon }) => (
           <SidebarMenuItem key={href}>
-            <SidebarMenuButton asChild isActive={pathname === href} tooltip={label}>
+            <SidebarMenuButton asChild isActive={pathname === href} tooltip={label} className="rounded-full">
               <Link href={href}>
                 <Icon aria-hidden />
                 <span>{label}</span>
