@@ -8,6 +8,7 @@ import {
   ArrowRightIcon,
   BookOpenIcon,
   ExternalLinkIcon,
+  GraduationCapIcon,
   HammerIcon,
   NetworkIcon,
   TargetIcon,
@@ -18,6 +19,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Lesson } from "@/components/lesson";
 import { Mermaid } from "@/components/mermaid";
 import { QuizDialog } from "@/components/quiz-dialog";
 import { TutorSheet } from "@/components/tutor-sheet";
@@ -92,6 +94,15 @@ export function SessionView({ id }: { id: string }) {
           </div>
         </CardContent>
       </Card>
+
+      {s.lesson && (
+        <section id="lesson" aria-labelledby="lesson-heading" className="space-y-3">
+          <h2 id="lesson-heading" className="flex items-center gap-2 text-lg font-semibold">
+            <GraduationCapIcon className="size-5 text-track" aria-hidden /> Lesson
+          </h2>
+          <Lesson markdown={s.lesson} />
+        </section>
+      )}
 
       <section aria-labelledby="subchapters-heading" className="space-y-3">
         <h2 id="subchapters-heading" className="flex items-center gap-2 text-lg font-semibold">
