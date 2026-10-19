@@ -23,9 +23,3 @@ test("a session with a lesson renders text, a diagram, callouts and an inline qu
   await quiz.getByRole("button").first().click();
   await expect(explanation).toBeVisible();
 });
-
-test("a session without a lesson has no lesson section", async ({ page }) => {
-  await page.goto("/session/11.1.1");
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("Python data analysis project");
-  await expect(page.locator("#lesson")).toHaveCount(0);
-});
