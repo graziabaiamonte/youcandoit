@@ -22,7 +22,7 @@ What remains to complete the app. Updated at the end of every phase.
 - [x] README (architecture, stack alternatives, screenshots)
 
 ## Phase 4 — Weekly routine
-- [ ] Push repo to GitHub (confirm first)
+- [x] Push repo to GitHub
 - [ ] Scheduled routine Saturday 10:00 Europe/Rome → PR with ROADMAP.md updates
 
 ## Follow-ups found while building

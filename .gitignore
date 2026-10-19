@@ -9,3 +9,5 @@ apps/web/test-results/
 apps/web/playwright-report/
 .DS_Store
 docs/
+CLAUDE.md
+.claude/worktrees/
