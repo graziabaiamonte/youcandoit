@@ -829,25 +829,27 @@ Sources: [Python email docs](https://docs.python.org/3/library/email.html), [Cel
 - Practice: avatar upload with MinIO locally
 Sources: [FastAPI — Request Files](https://fastapi.tiangolo.com/tutorial/request-files/), [MinIO docs](https://min.io/docs/minio/linux/index.html), [OWASP File Upload Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html)
 
-## Module 3.7 — Go as a second backend language
+## Module 3.7 — Java as a second backend language
 
-### Session 3.7.1 — Go fundamentals
-> Outcomes: Write Go programs with structs, interfaces, errors and modules.
-- Why Go: simplicity, static binaries, concurrency
-- Types, structs and methods
-- Interfaces and composition
-- Error handling and modules
-- Practice: a CLI tool in Go
-Sources: [A Tour of Go](https://go.dev/tour/), [Go by Example](https://gobyexample.com/), [Go docs](https://go.dev/doc/)
+### Session 3.7.1 — Java fundamentals
+> Outcomes: Write Java programs with classes, interfaces, generics, exceptions and Maven/Gradle builds.
+- Why Java: the JVM, static typing, a huge enterprise ecosystem
+- Classes, records and interfaces
+- Generics and the Collections framework
+- Exceptions, streams and lambdas
+- Build tools: Maven or Gradle
+- Practice: a CLI tool in Java
+Sources: [Dev.java — Learn Java](https://dev.java/learn/), [The Java Tutorials](https://docs.oracle.com/javase/tutorial/), [Java SE docs](https://docs.oracle.com/en/java/javase/)
 
-### Session 3.7.2 — Concurrency and services in Go
-> Outcomes: Build a concurrent HTTP service in Go with goroutines and channels.
-- Goroutines and channels
-- sync primitives and context cancellation
-- net/http and JSON
-- Testing in Go
-- Practice: rewrite one API endpoint as a Go microservice
-Sources: [A Tour of Go](https://go.dev/tour/), [Go by Example](https://gobyexample.com/)
+### Session 3.7.2 — Web services with Spring Boot
+> Outcomes: Build and test a REST service in Spring Boot.
+- Spring Boot basics: starters, dependency injection, configuration
+- REST controllers and JSON
+- Data access with Spring Data JPA
+- Testing with JUnit 5 and Spring Boot Test
+- Concurrency basics: threads, executors and virtual threads
+- Practice: rewrite one API endpoint as a Spring Boot microservice
+Sources: [Spring Boot docs](https://docs.spring.io/spring-boot/index.html), [Spring guides](https://spring.io/guides), [JUnit 5 User Guide](https://junit.org/junit5/docs/current/user-guide/)
 
 # Track 4 — Systems
 
@@ -2159,7 +2161,7 @@ Every source referenced above, grouped by type. Research behind the plan:
 - [Designing Data-Intensive Applications](https://dataintensive.net/) · [Google SRE books](https://sre.google/books/) · [AIMA](https://aima.cs.berkeley.edu/) · [Dive into Deep Learning](https://d2l.ai/) · [OpenStax Introductory Statistics](https://openstax.org/details/books/introductory-statistics-2e) · [Practical Cryptography for Developers](https://cryptobook.nakov.com/)
 
 ## Official documentation
-- Languages: [Python](https://docs.python.org/3/) · [TypeScript](https://www.typescriptlang.org/docs/handbook/intro.html) · [Go](https://go.dev/doc/)
+- Languages: [Python](https://docs.python.org/3/) · [TypeScript](https://www.typescriptlang.org/docs/handbook/intro.html) · [Java](https://docs.oracle.com/en/java/javase/)
 - Backend: [FastAPI](https://fastapi.tiangolo.com/) · [Pydantic](https://pydantic.dev/docs/validation/latest/get-started/) · [SQLAlchemy](https://docs.sqlalchemy.org/en/20/) · [Alembic](https://alembic.sqlalchemy.org/en/latest/) · [PostgreSQL](https://www.postgresql.org/docs/current/) · [Redis](https://redis.io/docs/latest/) · [RabbitMQ](https://www.rabbitmq.com/tutorials) · [Celery](https://docs.celeryq.dev/en/stable/) · [Kafka](https://kafka.apache.org/documentation/) · [GraphQL](https://graphql.org/learn/) · [gRPC](https://grpc.io/docs/) · [OpenAPI](https://spec.openapis.org/oas/latest.html)
 - Web: [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP) · [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110) · [Next.js](https://nextjs.org/docs) · [React](https://react.dev/learn) · [Playwright](https://playwright.dev/docs/intro)
 - DevOps: [Docker](https://docs.docker.com/get-started/) · [Docker Compose](https://docs.docker.com/compose/) · [Kubernetes](https://kubernetes.io/docs/home/) · [Helm](https://helm.sh/docs/) · [Argo CD](https://argo-cd.readthedocs.io/en/stable/) · [Terraform](https://developer.hashicorp.com/terraform/docs) · [OpenTofu](https://opentofu.org/docs/) · [Ansible](https://docs.ansible.com/) · [GitHub Actions](https://docs.github.com/en/actions) · [Nginx](https://nginx.org/en/docs/) · [Let's Encrypt](https://letsencrypt.org/docs/)
