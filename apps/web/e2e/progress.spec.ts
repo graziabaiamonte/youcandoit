@@ -31,3 +31,10 @@ test("ticking a subchapter awards XP, updates the map and survives a reload", as
 test.afterEach(async ({ request }) => {
   await request.delete(`/api/progress/${SUB}`);
 });
+
+test("a subchapter expands to its lesson without ticking it", async ({ page }) => {
+  await page.goto("/session/0.1.1");
+  await page.getByRole("button", { name: /How memory works/ }).click();
+  await expect(page.getByText("Think of your memory like a library")).toBeVisible();
+  await expect(page.getByTestId(`sub-${SUB}`)).not.toBeChecked();
+});
