@@ -2,11 +2,20 @@
 
 import { ThemeProvider } from "next-themes";
 import { SWRConfig } from "swr";
+import { THEMES } from "@/components/theme-toggle";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+    <ThemeProvider
+      attribute="data-theme"
+      themes={THEMES.map((t) => t.id)}
+      defaultTheme="plum"
+      enableSystem={false}
+      // new key, so the old "light"/"dark"/"system" values don't leave an unknown theme
+      storageKey="ycdi-theme"
+      disableTransitionOnChange
+    >
       <SWRConfig value={{ revalidateOnFocus: false }}>
         <TooltipProvider>{children}</TooltipProvider>
       </SWRConfig>

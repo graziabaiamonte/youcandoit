@@ -79,7 +79,7 @@ export function SessionView({ id }: { id: string }) {
 
   return (
     <article className="space-y-6" style={{ "--track": trackColor(s.track_id) } as React.CSSProperties}>
-      <header className="space-y-3 rounded-2xl border-t-4 border-t-track bg-card p-6 shadow-xs">
+      <header className="surface-track space-y-3 rounded-3xl border p-6 shadow-xs">
         <p className="text-sm font-medium text-track">
           Track {s.track_id} · {s.track_title} <span className="text-muted-foreground">/ {s.module_title}</span>
         </p>
@@ -97,9 +97,11 @@ export function SessionView({ id }: { id: string }) {
         </div>
       </header>
 
-      <Card className="border-l-4 border-l-primary bg-accent/50">
+      <Card className="bg-primary/12">
         <CardContent className="flex gap-3">
-          <TargetIcon className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden />
+          <span className="grid size-9 shrink-0 place-items-center rounded-full bg-primary/24 text-primary" aria-hidden>
+            <TargetIcon className="size-5" />
+          </span>
           <div>
             <h2 className="text-sm font-semibold">By the end of this session you will</h2>
             <p className="mt-1 leading-relaxed">{s.outcomes}</p>
@@ -144,7 +146,7 @@ export function SessionView({ id }: { id: string }) {
                 key={c.id}
                 value={c.id}
                 className={cn(
-                  "relative rounded-xl border bg-card transition-colors hover:border-track/50",
+                  "relative rounded-2xl border bg-card transition-colors hover:border-track/50",
                   c.done && "bg-muted/50",
                   isPractice(c.title) && "border-dashed border-track/60",
                 )}

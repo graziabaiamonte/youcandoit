@@ -3,109 +3,157 @@
 @import "shadcn/tailwind.css";
 @plugin "@tailwindcss/typography";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is([data-theme="plum"] *, [data-theme="midnight"] *));
 
-/* Design tokens: "Terminal Mint" palette (Resources/UI).
-   Every text/background pair is WCAG AA; contrast ratios are noted there. */
-:root {
-  --radius: 0.5rem;
+/* Design tokens: three palettes from Resources/UI, see Resources/UI/design-system.md.
+   Plum (default) and Midnight are dark, Campus is light; every text/background pair is WCAG AA. */
+:root,
+[data-theme="campus"] {
+  --radius: 1rem;
 
-  --background: #f3f7f8;
-  --foreground: #0b1a22;
+  --background: #f6f5f2;
+  --foreground: #18233e;
   --card: #ffffff;
-  --card-foreground: #0b1a22;
+  --card-foreground: #18233e;
   --popover: #ffffff;
-  --popover-foreground: #0b1a22;
-  --primary: #0a8f6f;
+  --popover-foreground: #18233e;
+  --primary: #18233e;
   --primary-foreground: #ffffff;
-  --secondary: #e9f0f2;
-  --secondary-foreground: #0b1a22;
-  --muted: #e9f0f2;
-  --muted-foreground: #53707f;
-  --accent: #e2f5f0;
-  --accent-foreground: #076b53;
-  --destructive: #dc2626;
+  --secondary: #eceae4;
+  --secondary-foreground: #18233e;
+  --muted: #eceae4;
+  --muted-foreground: #565f70;
+  --accent: #e6e9f0;
+  --accent-foreground: #18233e;
+  --destructive: #b91c1c;
   --success: #0f766e;
-  --xp: #7c3aed;
+  --xp: #6d28d9;
   --streak: #c2410c;
-  --border: #d9e3e8;
-  --input: #d9e3e8;
-  --ring: #0a8f6f;
+  --border: #dedbd3;
+  --input: #d2cec4;
+  --ring: #18233e;
+  --glow: #e3e7ef;
+  --surface-tint: 16%;
 
   --sidebar: #ffffff;
-  --sidebar-foreground: #0b1a22;
-  --sidebar-primary: #0a8f6f;
+  --sidebar-foreground: #18233e;
+  --sidebar-primary: #18233e;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #e2f5f0;
-  --sidebar-accent-foreground: #076b53;
-  --sidebar-border: #d9e3e8;
-  --sidebar-ring: #0a8f6f;
+  --sidebar-accent: #e6e9f0;
+  --sidebar-accent-foreground: #18233e;
+  --sidebar-border: #dedbd3;
+  --sidebar-ring: #18233e;
 
   /* one colour per roadmap track (Track 0 → --track-1) */
   --track-1: #1d4ed8;
   --track-2: #4338ca;
   --track-3: #6d28d9;
-  --track-4: #a21caf;
-  --track-5: #be185d;
-  --track-6: #b91c1c;
-  --track-7: #c2410c;
-  --track-8: #b45309;
-  --track-9: #4d7c0f;
-  --track-10: #15803d;
-  --track-11: #0f766e;
-  --track-12: #0e7490;
+  --track-4: #86198f;
+  --track-5: #9d174d;
+  --track-6: #991b1b;
+  --track-7: #9a3412;
+  --track-8: #92400e;
+  --track-9: #3f6212;
+  --track-10: #166534;
+  --track-11: #115e59;
+  --track-12: #155e75;
 }
 
-.dark {
-  --background: #0a0f14;
-  --foreground: #e6f1f2;
-  --card: #111a22;
-  --card-foreground: #e6f1f2;
-  --popover: #111a22;
-  --popover-foreground: #e6f1f2;
-  --primary: #2de2b0;
-  --primary-foreground: #04120d;
-  --secondary: #16222c;
-  --secondary-foreground: #e6f1f2;
-  --muted: #16222c;
-  --muted-foreground: #7f95a3;
-  --accent: #16222c;
-  --accent-foreground: #e6f1f2;
-  --destructive: #f87171;
-  --success: #2dd4bf;
-  --xp: #a78bfa;
-  --streak: #fb923c;
-  --border: #1f2c38;
-  --input: #2a3a48;
-  --ring: #2de2b0;
+[data-theme="plum"],
+[data-theme="midnight"] {
+  color-scheme: dark;
+  --surface-tint: 22%;
 
-  --sidebar: #070b0f;
-  --sidebar-foreground: #e6f1f2;
-  --sidebar-primary: #2de2b0;
-  --sidebar-primary-foreground: #04120d;
-  --sidebar-accent: #111a22;
-  --sidebar-accent-foreground: #e6f1f2;
-  --sidebar-border: #1f2c38;
-  --sidebar-ring: #2de2b0;
+  /* pastels, so text-background on bg-track stays readable */
+  --track-1: #a9cdfb;
+  --track-2: #a5b4fc;
+  --track-3: #c4b5fd;
+  --track-4: #f0abfc;
+  --track-5: #f5b8e6;
+  --track-6: #fda4af;
+  --track-7: #fdba8c;
+  --track-8: #f8dd8a;
+  --track-9: #d9f99d;
+  --track-10: #a7ecd9;
+  --track-11: #99f6e4;
+  --track-12: #a5f3fc;
+}
 
-  --track-1: #60a5fa;
-  --track-2: #818cf8;
-  --track-3: #a78bfa;
-  --track-4: #e879f9;
-  --track-5: #f472b6;
-  --track-6: #f87171;
-  --track-7: #fb923c;
-  --track-8: #fbbf24;
-  --track-9: #a3e635;
-  --track-10: #4ade80;
-  --track-11: #2dd4bf;
-  --track-12: #22d3ee;
+/* gamified-app screenshots and SCALEN: plum black, lavender accents */
+[data-theme="plum"] {
+  --background: #160f1f;
+  --foreground: #f5f0fa;
+  --card: #221a2e;
+  --card-foreground: #f5f0fa;
+  --popover: #221a2e;
+  --popover-foreground: #f5f0fa;
+  --primary: #b8a4ff;
+  --primary-foreground: #1a1028;
+  --secondary: #2c2339;
+  --secondary-foreground: #f5f0fa;
+  --muted: #2c2339;
+  --muted-foreground: #b3a6c4;
+  --accent: #2c2339;
+  --accent-foreground: #f5f0fa;
+  --destructive: #fb7185;
+  --success: #86efac;
+  --xp: #c4b5fd;
+  --streak: #fdba74;
+  --border: #3a2f4a;
+  --input: #4a3d5c;
+  --ring: #b8a4ff;
+  --glow: #3b2463;
+
+  --sidebar: #110b18;
+  --sidebar-foreground: #f5f0fa;
+  --sidebar-primary: #b8a4ff;
+  --sidebar-primary-foreground: #1a1028;
+  --sidebar-accent: #221a2e;
+  --sidebar-accent-foreground: #f5f0fa;
+  --sidebar-border: #3a2f4a;
+  --sidebar-ring: #b8a4ff;
+
+}
+
+/* Ronas IT "Course Connect": near-black, electric blue */
+[data-theme="midnight"] {
+  --background: #0e0f13;
+  --foreground: #f2f4f8;
+  --card: #17191f;
+  --card-foreground: #f2f4f8;
+  --popover: #17191f;
+  --popover-foreground: #f2f4f8;
+  --primary: #6b93ff;
+  --primary-foreground: #0e0f13;
+  --secondary: #20232b;
+  --secondary-foreground: #f2f4f8;
+  --muted: #20232b;
+  --muted-foreground: #9aa1b2;
+  --accent: #20232b;
+  --accent-foreground: #f2f4f8;
+  --destructive: #fb7185;
+  --success: #4ade80;
+  --xp: #b49cff;
+  --streak: #ffb86b;
+  --border: #2a2e38;
+  --input: #363b47;
+  --ring: #6b93ff;
+  --glow: #172554;
+
+  --sidebar: #0a0b0e;
+  --sidebar-foreground: #f2f4f8;
+  --sidebar-primary: #6b93ff;
+  --sidebar-primary-foreground: #0e0f13;
+  --sidebar-accent: #17191f;
+  --sidebar-accent-foreground: #f2f4f8;
+  --sidebar-border: #2a2e38;
+  --sidebar-ring: #6b93ff;
 }
 
 @theme inline {
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-display);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -150,11 +198,8 @@
   }
   body {
     @apply bg-background text-foreground;
-    /* faint 28px grid, the "terminal" backdrop */
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 28px 28px;
+    /* one soft plum glow behind the content, like the reference backdrop */
+    background-image: radial-gradient(60rem 40rem at 85% -10%, var(--glow), transparent 70%);
     background-attachment: fixed;
   }
   button:not(:disabled),
@@ -163,6 +208,10 @@
   }
   html {
     @apply font-sans;
+  }
+  /* display font for page and section titles; lesson prose keeps the body font */
+  :where(h1, h2, h3):not(.prose *) {
+    @apply font-heading;
   }
 }
 
@@ -179,4 +228,14 @@
 [data-sidebar="menu-button"][data-active="true"] {
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary) 55%, transparent),
     0 0 14px color-mix(in srgb, var(--primary) 18%, transparent);
+}
+
+/* pastel track card: a tint of the element's --track over the card colour, so --foreground stays AA.
+   shortcut: tint only, no decorative blob shapes — add SVG blobs if wanted later */
+.surface-track {
+  background-image: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--track) var(--surface-tint), var(--card)),
+    color-mix(in srgb, var(--track) 8%, var(--card))
+  );
 }

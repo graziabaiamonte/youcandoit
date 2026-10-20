@@ -9,10 +9,11 @@ import { Mermaid } from "@/components/mermaid";
 import { cn } from "@/lib/utils";
 
 const CALLOUTS = {
-  note: { label: "Note", Icon: InfoIcon, className: "border-l-primary bg-accent/50", accent: "text-primary" },
-  tip: { label: "Tip", Icon: LightbulbIcon, className: "border-l-success bg-success/5", accent: "text-success" },
-  warning: { label: "Warning", Icon: TriangleAlertIcon, className: "border-l-destructive bg-destructive/5", accent: "text-destructive" },
-  example: { label: "Example", Icon: FlaskConicalIcon, className: "border-l-track bg-track/5", accent: "text-track" },
+  // each type differs by background tint and icon; the icon sits in a stronger tint of the same colour
+  note: { label: "Note", Icon: InfoIcon, className: "bg-primary/12", chip: "bg-primary/24", accent: "text-primary" },
+  tip: { label: "Tip", Icon: LightbulbIcon, className: "bg-success/12", chip: "bg-success/24", accent: "text-success" },
+  warning: { label: "Warning", Icon: TriangleAlertIcon, className: "bg-destructive/12", chip: "bg-destructive/24", accent: "text-destructive" },
+  example: { label: "Example", Icon: FlaskConicalIcon, className: "bg-track/12", chip: "bg-track/24", accent: "text-track" },
 };
 const MARKER = /^\[!(NOTE|TIP|WARNING|EXAMPLE)\]\s*/;
 
@@ -52,13 +53,23 @@ const components: Components = {
     }
     return <pre {...props}>{children}</pre>;
   },
+  // wide tables scroll inside their own box instead of the page on phones
+  table({ children }) {
+    return (
+      <div className="overflow-x-auto">
+        <table>{children}</table>
+      </div>
+    );
+  },
   blockquote({ node, children, ...props }) {
     const c = CALLOUTS[node?.properties.dataCallout as keyof typeof CALLOUTS];
     if (!c) return <blockquote {...props}>{children}</blockquote>;
     return (
-      <Card className={cn("my-6 border-l-4", c.className)}>
+      <Card className={cn("my-6", c.className)}>
         <CardContent className="flex gap-3">
-          <c.Icon className={cn("mt-1 size-5 shrink-0", c.accent)} aria-hidden />
+          <span className={cn("grid size-9 shrink-0 place-items-center rounded-full", c.chip, c.accent)} aria-hidden>
+            <c.Icon className="size-5" />
+          </span>
           <div className="min-w-0 [&>:last-child]:mb-0 [&>p:nth-child(2)]:mt-1">
             <p className={cn("not-prose text-sm font-semibold", c.accent)}>{c.label}</p>
             {children}
