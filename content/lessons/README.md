@@ -1,6 +1,9 @@
 # Lesson format
 
-One file per session: `content/lessons/<session id>.md` (e.g. `0.1.1.md`). The API returns it as
+One file per session, in a folder per track and per module named as in `ROADMAP.md`:
+`content/lessons/<track id> <track title>/<module id> <module title>/<session id>.md` (e.g.
+`0 Foundations/0.1 Learning and the profession/0.1.1.md`; a `/` in a title becomes `-`, so
+`5 DevOps and Cloud/5.2 CI-CD`). If a track or module is renamed in `ROADMAP.md`, rename its folder too. The API returns it as
 `SessionDetail.lesson`, the web renders it on the session page, and `index-sources` indexes it
 into RAG. `apps/api/tests/test_lessons.py` enforces the rules below.
 

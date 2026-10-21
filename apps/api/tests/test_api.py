@@ -47,8 +47,10 @@ async def test_quote(client):
 
 
 async def test_session_lesson_served_and_indexed(client, tmp_path, monkeypatch):
-    (tmp_path / "lessons").mkdir()
-    (tmp_path / "lessons" / "0.1.1.md").write_text("## What is a shell\n\nA lesson body.")
+    (tmp_path / "lessons" / "0 Track" / "0.1 Module").mkdir(parents=True)
+    (tmp_path / "lessons" / "0 Track" / "0.1 Module" / "0.1.1.md").write_text(
+        "## What is a shell\n\nA lesson body."
+    )
     monkeypatch.setattr(settings, "content_dir", tmp_path)
 
     assert (await client.get("/sessions/0.1.1")).json()["lesson"].startswith("## What is a shell")
@@ -94,3 +96,42 @@ async def test_backup_restore_roundtrip(client):
         await db.execute(delete(Completion))
         await db.execute(delete(Article))
         await db.commit()
+
+
+async def test_articles_capped_per_source(client):
+    from datetime import UTC, datetime, timedelta
+
+    from sqlalchemy import delete
+
+    from app.models import Article
+    from app.routes.articles import PER_SOURCE
+
+    now = datetime.now(UTC)
+    async with SessionLocal() as db:
+        db.add_all(
+            Article(
+                url=f"https://busy.ex/{i}",
+                title="b",
+                source="Busy",
+                excerpt="",
+                published_at=now - timedelta(minutes=i),
+            )
+            for i in range(PER_SOURCE + 3)
+        )
+        db.add(
+            Article(
+                url="https://slow.ex/1",
+                title="s",
+                source="Slow",
+                excerpt="",
+                published_at=now - timedelta(days=3),
+            )
+        )
+        await db.commit()
+    try:
+        sources = [a["source"] for a in (await client.get("/articles")).json()]
+        assert sources == ["Busy"] * PER_SOURCE + ["Slow"]
+    finally:
+        async with SessionLocal() as db:
+            await db.execute(delete(Article))
+            await db.commit()

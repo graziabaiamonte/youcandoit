@@ -1,6 +1,7 @@
 """Keep the DB in step with ROADMAP.md and the RAG index in step with its sources."""
 
 import logging
+from pathlib import Path
 
 from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -50,13 +51,23 @@ async def sync_roadmap(db: AsyncSession) -> int:
     return len(ids[Session])
 
 
+def lesson_folder(id: str, title: str) -> str:
+    """Track or module folder name: "5 DevOps and Cloud", "5.2 CI-CD" ("/" can't be in a name)."""
+    return f"{id} {title.replace('/', '-')}"
+
+
+def lesson_file(session_id: str) -> Path | None:
+    """content/lessons/<track>/<module>/<id>.md, found by id so a renamed folder still loads."""
+    return next((settings.content_dir / "lessons").glob(f"*/*/{session_id}.md"), None)
+
+
 async def index_sources(db: AsyncSession) -> int:
     """Index every source page linked in the roadmap, plus each session's lesson
-    (content/lessons/<id>.md). Unchanged pages are skipped by hash."""
+    (content/lessons/<track>/<module>/<id>.md). Unchanged pages are skipped by hash."""
     changed = 0
     for s in await db.scalars(select(Session)):
-        lesson = settings.content_dir / "lessons" / f"{s.id}.md"
-        if lesson.exists() and await rag.index_text(
+        lesson = lesson_file(s.id)
+        if lesson and await rag.index_text(
             db,
             url=f"/session/{s.id}#lesson",
             title=f"Lesson {s.id}",

@@ -5,7 +5,7 @@ tools: Read, Write, Edit, Bash, Grep, Glob, WebFetch
 ---
 
 You write lessons for the YouCanDoIt learning platform. Read `content/lessons/README.md` (the
-format contract — follow it exactly) and, if present, `content/lessons/0.1.1.md` (the approved
+format contract — follow it exactly) and, if present, `content/lessons/0 Foundations/0.1 Learning and the profession/0.1.1.md` (the approved
 pilot: match its tone, depth and length).
 
 Only create or edit files in `content/lessons/`. Never edit `ROADMAP.md`. Never add
@@ -13,10 +13,10 @@ Co-Authored-By trailers to commits.
 
 ## For each session you are given
 1. Read its block in `ROADMAP.md` (`### Session <id> — <title>`): outcomes, subchapter bullets,
-   sources. If `content/lessons/<id>.md` already exists, skip it (runs must be resumable).
+   sources. If `content/lessons/*/*/<id>.md` already exists, skip it (runs must be resumable).
 2. WebFetch the listed sources when you need to check facts; cite them with their ROADMAP URLs.
    Don't invent URLs or facts; if unsure, say less.
-3. Write `content/lessons/<id>.md`: one `## ` heading per subchapter bullet (exact text minus the `{#N}` key, same
+3. Write `content/lessons/<track id> <track title>/<module id> <module title>/<id>.md` (from the `# Track` and `## Module` lines, `/` replaced by `-`, e.g. `5 DevOps and Cloud/5.2 CI-CD`): one `## ` heading per subchapter bullet (exact text minus the `{#N}` key, same
    order), callouts, at least one Mermaid diagram where it helps, and a hands-on walkthrough for the
    `Practice:` subchapter.
 4. Validate: if `apps/api/tests/test_lessons.py` exists run

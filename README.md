@@ -53,7 +53,7 @@ Chat and summaries switch to Claude; embeddings stay on Ollama (free, local).
 |---|---|
 | Roadmap tracker | Left sidebar: tracks → modules → sessions with completion state. Parsed from `ROADMAP.md` on every start; progress survives roadmap edits and reordering (each subchapter bullet carries a permanent `{#N}` key). |
 | Session view | Outcomes callout, numbered subchapters with checkboxes, "Practice" tasks, a Mermaid mind map, and source cards. Colour-coded per track. |
-| Lessons | Full written lesson per session from `content/lessons/<session id>.md`: Markdown with colour-coded callouts (`[!NOTE]`, `[!TIP]`, `[!WARNING]`, `[!EXAMPLE]`), and Mermaid diagrams, shown on the session page and indexed into the tutor's RAG. Sessions without a file simply have no lesson section. |
+| Lessons | Full written lesson per session from `content/lessons/<track>/<module>/<session id>.md` (e.g. `1 Computer Science Fundamentals/1.1 Discrete mathematics/`): Markdown with colour-coded callouts (`[!NOTE]`, `[!TIP]`, `[!WARNING]`, `[!EXAMPLE]`), and Mermaid diagrams, shown on the session page and indexed into the tutor's RAG. Sessions without a file simply have no lesson section. |
 | Gamification | XP per subchapter + bonuses per session/track, levels, daily streak, badges, toasts on level-up. All derived from completions — nothing to drift. |
 | Themes | Three colour themes from the palette menu: Plum and Midnight (dark), Campus (light). Mermaid and the map follow the theme. |
 | Welcome quote | 131 curated quotes (philosophers, scientists, engineers), once per browser session. |
@@ -81,7 +81,7 @@ flowchart LR
 ```
 apps/api/      FastAPI service: routes/, rag.py, llm.py, news.py, gamification.py, roadmap_parser.py
 apps/web/      Next.js app: app/ (pages + /api proxy), components/, lib/ (typed client), e2e/
-content/       quotes.json, feeds.yaml, coverage.yaml, lessons/ (one Markdown lesson per session)
+content/       quotes.json, feeds.yaml, coverage.yaml, lessons/ (track folder → module folder → one Markdown lesson per session)
 research/      curricula, job requirements, e-learning platforms, UI notes, official docs
 Resources/     the learner's original material + downloaded syllabi
 scripts/       e2e.sh, e2e-seed.sh
@@ -149,7 +149,7 @@ docker compose exec -T api python -m app.cli restore < backups/ycdi-2026-10-21.j
 ### Writing lessons
 
 Lessons are authored with the `lesson-writer` Claude Code agent (`.claude/agents/lesson-writer.md`),
-which writes `content/lessons/<session id>.md` from the session's outline and sources in
+which writes `content/lessons/<track>/<module>/<session id>.md` from the session's outline and sources in
 `ROADMAP.md`. The format (one `##` per subchapter bullet, 1,200–2,500 words) is in
 `content/lessons/README.md` and enforced by `apps/api/tests/test_lessons.py`. Run
 `docker compose exec api python -m app.cli index-sources` to index new lessons for the tutor.

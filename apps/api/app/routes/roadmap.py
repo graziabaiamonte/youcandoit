@@ -4,9 +4,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.config import settings
 from app.db import get_db
 from app.models import Completion, Module, Session, Track
+from app.sync import lesson_file
 
 router = APIRouter(tags=["roadmap"])
 
@@ -109,7 +109,7 @@ async def get_session(session_id: str, db: AsyncSession = Depends(get_db)) -> Se
     if idx is None:
         raise HTTPException(404, "Session not found")
     (t, m, s), done = order[idx], await _done_ids(db)
-    lesson = settings.content_dir / "lessons" / f"{s.id}.md"
+    lesson = lesson_file(s.id)
     return SessionDetail(
         id=s.id,
         title=s.title,
@@ -124,5 +124,5 @@ async def get_session(session_id: str, db: AsyncSession = Depends(get_db)) -> Se
         ],
         prev_id=order[idx - 1][2].id if idx > 0 else None,
         next_id=order[idx + 1][2].id if idx + 1 < len(order) else None,
-        lesson=lesson.read_text() if lesson.exists() else None,
+        lesson=lesson.read_text() if lesson else None,
     )
