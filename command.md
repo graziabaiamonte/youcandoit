@@ -3,16 +3,8 @@
 Run these top to bottom from the project root (`~/Desktop/SoftwareDev/YouCanDoIt`) unless a step
 says otherwise.
 
-**Where things stand:** the lessons feature is built (API `lessons-api`, web `lessons-web`, QA
-`lessons-qa`), and Tracks 0–6 have all their lessons (145) on `feature/lessons`. Tracks 7–11 are
-still to write: 82 sessions.
-
-| Track | 7 | 8 | 9 | 10 | 11 |
-|---|---|---|---|---|---|
-| Sessions | 10 | 20 | 28 | 11 | 13 |
-
----|---|---|---|---|---|---|---|---|---|---|---|
-| Sessions | 26 | 17 | 24 | 19 | 24 | 15 | 10 | 20 | 28 | 11 | 13 |
+**Where things stand:** the lessons feature is built and all 227 lessons (Tracks 0–11) are merged
+into `main`. Steps 2–8 are done; keep them as the recipe for redoing a track. Next is step 9.
 
 ---
 

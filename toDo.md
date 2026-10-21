@@ -26,8 +26,8 @@ What remains to complete the app. Updated at the end of every phase.
 - [ ] Scheduled routine Saturday 10:00 Europe/Rome → PR with ROADMAP.md updates
 
 ## Follow-ups found while building
-- [ ] Bigger/faster local model: llama3.2:3b on CPU-in-Docker answers in ~40 s and is sometimes imprecise — use native Ollama (Metal GPU), a larger model, or the Claude key
-- [ ] PDF sources are skipped by the indexer (`rag.fetch_text`) — add pypdf extraction
+- [ ] Bigger/faster local model: native Ollama (Metal GPU) is set up via `OLLAMA_URL`; still on llama3.2:3b, which is sometimes imprecise — set `OLLAMA_CHAT_MODEL` to a larger model, or use the Claude key
+- [ ] PDF sources are skipped by the indexer (`rag.fetch_text`) — no ROADMAP source is a PDF today; add pypdf extraction when one is
 - [ ] Subchapter IDs are positional (`<session>.<n>`): reordering subchapters in ROADMAP.md shifts ticked progress — append only, or add explicit IDs
 - [ ] Sentry + OpenTelemetry in the app itself (Track 5 practice)
 
