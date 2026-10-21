@@ -83,7 +83,7 @@ const components: Components = {
 /** A session's lesson: Markdown with GFM, colour-coded callouts and Mermaid diagrams. */
 export function Lesson({ markdown }: { markdown: string }) {
   return (
-    <div className="prose max-w-none dark:prose-invert">
+    <div className="prose max-w-none wrap-break-word dark:prose-invert">
       <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeCallouts]} components={components}>
         {markdown}
       </ReactMarkdown>

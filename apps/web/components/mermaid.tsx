@@ -7,6 +7,7 @@ import { isDarkTheme } from "@/components/theme-toggle";
 /** Renders a Mermaid diagram client-side; mermaid is lazy-loaded so it never bloats other pages. */
 export function Mermaid({ chart, label }: { chart: string; label: string }) {
   const [svg, setSvg] = useState("");
+  const [failed, setFailed] = useState(false);
   const id = useId().replace(/:/g, "");
   const { resolvedTheme } = useTheme();
 
@@ -20,15 +21,21 @@ export function Mermaid({ chart, label }: { chart: string; label: string }) {
       });
       try {
         const { svg } = await mermaid.render(`m${id}`, chart);
-        if (!cancelled) setSvg(svg);
+        if (!cancelled) {
+          setSvg(svg);
+          setFailed(false);
+        }
       } catch {
-        if (!cancelled) setSvg("");
+        if (!cancelled) setFailed(true);
       }
     });
     return () => {
       cancelled = true;
     };
   }, [chart, id, resolvedTheme]);
+
+  // a chart Mermaid can't parse shows its source instead of an empty gap
+  if (failed) return <pre className="overflow-x-auto text-sm">{chart}</pre>;
 
   return (
     <div
