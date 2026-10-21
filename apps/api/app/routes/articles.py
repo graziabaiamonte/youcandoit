@@ -3,7 +3,7 @@ from datetime import UTC, datetime
 import httpx
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from pydantic import BaseModel, ConfigDict
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app import news, rag
@@ -12,6 +12,8 @@ from app.llm import get_llm
 from app.models import Article
 
 router = APIRouter(tags=["articles"])
+# newest N per source, so high-volume feeds (dev.to) don't crowd out the rest
+PER_SOURCE = 5
 
 
 class ArticleOut(BaseModel):
@@ -39,13 +41,20 @@ async def _index_full_text(url: str, title: str) -> None:
 
 @router.get("/articles", response_model=list[ArticleOut])
 async def list_articles(
-    favorites: bool = False, limit: int = 60, db: AsyncSession = Depends(get_db)
+    favorites: bool = False, limit: int = 100, db: AsyncSession = Depends(get_db)
 ) -> list[Article]:
     stmt = select(Article)
     if favorites:
         stmt = stmt.where(Article.favorite_at.is_not(None)).order_by(Article.favorite_at.desc())
     else:
-        stmt = stmt.order_by(Article.published_at.desc().nulls_last(), Article.id.desc())
+        newest = (Article.published_at.desc().nulls_last(), Article.id.desc())
+        rank = func.row_number().over(partition_by=Article.source, order_by=newest)
+        ranked = select(Article.id, rank.label("rank")).subquery()
+        stmt = (
+            stmt.join(ranked, ranked.c.id == Article.id)
+            .where(ranked.c.rank <= PER_SOURCE)
+            .order_by(*newest)
+        )
     return list(await db.scalars(stmt.limit(min(limit, 200))))
 
 
