@@ -4,7 +4,7 @@ set -eu
 cd "$(dirname "$0")/.."
 compose="docker compose -f docker-compose.yml -f docker-compose.e2e.yml"
 $compose up -d --build db
-until $compose exec -T db pg_isready -U ycdi >/dev/null 2>&1; do sleep 1; done
+until $compose exec -T db pg_isready -h localhost -U ycdi >/dev/null 2>&1; do sleep 1; done
 $compose exec -T db psql -U ycdi -tc "SELECT 1 FROM pg_database WHERE datname='ycdi_e2e'" | grep -q 1 \
   || $compose exec -T db createdb -U ycdi ycdi_e2e
 $compose up -d --build api web
