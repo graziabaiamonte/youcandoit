@@ -18,6 +18,11 @@ export function Mermaid({ chart, label }: { chart: string; label: string }) {
         startOnLoad: false,
         theme: isDarkTheme(resolvedTheme) ? "dark" : "default",
         securityLevel: "strict",
+        // measure labels in the app's font, so text fits its boxes
+        fontFamily: getComputedStyle(document.body).fontFamily,
+        // SVG labels: Mermaid's HTML labels only wrap when a measured width equals the max exactly,
+        // which fails at fractional browser zoom (90%, 110%…) and leaves text cut off
+        htmlLabels: false,
       });
       try {
         const { svg } = await mermaid.render(`m${id}`, chart);

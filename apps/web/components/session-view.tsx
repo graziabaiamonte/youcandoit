@@ -30,7 +30,8 @@ const isPractice = (title: string) => title.startsWith("Practice:");
 
 function sessionMindmap(s: SessionDetail) {
   const clean = (t: string) => t.replace(/[()[\]{}"]/g, "").replace(/^Practice: /, "🛠 ");
-  return ["mindmap", `  root((${clean(s.title)}))`, ...s.subchapters.map((c) => `    ${clean(c.title)}`)].join("\n");
+  // (…) = rounded box, the app's card shape
+  return ["mindmap", `  root(${clean(s.title)})`, ...s.subchapters.map((c, i) => `    n${i}(${clean(c.title)})`)].join("\n");
 }
 
 /** Splits a lesson into the text before the first `##` and one body per `##` section (heading dropped). */
@@ -182,7 +183,7 @@ export function SessionView({ id }: { id: string }) {
           <NetworkIcon className="size-5 text-track" aria-hidden /> Session map
           <span className="ml-auto text-xs font-normal text-muted-foreground">show diagram</span>
         </CollapsibleTrigger>
-        <CollapsibleContent className="px-4 pb-4">
+        <CollapsibleContent className="session-mindmap px-4 pb-4">
           <Mermaid chart={sessionMindmap(s)} label={`Mind map of the subchapters of ${s.title}`} />
         </CollapsibleContent>
       </Collapsible>

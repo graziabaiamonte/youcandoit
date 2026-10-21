@@ -244,3 +244,33 @@
 .react-flow {
   --xy-background-color: transparent;
 }
+
+/* Session map: Mermaid's mindmap in the app's look (track-tinted rounded cards, theme text).
+   Mermaid injects id-scoped colours per branch, hence !important. */
+.session-mindmap .mindmap-node :is(rect, path, circle, polygon) {
+  fill: color-mix(in srgb, var(--track) 16%, var(--card)) !important;
+  stroke: color-mix(in srgb, var(--track) 55%, var(--card)) !important;
+  stroke-width: 1.5px !important;
+}
+.session-mindmap .mindmap-node :is(text, span) {
+  fill: var(--foreground) !important;
+  color: var(--foreground) !important;
+}
+.session-mindmap .mindmap-node.section--1 :is(rect, path, circle, polygon) {
+  fill: var(--track) !important;
+  stroke: var(--track) !important;
+}
+.session-mindmap .mindmap-node.section--1 :is(text, span) {
+  fill: #fff !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+/* dark themes use pastel tracks, so the root label goes dark like the map's filled pills */
+:is([data-theme="plum"], [data-theme="midnight"]) .session-mindmap .mindmap-node.section--1 :is(text, span) {
+  fill: var(--background) !important;
+  color: var(--background) !important;
+}
+.session-mindmap .edge {
+  stroke: color-mix(in srgb, var(--track) 50%, var(--card)) !important;
+  stroke-width: 2px !important;
+}
