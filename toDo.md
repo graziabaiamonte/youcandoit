@@ -23,7 +23,7 @@ What remains to complete the app. Updated at the end of every phase.
 
 ## Phase 4 — Weekly routine
 - [x] Push repo to GitHub
-- [ ] Scheduled routine Saturday 10:00 Europe/Rome → PR with ROADMAP.md updates
+- [x] Scheduled routine Saturday 10:00 Europe/Rome → PR with ROADMAP.md updates (cloud routine "YouCanDoIt — weekly ROADMAP review", cron `0 9 * * 6` UTC)
 
 ## Follow-ups found while building
 - [ ] Bigger/faster local model: native Ollama (Metal GPU) is set up via `OLLAMA_URL`; still on llama3.2:3b, which is sometimes imprecise — set `OLLAMA_CHAT_MODEL` to a larger model, or use the Claude key
