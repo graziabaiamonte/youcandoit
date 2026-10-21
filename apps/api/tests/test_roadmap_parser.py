@@ -44,3 +44,25 @@ def test_real_roadmap_is_valid():
     tracks = parse_roadmap(REAL.read_text())
     assert len(tracks) >= 10
     assert validate(tracks) == []
+
+
+def test_subchapter_keys_survive_reordering():
+    s = parse_roadmap(FIXTURE)[0].modules[0].sessions[0]
+    assert s.subchapter_keys == ["1", "2"]
+    swapped = FIXTURE.replace(
+        "- What a shell is {#1}\n- Files and directories {#2}",
+        "- Files and directories {#2}\n- What a shell is {#1}",
+    )
+    s = parse_roadmap(swapped)[0].modules[0].sessions[0]
+    assert dict(zip(s.subchapter_keys, s.subchapters, strict=True)) == {
+        "1": "What a shell is",
+        "2": "Files and directories",
+    }
+
+
+def test_validate_requires_unique_subchapter_keys():
+    base = "# Track 0 — A\n## Module 0.1 — B\n### Session 0.1.1 — C\n> Outcomes: x\n{}Sources: [t](https://t.co)\n"
+    assert validate(parse_roadmap(base.format("- a\n"))) == ["0.1.1: subchapter without a {#N} key"]
+    assert validate(parse_roadmap(base.format("- a {#1}\n- b {#1}\n"))) == [
+        "0.1.1: duplicate subchapter key"
+    ]

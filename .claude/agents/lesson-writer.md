@@ -16,7 +16,7 @@ Co-Authored-By trailers to commits.
    sources. If `content/lessons/<id>.md` already exists, skip it (runs must be resumable).
 2. WebFetch the listed sources when you need to check facts; cite them with their ROADMAP URLs.
    Don't invent URLs or facts; if unsure, say less.
-3. Write `content/lessons/<id>.md`: one `## ` heading per subchapter bullet (exact text, same
+3. Write `content/lessons/<id>.md`: one `## ` heading per subchapter bullet (exact text minus the `{#N}` key, same
    order), callouts, at least one Mermaid diagram where it helps, and a hands-on walkthrough for the
    `Practice:` subchapter.
 4. Validate: if `apps/api/tests/test_lessons.py` exists run

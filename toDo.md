@@ -28,13 +28,11 @@ What remains to complete the app. Updated at the end of every phase.
 ## Follow-ups found while building
 - [x] Bigger/faster local model: native Ollama (Metal GPU) + `OLLAMA_CHAT_MODEL=qwen2.5:7b` in `.env` (~10 s per tutor answer)
 - [ ] PDF sources are skipped by the indexer (`rag.fetch_text`) — no ROADMAP source is a PDF today; add pypdf extraction when one is
-- [ ] Subchapter IDs are positional (`<session>.<n>`): reordering subchapters in ROADMAP.md shifts ticked progress — append only, or add explicit IDs
+- [x] Explicit subchapter keys: each ROADMAP.md bullet ends in `{#N}`, so reordering no longer shifts ticked progress
 - [ ] Sentry + OpenTelemetry in the app itself (Track 5 practice)
 
-## Later
+## Later (optional — the app stays local and single-user, so auth and cloud deploy are out of scope)
 - [x] Full lesson content per session (Markdown in `content/lessons/`: text, colour-coded callouts and Mermaid diagrams), indexed into RAG — all 227 sessions written
-- [ ] Auth + multi-user (needed before any public deploy)
-- [ ] Free cloud deploy (Vercel + Render + Neon) and a public demo with seeded data
 - [ ] Optional Qdrant swap capstone (Track 9): port `rag.py` to Qdrant and compare it with pgvector on speed, filtering and setup
 - [ ] Mobile/PWA polish
 - [ ] Anything the weekly routine flags that needs a human decision

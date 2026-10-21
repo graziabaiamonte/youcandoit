@@ -4,7 +4,7 @@ A personal, gamified learning platform to go from **junior front-end developer t
 engineer with AI and DevOps expertise** — built as a real full-stack, AI-integrated, Dockerised
 product.
 
-- **The roadmap** — [`ROADMAP.md`](ROADMAP.md): 12 tracks, 227 sessions, 1,064 subchapters, from
+- **The roadmap** — [`ROADMAP.md`](ROADMAP.md): 12 tracks, 227 sessions, 1,066 subchapters, from
   "how computers work" to multi-agent systems and staff-level skills. Built from university
   curricula, 21 senior job postings and verified official documentation ([`research/`](research)).
 - **The app** — tracks your progress through that roadmap with XP, levels, streaks and badges, an
@@ -48,7 +48,7 @@ Chat and summaries switch to Claude; embeddings stay on Ollama (free, local).
 
 | Feature | How it works |
 |---|---|
-| Roadmap tracker | Left sidebar: tracks → modules → sessions with completion state. Parsed from `ROADMAP.md` on every start; progress survives roadmap edits (stable IDs). |
+| Roadmap tracker | Left sidebar: tracks → modules → sessions with completion state. Parsed from `ROADMAP.md` on every start; progress survives roadmap edits and reordering (each subchapter bullet carries a permanent `{#N}` key). |
 | Session view | Outcomes callout, numbered subchapters with checkboxes, "Practice" tasks, a Mermaid mind map, and source cards. Colour-coded per track. |
 | Lessons | Full written lesson per session from `content/lessons/<session id>.md`: Markdown with colour-coded callouts (`[!NOTE]`, `[!TIP]`, `[!WARNING]`, `[!EXAMPLE]`), and Mermaid diagrams, shown on the session page and indexed into the tutor's RAG. Sessions without a file simply have no lesson section. |
 | Gamification | XP per subchapter + bonuses per session/track, levels, daily streak, badges, toasts on level-up. All derived from completions — nothing to drift. |
@@ -86,7 +86,9 @@ scripts/       e2e.sh, e2e-seed.sh
 **Design decisions**
 
 - **`ROADMAP.md` is the single source of truth.** Humans and the weekly Claude routine edit
-  Markdown; the API parses it with a strict, validated format. No second copy to drift.
+  Markdown; the API parses it with a strict, validated format. No second copy to drift. Subchapter
+  bullets end in a permanent `{#N}` key (`- Topic {#3}`): never reuse a key, give a new bullet the
+  next unused number in its session.
 - **Derived gamification.** XP, level, streak and badges are pure functions of the completion
   table (`gamification.py`), so they can never disagree with the checkboxes.
 - **Provider abstraction.** `LLMProvider` protocol with Ollama, Anthropic and a deterministic fake
@@ -137,12 +139,10 @@ which writes `content/lessons/<session id>.md` from the session's outline and so
 
 CI (GitHub Actions) runs lint, pytest, type-check, build and the Playwright suite on every push.
 
-## Deployment
+## Running it
 
-- **Local (primary):** `docker compose up`.
-- **Free cloud (optional):** web on Vercel Hobby, API on Render free, database on Neon free (has
-  pgvector). Ollama can't run on free tiers, so set `ANTHROPIC_API_KEY` for chat and point
-  `OLLAMA_URL` at a machine you control for embeddings. Add auth first — the app is single-user.
+Local only: `docker compose up -d --build`, then open http://localhost:3000. The app is
+single-user with no auth, so it isn't meant to be exposed publicly.
 
 ## Roadmap of the app itself
 

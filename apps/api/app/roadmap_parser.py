@@ -4,8 +4,11 @@
 ## Module N.M — Name
 ### Session N.M.K — Topic
 > Outcomes: ...
-- Subchapter
+- Subchapter {#1}
 Sources: [Title](url), [Title](url)
+
+`{#N}` is the subchapter's permanent key (id `<session id>.<N>`): reorder freely, never reuse a key,
+give a new bullet the next unused number.
 
 Any other top-level `# ` heading after the first track (e.g. `# Sources`) ends the roadmap part.
 """
@@ -16,6 +19,7 @@ from dataclasses import dataclass, field
 TRACK = re.compile(r"^# Track (\d+) — (.+)$")
 MODULE = re.compile(r"^## Module (\d+\.\d+) — (.+)$")
 SESSION = re.compile(r"^### Session (\d+\.\d+\.\d+) — (.+)$")
+SUBCHAPTER = re.compile(r"^- (.+?)(?: \{#(\d+)\})?$")
 LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)\s]+)\)")
 
 
@@ -25,6 +29,7 @@ class ParsedSession:
     title: str
     outcomes: str = ""
     subchapters: list[str] = field(default_factory=list)
+    subchapter_keys: list[str | None] = field(default_factory=list)  # parallel to subchapters
     sources: list[dict] = field(default_factory=list)
 
 
@@ -74,7 +79,9 @@ def parse_roadmap(text: str) -> list[ParsedTrack]:
             body = line.lstrip("> ").removeprefix("Outcomes:").strip()
             session.outcomes = f"{session.outcomes} {body}".strip()
         elif line.startswith("- "):
-            session.subchapters.append(line[2:].strip())
+            m = SUBCHAPTER.match(line)
+            session.subchapters.append(m[1].strip())
+            session.subchapter_keys.append(m[2])
         elif line.startswith("Sources:"):
             session.sources += [{"title": t, "url": u} for t, u in LINK.findall(line)]
     return tracks
@@ -93,6 +100,11 @@ def validate(tracks: list[ParsedTrack]) -> list[str]:
                     problems.append(f"{s.id}: missing outcomes")
                 if not s.subchapters:
                     problems.append(f"{s.id}: no subchapters")
+                if None in s.subchapter_keys:
+                    problems.append(f"{s.id}: subchapter without a {{#N}} key")
+                keys = [k for k in s.subchapter_keys if k]
+                if len(keys) != len(set(keys)):
+                    problems.append(f"{s.id}: duplicate subchapter key")
                 if not s.sources:
                     problems.append(f"{s.id}: no sources")
     return problems

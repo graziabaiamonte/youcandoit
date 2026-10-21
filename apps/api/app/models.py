@@ -52,7 +52,7 @@ class Session(Base):
 
 class Subchapter(Base):
     __tablename__ = "subchapters"
-    id: Mapped[str] = mapped_column(String(24), primary_key=True)  # "<session id>.<n>"
+    id: Mapped[str] = mapped_column(String(24), primary_key=True)  # "<session id>.<{#N} key>"
     session_id: Mapped[str] = mapped_column(ForeignKey("sessions.id", ondelete="CASCADE"))
     title: Mapped[str] = mapped_column(String(300))
     position: Mapped[int] = mapped_column(Integer)

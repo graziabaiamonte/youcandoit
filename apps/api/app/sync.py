@@ -38,8 +38,10 @@ async def sync_roadmap(db: AsyncSession) -> int:
                     )
                 )
                 ids[Session].add(s.id)
-                for ci, title in enumerate(s.subchapters, 1):
-                    sub_id = f"{s.id}.{ci}"
+                for ci, (key, title) in enumerate(
+                    zip(s.subchapter_keys, s.subchapters, strict=True), 1
+                ):
+                    sub_id = f"{s.id}.{key}"
                     await db.merge(Subchapter(id=sub_id, session_id=s.id, title=title, position=ci))
                     ids[Subchapter].add(sub_id)
     for model in (Subchapter, Session, Module, Track):  # children first
