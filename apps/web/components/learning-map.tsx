@@ -16,9 +16,9 @@ import "@xyflow/react/dist/style.css";
 import { MapPinIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { ProgressRing } from "@/components/progress-ring";
-import { isDarkTheme } from "@/components/theme-toggle";
+import { isDarkTheme } from "@/lib/themes";
 import { Skeleton } from "@/components/ui/skeleton";
-import { sessionProgress, trackColor, type TrackNode } from "@/lib/api";
+import { sessionProgress, trackPercent, trackStyle, type TrackNode } from "@/lib/api";
 import { useRoadmap } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
 
@@ -38,7 +38,7 @@ function TrackCard({ data }: NodeProps<Node<TrackData>>) {
         "surface-track w-72 rounded-3xl border-2 bg-card p-4 shadow-sm",
         current ? "border-track ring-4 ring-track/20" : "border-border",
       )}
-      style={{ "--track": trackColor(track.id) } as React.CSSProperties}
+      style={trackStyle(track.id)}
       data-testid={`map-track-${track.id}`}
       data-percent={percent}
     >
@@ -86,7 +86,7 @@ const HANDLES = [
 
 function buildGraph(tracks: TrackNode[]) {
   const infos = tracks.map((track) => {
-    const modules: ModuleInfo[] = track.modules.map((m) => {
+    const modules: ModuleInfo[] = track.modules.filter((m) => m.sessions.length).map((m) => {
       const prog = m.sessions.map(sessionProgress);
       const firstOpen = m.sessions.find((s) => sessionProgress(s).done < sessionProgress(s).total);
       return {
@@ -97,11 +97,10 @@ function buildGraph(tracks: TrackNode[]) {
         target: (firstOpen ?? m.sessions[0]).id,
       };
     });
-    const done = modules.reduce((a, m) => a + m.done, 0);
-    const total = modules.reduce((a, m) => a + m.total, 0);
-    return { track, modules, percent: total ? Math.round((done / total) * 100) : 0 };
+    return { track, modules, percent: trackPercent(track) };
   });
   const currentIdx = infos.findIndex((i) => i.percent < 100);
+  const reached = currentIdx === -1 ? infos.length : currentIdx; // all done → whole path green
 
   // serpentine layout: left→right on even rows, right→left on odd rows
   const nodes: Node<TrackData>[] = infos.map((info, i) => {
@@ -121,23 +120,24 @@ function buildGraph(tracks: TrackNode[]) {
     // along a row the path runs sideways; between rows it drops straight down
     const [from, to] = !sameRow ? ["bottom", "top"] : ltr ? ["right", "left"] : ["left", "right"];
     return {
-    id: `${infos[i].track.id}-${info.track.id}`,
-    source: infos[i].track.id,
-    target: info.track.id,
-    sourceHandle: `s-${from}`,
-    targetHandle: `t-${to}`,
-    type: "smoothstep",
-    animated: i + 1 === currentIdx,
-    style: { strokeWidth: 3, stroke: i < currentIdx ? "var(--success)" : "var(--muted-foreground)" },
+      id: `${infos[i].track.id}-${info.track.id}`,
+      source: infos[i].track.id,
+      target: info.track.id,
+      sourceHandle: `s-${from}`,
+      targetHandle: `t-${to}`,
+      type: "smoothstep",
+      animated: i + 1 === currentIdx,
+      style: { strokeWidth: 3, stroke: i < reached ? "var(--success)" : "var(--muted-foreground)" },
     };
   });
   return { nodes, edges };
 }
 
 export function LearningMap() {
-  const { data: tracks } = useRoadmap();
+  const { data: tracks, error } = useRoadmap();
   const { resolvedTheme } = useTheme();
   const graph = useMemo(() => (tracks ? buildGraph(tracks) : null), [tracks]);
+  if (error) return <p className="p-6 text-destructive">Could not load the roadmap: {error.message}</p>;
   if (!graph) return <Skeleton className="flex-1 rounded-none" />;
   return (
     <div className="min-h-0 flex-1 bg-card" data-testid="learning-map">

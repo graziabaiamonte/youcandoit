@@ -1,4 +1,4 @@
-# Every learner theme (Resources/ themes.md) and every must-cover job skill
+# Every learner theme (Resources/themes.md) and every must-cover job skill
 # (research/job-requirements.md, ≥25% of postings) → the sessions that teach it.
 # tests/test_coverage.py fails if a session id here doesn't exist in ROADMAP.md.
 themes:

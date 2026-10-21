@@ -8,7 +8,7 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql+asyncpg://ycdi:ycdi@db:5432/ycdi"
     content_dir: Path = Path("/content")
-    roadmap_path: Path = Path("/content/ROADMAP.md")
+    roadmap_path: Path = Path("/roadmap/ROADMAP.md")
     timezone: str = "Europe/Rome"
 
     # "ollama" | "anthropic" | "fake". Empty = anthropic if a key is set, else ollama.

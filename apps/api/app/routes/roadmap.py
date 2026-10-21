@@ -6,6 +6,7 @@ from sqlalchemy.orm import selectinload
 
 from app.db import get_db
 from app.models import Completion, Module, Session, Track
+from app.roadmap_parser import iter_sessions
 from app.sync import lesson_file
 
 router = APIRouter(tags=["roadmap"])
@@ -104,7 +105,7 @@ async def get_roadmap(db: AsyncSession = Depends(get_db)) -> list[TrackNode]:
 
 @router.get("/sessions/{session_id}", response_model=SessionDetail)
 async def get_session(session_id: str, db: AsyncSession = Depends(get_db)) -> SessionDetail:
-    order = [(t, m, s) for t in await _tree(db) for m in t.modules for s in m.sessions]
+    order = list(iter_sessions(await _tree(db)))
     idx = next((i for i, (_, _, s) in enumerate(order) if s.id == session_id), None)
     if idx is None:
         raise HTTPException(404, "Session not found")

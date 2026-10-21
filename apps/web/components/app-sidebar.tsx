@@ -31,7 +31,7 @@ import {
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { StatsMini } from "@/components/stats-mini";
 import { StarButton } from "@/components/star-button";
-import { sessionProgress, trackColor, type SessionNode, type TrackNode } from "@/lib/api";
+import { sessionProgress, trackPercent, trackStyle, type SessionNode } from "@/lib/api";
 import { useArticles, useRoadmap } from "@/lib/hooks";
 
 const NAV = [
@@ -101,11 +101,6 @@ function StatusIcon({ session }: { session: SessionNode }) {
   return <CircleIcon className="text-muted-foreground!" aria-label="Not started" />;
 }
 
-function trackPercent(track: TrackNode) {
-  const subs = track.modules.flatMap((m) => m.sessions.flatMap((s) => s.subchapters));
-  return subs.length ? Math.round((subs.filter((c) => c.done).length / subs.length) * 100) : 0;
-}
-
 function RoadmapNav() {
   const pathname = usePathname();
   const { data: tracks, error } = useRoadmap();
@@ -125,7 +120,7 @@ function RoadmapNav() {
               defaultOpen={activeId?.startsWith(`${track.id}.`)}
               className="group/track"
             >
-              <SidebarMenuItem style={{ "--track": trackColor(track.id) } as React.CSSProperties}>
+              <SidebarMenuItem style={trackStyle(track.id)}>
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton className="h-auto py-1.5" tooltip={`${track.id}. ${track.title}`}>
                     <span className="size-2.5 shrink-0 rounded-full bg-track" aria-hidden />

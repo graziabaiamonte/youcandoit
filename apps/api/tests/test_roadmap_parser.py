@@ -3,10 +3,10 @@ from pathlib import Path
 
 import pytest
 
-from app.roadmap_parser import RoadmapError, parse_roadmap, validate
+from app.roadmap_parser import RoadmapError, iter_sessions, parse_roadmap, validate
 
 FIXTURE = (Path(__file__).parent / "fixtures" / "roadmap.md").read_text()
-REAL = Path(os.environ.get("REAL_ROADMAP", Path(__file__).resolve().parents[-2] / "ROADMAP.md"))
+REAL = Path(os.environ.get("REAL_ROADMAP", "/roadmap/ROADMAP.md"))
 
 
 def test_parses_tree_and_stops_at_appendix():
@@ -20,7 +20,7 @@ def test_parses_tree_and_stops_at_appendix():
         "https://missing.csail.mit.edu/",
         "https://linuxjourney.com/",
     ]
-    all_urls = [x["url"] for t in tracks for m in t.modules for s in m.sessions for x in s.sources]
+    all_urls = [x["url"] for _, _, s in iter_sessions(tracks) for x in s.sources]
     assert "https://example.com" not in all_urls
     assert validate(tracks) == []
 

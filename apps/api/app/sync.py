@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app import rag
 from app.config import settings
+from app.llm import LLMError
 from app.models import Module, Session, Subchapter, Track
 from app.roadmap_parser import RoadmapError, parse_roadmap, validate
 
@@ -56,18 +57,22 @@ def lesson_folder(id: str, title: str) -> str:
     return f"{id} {title.replace('/', '-')}"
 
 
+def lesson_files() -> dict[str, Path]:
+    """content/lessons/<track>/<module>/<id>.md by session id, so a renamed folder still loads."""
+    return {p.stem: p for p in (settings.content_dir / "lessons").glob("*/*/*.md")}
+
+
 def lesson_file(session_id: str) -> Path | None:
-    """content/lessons/<track>/<module>/<id>.md, found by id so a renamed folder still loads."""
-    return next((settings.content_dir / "lessons").glob(f"*/*/{session_id}.md"), None)
+    return lesson_files().get(session_id)
 
 
 async def index_sources(db: AsyncSession) -> int:
-    """Index every source page linked in the roadmap, plus each session's lesson
-    (content/lessons/<track>/<module>/<id>.md). Unchanged pages are skipped by hash."""
+    """Index every source page linked in the roadmap, plus each session's lesson.
+    Unchanged pages are skipped by hash; one broken page doesn't stop the rest."""
     changed = 0
+    lessons = lesson_files()
     for s in await db.scalars(select(Session)):
-        lesson = lesson_file(s.id)
-        if lesson and await rag.index_text(
+        if (lesson := lessons.get(s.id)) and await rag.index_text(
             db,
             url=f"/session/{s.id}#lesson",
             title=f"Lesson {s.id}",
@@ -77,9 +82,14 @@ async def index_sources(db: AsyncSession) -> int:
         ):
             changed += 1
         for src in s.sources:
-            if await rag.index_url(
-                db, url=src["url"], title=src["title"], kind="source", session_id=s.id
-            ):
-                changed += 1
+            try:
+                if await rag.index_url(
+                    db, url=src["url"], title=src["title"], kind="source", session_id=s.id
+                ):
+                    changed += 1
+            except LLMError:
+                raise  # embeddings down: every other page would fail too, retry next run
+            except Exception:
+                log.exception("could not index %s", src["url"])
     log.info("indexed %d changed source pages and lessons", changed)
     return changed

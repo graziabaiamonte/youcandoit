@@ -20,8 +20,6 @@ class LLMError(RuntimeError):
 
 
 class LLMProvider(Protocol):
-    name: str
-
     async def chat(self, system: str, messages: list[Message], json_mode: bool = False) -> str: ...
 
 
@@ -30,10 +28,9 @@ class Embedder(Protocol):
 
 
 class OllamaProvider:
-    name = "ollama"
-
     def __init__(self, url: str, model: str):
         self.url, self.model = url.rstrip("/"), model
+        self.client = httpx.AsyncClient(timeout=300)  # one pool per process (get_llm is cached)
 
     async def chat(self, system: str, messages: list[Message], json_mode: bool = False) -> str:
         body = {
@@ -44,9 +41,8 @@ class OllamaProvider:
         if json_mode:
             body["format"] = "json"
         try:
-            async with httpx.AsyncClient(timeout=300) as client:
-                r = await client.post(f"{self.url}/api/chat", json=body)
-                r.raise_for_status()
+            r = await self.client.post(f"{self.url}/api/chat", json=body)
+            r.raise_for_status()
         except httpx.HTTPError as e:
             raise LLMError(f"Ollama unavailable at {self.url}: {e}") from e
         return r.json()["message"]["content"]
@@ -55,22 +51,20 @@ class OllamaProvider:
 class OllamaEmbedder:
     def __init__(self, url: str, model: str):
         self.url, self.model = url.rstrip("/"), model
+        self.client = httpx.AsyncClient(timeout=300)
 
     async def embed(self, texts: list[str]) -> list[list[float]]:
         try:
-            async with httpx.AsyncClient(timeout=300) as client:
-                r = await client.post(
-                    f"{self.url}/api/embed", json={"model": self.model, "input": texts}
-                )
-                r.raise_for_status()
+            r = await self.client.post(
+                f"{self.url}/api/embed", json={"model": self.model, "input": texts}
+            )
+            r.raise_for_status()
         except httpx.HTTPError as e:
             raise LLMError(f"Ollama embeddings unavailable at {self.url}: {e}") from e
         return r.json()["embeddings"]
 
 
 class AnthropicProvider:
-    name = "anthropic"
-
     def __init__(self, api_key: str, model: str):
         self.client = anthropic.AsyncAnthropic(api_key=api_key)
         self.model = model
@@ -97,8 +91,6 @@ class AnthropicProvider:
 
 class FakeProvider:
     """Deterministic provider for tests/CI: echoes the cited sources from the context."""
-
-    name = "fake"
 
     async def chat(self, system: str, messages: list[Message], json_mode: bool = False) -> str:
         cited = sorted(set(re.findall(r"\[(\d+)\]", system)), key=int)

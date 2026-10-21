@@ -23,26 +23,25 @@ product.
 
 ## Quick start
 
-Requirements: Docker. Everything else runs in containers and is free.
+Requirements: Docker, and Ollama for the AI features — either natively (recommended on a Mac) or
+in Docker.
 
-```sh
-docker compose up -d --build
-open http://localhost:3000
-```
-
-The first start downloads two Ollama models (~2.3 GB: `llama3.2:3b` for chat, `nomic-embed-text`
-for embeddings) and then indexes the roadmap's source pages in the background. The app is usable
-immediately; the tutor's citations improve as indexing completes.
-
-**On a Mac, run Ollama natively for speed** (Docker on macOS has no GPU access):
+**Native Ollama (Mac, faster: Docker on macOS has no GPU access)**
 
 ```sh
 brew install ollama && brew services start ollama   # starts on every login
 ollama pull qwen2.5:7b && ollama pull nomic-embed-text
 echo "OLLAMA_URL=http://host.docker.internal:11434" >> .env
-echo "OLLAMA_CHAT_MODEL=qwen2.5:7b" >> .env           # bigger model, ~10 s per tutor answer on the GPU
-docker compose up -d api
+echo "OLLAMA_CHAT_MODEL=qwen2.5:7b" >> .env           # ~10 s per tutor answer on the GPU
+docker compose up -d --build
+open http://localhost:3000
 ```
+
+**Ollama in Docker** (no `.env` needed): `docker compose --profile ollama up -d --build`. The first
+start downloads two models (~2.3 GB: `llama3.2:3b` for chat, `nomic-embed-text` for embeddings).
+
+Either way the app is usable immediately; the roadmap's source pages are indexed in the background
+and the tutor's citations improve as indexing completes.
 
 **Optional: Claude for chat.** Set `ANTHROPIC_API_KEY` in `.env` (see [`.env.example`](.env.example)).
 Chat and summaries switch to Claude; embeddings stay on Ollama (free, local).
@@ -154,13 +153,22 @@ which writes `content/lessons/<track>/<module>/<session id>.md` from the session
 `content/lessons/README.md` and enforced by `apps/api/tests/test_lessons.py`. Run
 `docker compose exec api python -m app.cli index-sources` to index new lessons for the tutor.
 
-CI (GitHub Actions) runs lint, pytest, type-check, build and the Playwright suite on every push.
+CI (GitHub Actions) runs lint, pytest, type-check, build and the Playwright suite on pushes to
+`main` and on pull requests.
 
 ## Running it
 
-Local only: `docker compose up -d --build`, then open http://localhost:3000. The app is
-single-user with no auth, so it isn't meant to be exposed publicly. Day-to-day commands are in
-[`command.md`](command.md).
+Local only: the app is single-user with no auth, so it isn't meant to be exposed publicly.
+
+```sh
+open -a Docker                       # wait until Docker Desktop is running
+docker compose up -d                 # add --build after a git pull
+open http://localhost:3000
+docker compose stop                  # when done
+```
+
+If the tutor answers with an error, check that Ollama is running: `curl localhost:11434/api/tags`
+(`brew services start ollama` otherwise).
 
 ## Roadmap of the app itself
 

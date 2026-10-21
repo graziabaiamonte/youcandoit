@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { SearchIcon } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { allSessions } from "@/lib/api";
 import { useRoadmap } from "@/lib/hooks";
 
 /** Header search box; ⌘K / Ctrl+K opens a session finder (matches id or title). */
@@ -28,8 +29,7 @@ export function CommandBar() {
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const all = tracks?.flatMap((t) => t.modules.flatMap((m) => m.sessions)) ?? [];
-    return all.filter((s) => !q || s.id.startsWith(q) || s.title.toLowerCase().includes(q)).slice(0, 8);
+    return allSessions(tracks).filter((s) => !q || s.id.startsWith(q) || s.title.toLowerCase().includes(q)).slice(0, 8);
   }, [tracks, query]);
 
   const go = (id: string) => {

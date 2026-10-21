@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { components } from "./api-types";
 
 type Schemas = components["schemas"];
@@ -10,7 +11,7 @@ export type Quote = Schemas["QuoteOut"];
 export type Answer = Schemas["AnswerOut"];
 export type Turn = Schemas["Turn"];
 
-export class ApiError extends Error {}
+class ApiError extends Error {}
 
 /** fetch wrapper for the /api proxy: JSON in, JSON out, readable errors. */
 export async function api<T>(path: string, init?: { method?: string; body?: unknown }): Promise<T> {
@@ -29,7 +30,17 @@ export const fetcher = <T>(path: string) => api<T>(path);
 /** Track N uses colour token --track-(N+1). */
 export const trackColor = (trackId: string) => `var(--track-${(Number(trackId) % 12) + 1})`;
 
+/** Sets --track for the `*-track` utilities on an element and its children. */
+export const trackStyle = (trackId: string) => ({ "--track": trackColor(trackId) }) as CSSProperties;
+
+export const allSessions = (tracks: TrackNode[] = []) => tracks.flatMap((t) => t.modules.flatMap((m) => m.sessions));
+
 export const sessionProgress = (s: SessionNode) => ({
   done: s.subchapters.filter((c) => c.done).length,
   total: s.subchapters.length,
 });
+
+export function trackPercent(track: TrackNode) {
+  const subs = track.modules.flatMap((m) => m.sessions.flatMap((s) => s.subchapters));
+  return subs.length ? Math.round((subs.filter((c) => c.done).length / subs.length) * 100) : 0;
+}

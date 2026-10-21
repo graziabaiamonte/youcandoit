@@ -8,17 +8,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ProgressRing } from "@/components/progress-ring";
-import { sessionProgress, trackColor } from "@/lib/api";
+import { allSessions, sessionProgress, trackStyle } from "@/lib/api";
 import { useRoadmap, useStats } from "@/lib/hooks";
 
 export default function Dashboard() {
-  const { data: stats } = useStats();
-  const { data: tracks } = useRoadmap();
-  const sessions = tracks?.flatMap((t) => t.modules.flatMap((m) => m.sessions)) ?? [];
-  const next = sessions.find((s) => {
+  const { data: stats, error: statsError } = useStats();
+  const { data: tracks, error: roadmapError } = useRoadmap();
+  const error = statsError ?? roadmapError;
+  const next = allSessions(tracks).find((s) => {
     const { done, total } = sessionProgress(s);
     return done < total;
   });
+  const nextProgress = next && sessionProgress(next);
 
   return (
     <div className="space-y-8">
@@ -27,13 +28,14 @@ export default function Dashboard() {
         <p className="mt-1 text-muted-foreground">
           One topic at a time. Tick subchapters as you master them — consistency beats intensity.
         </p>
+        {error && <p className="mt-2 text-destructive">Can&apos;t reach the API: {error.message}</p>}
       </section>
 
       <section className="grid gap-3 lg:grid-cols-4" aria-label="Overview">
-        {next ? (
+        {next && nextProgress ? (
           <Card
             className="surface-track rounded-3xl lg:col-span-2 lg:row-span-2"
-            style={{ "--track": trackColor(next.id.split(".")[0]) } as React.CSSProperties}
+            style={trackStyle(next.id.split(".")[0])}
           >
             <CardHeader>
               <CardDescription className="text-xs tracking-wider uppercase">Next session</CardDescription>
@@ -43,11 +45,11 @@ export default function Dashboard() {
             <CardContent className="mt-auto space-y-4">
               <div className="flex items-center gap-3">
                 <ProgressRing
-                  percent={Math.round((sessionProgress(next).done / sessionProgress(next).total) * 100)}
+                  percent={Math.round((nextProgress.done / nextProgress.total) * 100)}
                   className="size-16 text-sm"
                 />
                 <p className="font-mono text-xs text-muted-foreground">
-                  {sessionProgress(next).done}/{sessionProgress(next).total} subchapters done
+                  {nextProgress.done}/{nextProgress.total} subchapters done
                 </p>
               </div>
               <Button asChild className="rounded-full">
@@ -56,6 +58,13 @@ export default function Dashboard() {
                 </Link>
               </Button>
             </CardContent>
+          </Card>
+        ) : tracks ? (
+          <Card className="rounded-3xl lg:col-span-2 lg:row-span-2">
+            <CardHeader>
+              <CardDescription className="text-xs tracking-wider uppercase">Roadmap complete</CardDescription>
+              <CardTitle className="font-heading text-2xl leading-tight">Every session is done. Time to build.</CardTitle>
+            </CardHeader>
           </Card>
         ) : (
           <Skeleton className="h-48 rounded-3xl lg:col-span-2 lg:row-span-2" />
@@ -80,7 +89,7 @@ export default function Dashboard() {
         <div className="grid gap-3 sm:grid-cols-2">
           {!stats && Array.from({ length: 6 }, (_, i) => <Skeleton key={i} className="h-20 rounded-xl" />)}
           {stats?.tracks.map((t) => (
-            <Card key={t.id} className="surface-track gap-2 rounded-2xl py-4" style={{ "--track": trackColor(t.id) } as React.CSSProperties}>
+            <Card key={t.id} className="surface-track gap-2 rounded-2xl py-4" style={trackStyle(t.id)}>
               <CardHeader className="px-4">
                 <CardTitle className="flex items-baseline justify-between gap-2 text-sm">
                   <span>

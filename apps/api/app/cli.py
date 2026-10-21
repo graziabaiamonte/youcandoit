@@ -117,13 +117,7 @@ async def main() -> None:
                     .on_conflict_do_nothing(index_elements=["url"])
                 )
                 await db.commit()
-                await rag.index_text(
-                    db,
-                    url=args.url,
-                    title=args.title,
-                    kind="article",
-                    text=f"{args.title}. {args.excerpt}",
-                )
+                await news.index_article(db, args.url, args.title, args.excerpt)
                 print("added")
 
 

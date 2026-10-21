@@ -11,12 +11,14 @@ services:
       - pgdata:/var/lib/postgresql/data
     ports: ["5432:5432"]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ycdi"]
+      test: ["CMD-SHELL", "pg_isready -h localhost -U ycdi"]
       interval: 3s
       retries: 20
 
+  # Ollama in Docker is opt-in (`--profile ollama`): on a Mac the native install is faster
   ollama:
     image: ollama/ollama:0.40.6
+    profiles: [ollama]
     volumes:
       - ollama:/root/.ollama
 
@@ -26,6 +28,7 @@ services:
   # one-shot: downloads the chat + embedding models into the ollama volume
   ollama-pull:
     image: ollama/ollama:0.40.6
+    profiles: [ollama]
     depends_on: [ollama]
     environment:
       OLLAMA_HOST: ollama:11434

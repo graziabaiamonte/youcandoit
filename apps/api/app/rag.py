@@ -1,5 +1,6 @@
 """Retrieval-augmented generation: fetch → extract → chunk → embed → store → retrieve."""
 
+import asyncio
 import hashlib
 import logging
 from dataclasses import dataclass
@@ -8,7 +9,7 @@ from urllib.robotparser import RobotFileParser
 
 import httpx
 import trafilatura
-from sqlalchemy import delete, select
+from sqlalchemy import delete, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.llm import get_embedder
@@ -24,7 +25,6 @@ OVERLAP_WORDS = 80
 class Hit:
     url: str
     title: str
-    kind: str
     text: str
     distance: float
 
@@ -64,7 +64,8 @@ async def fetch_text(url: str) -> str | None:
         r.raise_for_status()
     if "pdf" in r.headers.get("content-type", ""):
         return None  # shortcut: PDFs skipped, add pypdf extraction if sources need it
-    return trafilatura.extract(r.text, url=url)
+    # CPU-heavy: run off the event loop so requests aren't blocked while a page is parsed
+    return await asyncio.to_thread(trafilatura.extract, r.text, url=url)
 
 
 async def index_text(
@@ -117,13 +118,16 @@ async def retrieve(
 ) -> list[Hit]:
     [qv] = await get_embedder().embed([query])
     distance = Chunk.embedding.cosine_distance(qv).label("distance")
-    stmt = select(Chunk.text, Document.url, Document.title, Document.kind, distance).join(Document)
+    stmt = select(Chunk.text, Document.url, Document.title, distance).join(Document)
     if kind:
         stmt = stmt.where(Document.kind == kind)
     if session_id:
         stmt = stmt.where(Document.session_id == session_id)
+    if kind or session_id:
+        # HNSW filters after its candidate scan; keep scanning until k filtered rows are found
+        await db.execute(text("SET LOCAL hnsw.iterative_scan = relaxed_order"))
     rows = await db.execute(stmt.order_by(distance).limit(k))
-    return [Hit(url=u, title=t, kind=kd, text=tx, distance=d) for tx, u, t, kd, d in rows]
+    return [Hit(url=u, title=t, text=tx, distance=d) for tx, u, t, d in rows]
 
 
 def build_context(hits: list[Hit]) -> tuple[str, list[dict]]:

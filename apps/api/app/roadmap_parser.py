@@ -51,6 +51,11 @@ class RoadmapError(ValueError):
     pass
 
 
+def iter_sessions(tracks):
+    """(track, module, session) in roadmap order."""
+    return ((t, m, s) for t in tracks for m in t.modules for s in m.sessions)
+
+
 def parse_roadmap(text: str) -> list[ParsedTrack]:
     tracks: list[ParsedTrack] = []
     session: ParsedSession | None = None
@@ -90,21 +95,19 @@ def parse_roadmap(text: str) -> list[ParsedTrack]:
 def validate(tracks: list[ParsedTrack]) -> list[str]:
     """Return human-readable problems; empty list means the roadmap is well-formed."""
     problems, seen = [], set()
-    for t in tracks:
-        for m in t.modules:
-            for s in m.sessions:
-                if s.id in seen:
-                    problems.append(f"duplicate session id {s.id}")
-                seen.add(s.id)
-                if not s.outcomes:
-                    problems.append(f"{s.id}: missing outcomes")
-                if not s.subchapters:
-                    problems.append(f"{s.id}: no subchapters")
-                if None in s.subchapter_keys:
-                    problems.append(f"{s.id}: subchapter without a {{#N}} key")
-                keys = [k for k in s.subchapter_keys if k]
-                if len(keys) != len(set(keys)):
-                    problems.append(f"{s.id}: duplicate subchapter key")
-                if not s.sources:
-                    problems.append(f"{s.id}: no sources")
+    for _, _, s in iter_sessions(tracks):
+        if s.id in seen:
+            problems.append(f"duplicate session id {s.id}")
+        seen.add(s.id)
+        if not s.outcomes:
+            problems.append(f"{s.id}: missing outcomes")
+        if not s.subchapters:
+            problems.append(f"{s.id}: no subchapters")
+        if None in s.subchapter_keys:
+            problems.append(f"{s.id}: subchapter without a {{#N}} key")
+        keys = [k for k in s.subchapter_keys if k]
+        if len(keys) != len(set(keys)):
+            problems.append(f"{s.id}: duplicate subchapter key")
+        if not s.sources:
+            problems.append(f"{s.id}: no sources")
     return problems

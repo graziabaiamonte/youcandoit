@@ -22,8 +22,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Lesson } from "@/components/lesson";
 import { Mermaid } from "@/components/mermaid";
 import { TutorSheet } from "@/components/tutor-sheet";
-import { api, fetcher, trackColor, type SessionDetail, type Stats } from "@/lib/api";
-import { useStats } from "@/lib/hooks";
+import { api, fetcher, trackStyle, type SessionDetail, type Stats } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 const isPractice = (title: string) => title.startsWith("Practice:");
@@ -50,8 +49,7 @@ function splitLesson(md: string | null | undefined) {
 export function SessionView({ id }: { id: string }) {
   const key = `/sessions/${id}`;
   const { data: s, error, mutate } = useSWR<SessionDetail>(key, fetcher);
-  const { mutate: mutateGlobal } = useSWRConfig();
-  const { data: prev } = useStats();
+  const { mutate: mutateGlobal, cache } = useSWRConfig();
 
   if (error) return <p className="text-destructive">{error.message}</p>;
   if (!s) return <Skeleton className="h-96 rounded-xl" />;
@@ -60,9 +58,12 @@ export function SessionView({ id }: { id: string }) {
   const done = s.subchapters.filter((c) => c.done).length;
 
   async function toggle(subId: string, checked: boolean) {
-    if (!s) return;
-    // optimistic tick
-    mutate({ ...s, subchapters: s.subchapters.map((c) => (c.id === subId ? { ...c, done: checked } : c)) }, false);
+    // read the cache, not render-time state: quick consecutive ticks must not overwrite each other
+    const prev = cache.get("/stats")?.data as Stats | undefined;
+    mutate(
+      (cur) => cur && { ...cur, subchapters: cur.subchapters.map((c) => (c.id === subId ? { ...c, done: checked } : c)) },
+      false,
+    );
     try {
       const stats = await api<Stats>(`/progress/${subId}`, { method: checked ? "PUT" : "DELETE" });
       await Promise.all([mutateGlobal("/stats", stats, false), mutateGlobal("/roadmap"), mutate()]);
@@ -70,7 +71,7 @@ export function SessionView({ id }: { id: string }) {
         const newBadges = stats.badges.filter((b) => !prev?.badges.some((p) => p.id === b.id));
         newBadges.forEach((b) => toast.success(`🏅 Badge unlocked: ${b.title}`, { description: b.description }));
         if (prev && stats.level > prev.level) toast.success(`⭐ Level up! You reached level ${stats.level}`);
-        else toast(`+${stats.xp - (prev?.xp ?? 0)} XP`);
+        else if (prev) toast(`+${stats.xp - prev.xp} XP`);
       }
     } catch (e) {
       mutate();
@@ -79,7 +80,7 @@ export function SessionView({ id }: { id: string }) {
   }
 
   return (
-    <article className="space-y-6" style={{ "--track": trackColor(s.track_id) } as React.CSSProperties}>
+    <article className="space-y-6" style={trackStyle(s.track_id)}>
       <header className="surface-track space-y-3 rounded-3xl border p-6 shadow-xs">
         <p className="text-sm font-medium text-track">
           Track {s.track_id} · {s.track_title} <span className="text-muted-foreground">/ {s.module_title}</span>
@@ -202,7 +203,7 @@ export function SessionView({ id }: { id: string }) {
                 <ExternalLinkIcon className="size-4 shrink-0 text-primary" aria-hidden />
                 <span className="min-w-0">
                   <span className="block truncate font-medium">{src.title}</span>
-                  <span className="block truncate text-xs text-muted-foreground">{new URL(src.url).hostname}</span>
+                  <span className="block truncate text-xs text-muted-foreground">{src.url.replace(/^https?:\/\//, "").split("/")[0]}</span>
                 </span>
               </a>
             </li>

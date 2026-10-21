@@ -1,7 +1,7 @@
 from datetime import UTC, datetime
 
 import httpx
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query
 from pydantic import BaseModel, ConfigDict
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -41,7 +41,9 @@ async def _index_full_text(url: str, title: str) -> None:
 
 @router.get("/articles", response_model=list[ArticleOut])
 async def list_articles(
-    favorites: bool = False, limit: int = 100, db: AsyncSession = Depends(get_db)
+    favorites: bool = False,
+    limit: int = Query(100, ge=1, le=200),
+    db: AsyncSession = Depends(get_db),
 ) -> list[Article]:
     stmt = select(Article)
     if favorites:
@@ -55,7 +57,7 @@ async def list_articles(
             .where(ranked.c.rank <= PER_SOURCE)
             .order_by(*newest)
         )
-    return list(await db.scalars(stmt.limit(min(limit, 200))))
+    return list(await db.scalars(stmt.limit(limit)))
 
 
 @router.post("/articles/refresh")

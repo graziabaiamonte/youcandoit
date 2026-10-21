@@ -1,22 +1,26 @@
 "use client";
 
+import { useState } from "react";
 import { StarIcon } from "lucide-react";
-import { useSWRConfig } from "swr";
 import { toast } from "sonner";
 import { api, type Article } from "@/lib/api";
+import { refreshArticles } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
 
 export function StarButton({ article, className }: { article: Article; className?: string }) {
-  const { mutate } = useSWRConfig();
+  const [pending, setPending] = useState(false);
   const starred = Boolean(article.favorite_at);
 
   async function toggle() {
+    setPending(true);
     try {
       await api(`/articles/${article.id}/favorite`, { method: starred ? "DELETE" : "PUT" });
-      await mutate((key) => typeof key === "string" && key.startsWith("/articles"));
+      await refreshArticles();
       if (!starred) toast.success("Saved to favorites — the full article is being indexed for RAG.");
     } catch (e) {
       toast.error((e as Error).message);
+    } finally {
+      setPending(false);
     }
   }
 
@@ -24,6 +28,7 @@ export function StarButton({ article, className }: { article: Article; className
     <button
       type="button"
       onClick={toggle}
+      disabled={pending}
       aria-pressed={starred}
       aria-label={starred ? `Remove "${article.title}" from favorites` : `Save "${article.title}" to favorites`}
       className={cn(

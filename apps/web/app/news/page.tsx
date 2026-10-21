@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useSWRConfig } from "swr";
 import { toast } from "sonner";
 import {
   ChevronLeftIcon,
@@ -19,18 +18,17 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Chat } from "@/components/chat";
 import { StarButton } from "@/components/star-button";
 import { api, type Article } from "@/lib/api";
-import { useArticles } from "@/lib/hooks";
+import { refreshArticles, useArticles } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
 
 export default function NewsPage() {
-  const { mutate } = useSWRConfig();
   const [refreshing, setRefreshing] = useState(false);
 
   async function refresh() {
     setRefreshing(true);
     try {
       const { new: count } = await api<{ new: number }>("/articles/refresh", { method: "POST" });
-      await mutate((key) => typeof key === "string" && key.startsWith("/articles"));
+      await refreshArticles();
       toast.success(count ? `${count} new articles` : "You're up to date");
     } catch (e) {
       toast.error((e as Error).message);
@@ -159,14 +157,13 @@ function ArticleGrid({ favorites }: { favorites: boolean }) {
 }
 
 function ArticleCard({ article: a, className }: { article: Article; className?: string }) {
-  const { mutate } = useSWRConfig();
   const [loading, setLoading] = useState(false);
 
   async function summarize() {
     setLoading(true);
     try {
       await api(`/articles/${a.id}/summary`, { method: "POST" });
-      await mutate((key) => typeof key === "string" && key.startsWith("/articles"));
+      await refreshArticles();
     } catch (e) {
       toast.error((e as Error).message);
     } finally {

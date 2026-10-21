@@ -10,7 +10,7 @@ from time import mktime
 import feedparser
 import httpx
 import yaml
-from sqlalchemy import delete, select
+from sqlalchemy import delete, func, literal_column, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -56,7 +56,7 @@ async def _fetch(client: httpx.AsyncClient, feed: dict) -> list[dict]:
     try:
         r = await client.get(feed["url"])
         r.raise_for_status()
-        return parse_feed(r.content, feed["name"])
+        return await asyncio.to_thread(parse_feed, r.content, feed["name"])
     except httpx.HTTPError as e:
         log.warning("feed %s failed: %s", feed["name"], e)
         return []
@@ -69,15 +69,16 @@ async def refresh_news(db: AsyncSession) -> int:
     ) as client:
         batches = await asyncio.gather(*(_fetch(client, f) for f in load_feeds()))
     rows = list({a["url"]: a for batch in batches for a in batch}.values())
-    new_ids: list[int] = []
+    new = 0
     if rows:
+        stmt = insert(Article).values(rows)
+        # still in a feed → keep it alive past the 30-day cutoff; xmax = 0 marks a fresh insert
         result = await db.execute(
-            insert(Article)
-            .values(rows)
-            .on_conflict_do_nothing(index_elements=["url"])
-            .returning(Article.id)
+            stmt.on_conflict_do_update(
+                index_elements=["url"], set_={"fetched_at": func.now()}
+            ).returning(literal_column("xmax = 0"))
         )
-        new_ids = list(result.scalars())
+        new = sum(result.scalars())
     cutoff = datetime.now(UTC) - timedelta(days=KEEP_DAYS)
     await db.execute(
         delete(Article).where(Article.fetched_at < cutoff, Article.favorite_at.is_(None))
@@ -90,11 +91,10 @@ async def refresh_news(db: AsyncSession) -> int:
     # the excerpt is indexed now, the full text when the article is favorited
     unindexed = select(Article).where(Article.url.not_in(select(Document.url)))
     for article in await db.scalars(unindexed):
-        await rag.index_text(
-            db,
-            url=article.url,
-            title=article.title,
-            kind="article",
-            text=f"{article.title}. {article.excerpt}",
-        )
-    return len(new_ids)
+        await index_article(db, article.url, article.title, article.excerpt)
+    return new
+
+
+async def index_article(db: AsyncSession, url: str, title: str, excerpt: str) -> bool:
+    text = f"{title}. {excerpt}"
+    return await rag.index_text(db, url=url, title=title, kind="article", text=text)
