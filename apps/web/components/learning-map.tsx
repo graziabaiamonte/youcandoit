@@ -138,9 +138,9 @@ export function LearningMap() {
   const { data: tracks } = useRoadmap();
   const { resolvedTheme } = useTheme();
   const graph = useMemo(() => (tracks ? buildGraph(tracks) : null), [tracks]);
-  if (!graph) return <Skeleton className="h-[70vh] rounded-2xl" />;
+  if (!graph) return <Skeleton className="flex-1 rounded-none" />;
   return (
-    <div className="h-[72vh] overflow-hidden rounded-2xl border bg-card" data-testid="learning-map">
+    <div className="min-h-0 flex-1 bg-card" data-testid="learning-map">
       <ReactFlow
         nodes={graph.nodes}
         edges={graph.edges}

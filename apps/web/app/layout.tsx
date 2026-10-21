@@ -33,7 +33,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                   <ThemeToggle />
                 </div>
               </header>
-              <main className="mx-auto w-full max-w-5xl px-4 py-8 md:px-8">{children}</main>
+              {/* a visible data-fullbleed root (the map) gets the whole area below the header; cacheComponents
+                  keeps left pages in the DOM with an inline display:none, so those must not count */}
+              <main className="mx-auto w-full max-w-5xl px-4 py-8 md:px-8 has-[[data-fullbleed]:not([style*=none])]:max-w-none has-[[data-fullbleed]:not([style*=none])]:p-0">{children}</main>
             </SidebarInset>
           </SidebarProvider>
           <WelcomeDialog />
