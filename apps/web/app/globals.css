@@ -81,73 +81,73 @@
 
 /* gamified-app screenshots and SCALEN: plum black, lavender accents */
 [data-theme="plum"] {
-  --background: #160f1f;
-  --foreground: #f5f0fa;
-  --card: #221a2e;
-  --card-foreground: #f5f0fa;
-  --popover: #221a2e;
-  --popover-foreground: #f5f0fa;
-  --primary: #b8a4ff;
+  --background: #1f1729;
+  --foreground: #f8f4fc;
+  --card: #2b2238;
+  --card-foreground: #f8f4fc;
+  --popover: #2b2238;
+  --popover-foreground: #f8f4fc;
+  --primary: #c4b3ff;
   --primary-foreground: #1a1028;
-  --secondary: #2c2339;
-  --secondary-foreground: #f5f0fa;
-  --muted: #2c2339;
-  --muted-foreground: #b3a6c4;
-  --accent: #2c2339;
-  --accent-foreground: #f5f0fa;
+  --secondary: #372c46;
+  --secondary-foreground: #f8f4fc;
+  --muted: #372c46;
+  --muted-foreground: #d2c7e0;
+  --accent: #372c46;
+  --accent-foreground: #f8f4fc;
   --destructive: #fb7185;
   --success: #86efac;
   --xp: #c4b5fd;
   --streak: #fdba74;
-  --border: #3a2f4a;
-  --input: #4a3d5c;
-  --ring: #b8a4ff;
+  --border: #4a3d5c;
+  --input: #5a4b6e;
+  --ring: #c4b3ff;
   --glow: #3b2463;
 
-  --sidebar: #110b18;
-  --sidebar-foreground: #f5f0fa;
-  --sidebar-primary: #b8a4ff;
+  --sidebar: #191221;
+  --sidebar-foreground: #f8f4fc;
+  --sidebar-primary: #c4b3ff;
   --sidebar-primary-foreground: #1a1028;
-  --sidebar-accent: #221a2e;
-  --sidebar-accent-foreground: #f5f0fa;
-  --sidebar-border: #3a2f4a;
-  --sidebar-ring: #b8a4ff;
+  --sidebar-accent: #2b2238;
+  --sidebar-accent-foreground: #f8f4fc;
+  --sidebar-border: #4a3d5c;
+  --sidebar-ring: #c4b3ff;
 
 }
 
 /* Ronas IT "Course Connect": near-black, electric blue */
 [data-theme="midnight"] {
-  --background: #0e0f13;
-  --foreground: #f2f4f8;
-  --card: #17191f;
-  --card-foreground: #f2f4f8;
-  --popover: #17191f;
-  --popover-foreground: #f2f4f8;
-  --primary: #6b93ff;
-  --primary-foreground: #0e0f13;
-  --secondary: #20232b;
-  --secondary-foreground: #f2f4f8;
-  --muted: #20232b;
-  --muted-foreground: #9aa1b2;
-  --accent: #20232b;
-  --accent-foreground: #f2f4f8;
+  --background: #2b2f38;
+  --foreground: #f5f7fa;
+  --card: #363b45;
+  --card-foreground: #f5f7fa;
+  --popover: #363b45;
+  --popover-foreground: #f5f7fa;
+  --primary: #8aabff;
+  --primary-foreground: #0e1220;
+  --secondary: #424854;
+  --secondary-foreground: #f5f7fa;
+  --muted: #424854;
+  --muted-foreground: #d6dbe3;
+  --accent: #424854;
+  --accent-foreground: #f5f7fa;
   --destructive: #fb7185;
   --success: #4ade80;
   --xp: #b49cff;
   --streak: #ffb86b;
-  --border: #2a2e38;
-  --input: #363b47;
-  --ring: #6b93ff;
+  --border: #4f5664;
+  --input: #5d6474;
+  --ring: #8aabff;
   --glow: #172554;
 
-  --sidebar: #0a0b0e;
-  --sidebar-foreground: #f2f4f8;
-  --sidebar-primary: #6b93ff;
-  --sidebar-primary-foreground: #0e0f13;
-  --sidebar-accent: #17191f;
-  --sidebar-accent-foreground: #f2f4f8;
-  --sidebar-border: #2a2e38;
-  --sidebar-ring: #6b93ff;
+  --sidebar: #24272f;
+  --sidebar-foreground: #f5f7fa;
+  --sidebar-primary: #8aabff;
+  --sidebar-primary-foreground: #0e1220;
+  --sidebar-accent: #363b45;
+  --sidebar-accent-foreground: #f5f7fa;
+  --sidebar-border: #4f5664;
+  --sidebar-ring: #8aabff;
 }
 
 @theme inline {
@@ -238,4 +238,9 @@
     color-mix(in srgb, var(--track) var(--surface-tint), var(--card)),
     color-mix(in srgb, var(--track) 8%, var(--card))
   );
+}
+
+/* React Flow's dark mode paints a fixed #141414 canvas; let the map's themed card show through */
+.react-flow {
+  --xy-background-color: transparent;
 }
