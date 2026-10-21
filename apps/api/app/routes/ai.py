@@ -16,7 +16,9 @@ GROUNDING = (
     "Answer using the numbered context passages below and cite them inline like [1]. "
     "If the context does not contain the answer, say so briefly, then answer from general "
     "knowledge and mark that part '(not from your sources)'. Keep answers clear and short: "
-    "small paragraphs, bullet lists, a tiny code example when it helps."
+    "small paragraphs, bullet lists, a tiny code example when it helps. "
+    # qwen2.5 can drift into Chinese mid-answer
+    "Always answer in English."
 )
 
 

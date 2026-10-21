@@ -95,7 +95,8 @@ async def summarize(article_id: int, db: AsyncSession = Depends(get_db)) -> Arti
             text = a.excerpt
         a.ai_summary = await get_llm().chat(
             "You summarize technical articles for a junior developer studying to become a "
-            "senior engineer. Write 3-5 short bullet points, then one line 'Why it matters:'.",
+            "senior engineer. Write 3-5 short bullet points, then one line 'Why it matters:'. "
+            "Always answer in English.",
             [{"role": "user", "content": f"Title: {a.title}\n\n{text[:12000]}"}],
         )
         await db.commit()
