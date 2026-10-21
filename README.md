@@ -13,11 +13,13 @@ product.
 - **Kept up to date** — a scheduled Claude routine reviews the sources every Saturday at 10:00
   (Europe/Rome) and opens a pull request with roadmap updates.
 
-| Session view | Learning map |
+| Dashboard (Plum) | Session view (Campus) |
 |---|---|
-| ![Session view](.github/screenshots/session-light.png) | ![Learning map](.github/screenshots/map-dark.png) |
-| **Dashboard** | **Welcome quote** |
-| ![Dashboard](.github/screenshots/dash-dark.png) | ![Welcome dialog](.github/screenshots/welcome-dark.png) |
+| ![Dashboard](.github/screenshots/dashboard-plum.png) | ![Session view](.github/screenshots/session-campus.png) |
+| **Learning map (Midnight)** | **News & reading list (Campus)** |
+| ![Learning map](.github/screenshots/map-midnight.png) | ![News and reading list](.github/screenshots/news-campus.png) |
+| **Welcome quote (Plum)** | |
+| ![Welcome dialog](.github/screenshots/welcome-plum.png) | |
 
 ## Quick start
 
@@ -35,9 +37,10 @@ immediately; the tutor's citations improve as indexing completes.
 **On a Mac, run Ollama natively for speed** (Docker on macOS has no GPU access):
 
 ```sh
-brew install ollama && ollama serve &
-ollama pull llama3.2:3b && ollama pull nomic-embed-text
+brew install ollama && brew services start ollama   # starts on every login
+ollama pull qwen2.5:7b && ollama pull nomic-embed-text
 echo "OLLAMA_URL=http://host.docker.internal:11434" >> .env
+echo "OLLAMA_CHAT_MODEL=qwen2.5:7b" >> .env           # bigger model, ~10 s per tutor answer on the GPU
 docker compose up -d api
 ```
 
@@ -52,6 +55,7 @@ Chat and summaries switch to Claude; embeddings stay on Ollama (free, local).
 | Session view | Outcomes callout, numbered subchapters with checkboxes, "Practice" tasks, a Mermaid mind map, and source cards. Colour-coded per track. |
 | Lessons | Full written lesson per session from `content/lessons/<session id>.md`: Markdown with colour-coded callouts (`[!NOTE]`, `[!TIP]`, `[!WARNING]`, `[!EXAMPLE]`), and Mermaid diagrams, shown on the session page and indexed into the tutor's RAG. Sessions without a file simply have no lesson section. |
 | Gamification | XP per subchapter + bonuses per session/track, levels, daily streak, badges, toasts on level-up. All derived from completions — nothing to drift. |
+| Themes | Three colour themes from the palette menu: Plum and Midnight (dark), Campus (light). Mermaid and the map follow the theme. |
 | Welcome quote | 131 curated quotes (philosophers, scientists, engineers), once per browser session. |
 | Learning map | React Flow map: tracks on a serpentine path, modules as pills, "you are here" marker. |
 | Daily news | 17 RSS/Atom feeds (GitHub, Anthropic, OpenAI, Hugging Face, InfoQ, CNCF, Martin Fowler…) fetched at 07:00, deduped, kept 30 days; favorites kept forever. |
@@ -129,6 +133,19 @@ docker compose exec api python -m app.cli refresh-news
 docker compose exec api python -m app.cli index-sources
 ```
 
+### Backups
+
+Progress (ticked subchapters) and favorite articles live only in the Postgres volume. Everything
+else is rebuilt from `ROADMAP.md`, the feeds and re-indexing, so the backup is a small JSON file:
+
+```sh
+mkdir -p backups   # git-ignored
+docker compose exec -T api python -m app.cli backup > backups/ycdi-$(date +%F).json
+docker compose exec -T api python -m app.cli restore < backups/ycdi-2026-10-21.json
+```
+
+`restore` only inserts what is missing, so it is safe on a database that already has progress.
+
 ### Writing lessons
 
 Lessons are authored with the `lesson-writer` Claude Code agent (`.claude/agents/lesson-writer.md`),
@@ -142,7 +159,8 @@ CI (GitHub Actions) runs lint, pytest, type-check, build and the Playwright suit
 ## Running it
 
 Local only: `docker compose up -d --build`, then open http://localhost:3000. The app is
-single-user with no auth, so it isn't meant to be exposed publicly.
+single-user with no auth, so it isn't meant to be exposed publicly. Day-to-day commands are in
+[`command.md`](command.md).
 
 ## Roadmap of the app itself
 

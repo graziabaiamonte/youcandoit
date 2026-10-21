@@ -13,3 +13,4 @@ CLAUDE.md
 .claude/worktrees/
 .vscode/
 *.tsbuildinfo
+backups/

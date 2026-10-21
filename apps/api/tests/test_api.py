@@ -63,3 +63,34 @@ async def test_session_lesson_served_and_indexed(client, tmp_path, monkeypatch):
         doc = await db.scalar(select(Document).where(Document.url == "/session/0.1.1#lesson"))
         assert doc.session_id == "0.1.1"
         assert await sync.index_sources(db) == 0  # unchanged lesson is skipped
+
+
+async def test_backup_restore_roundtrip(client):
+    from datetime import UTC, datetime
+
+    from sqlalchemy import delete
+
+    from app import cli
+    from app.models import Article, Completion
+
+    await client.put("/progress/0.1.1.1")
+    async with SessionLocal() as db:
+        db.add(
+            Article(
+                url="https://ex.com/fav",
+                title="Fav",
+                source="Ex",
+                excerpt="",
+                favorite_at=datetime.now(UTC),
+            )
+        )
+        await db.commit()
+        data = await cli.backup(db)
+        await db.execute(delete(Completion))
+        await db.execute(delete(Article))
+        await db.commit()
+        assert await cli.restore(db, data) == (1, 1)
+        assert await cli.backup(db) == data
+        await db.execute(delete(Completion))
+        await db.execute(delete(Article))
+        await db.commit()
