@@ -1,14 +1,28 @@
+/* FILE: foglio di stile globale del sito (Tailwind v4 + shadcn/ui + temi colore).
+   Lo importa una sola volta app/layout.tsx, quindi vale per tutte le pagine.
+   Ordine: prima le librerie (@import, @plugin), poi i token (variabili), poi le regole. */
+
+/* @import: carica il motore di Tailwind v4, che genera le classi (p-4, bg-*, ...). */
 @import "tailwindcss";
+/* tw-animate-css: classi di animazione pronte (animate-in, fade-in, ...) usate da shadcn. */
 @import "tw-animate-css";
+/* shadcn/tailwind.css: animazioni e varianti usate dai componenti in components/ui/. */
 @import "shadcn/tailwind.css";
+/* @plugin: plugin di Tailwind (in v4 si dichiarano qui invece che in tailwind.config.js).
+   Aggiunge le classi "prose" per il testo formattato, es. le lezioni in Markdown. */
 @plugin "@tailwindcss/typography";
 
+/* @custom-variant: nuova variante "dark:" che si attiva dentro un tema scuro (plum o
+   midnight), non con la preferenza di sistema. */
 @custom-variant dark (&:is([data-theme="plum"] *, [data-theme="midnight"] *));
 
 /* Design tokens: three palettes from Resources/UI, see Resources/UI/design-system.md.
    Plum (default) and Midnight are dark, Campus is light; every text/background pair is WCAG AA. */
+/* Tema di default (campus, chiaro): :root e' l'elemento <html>. Le custom properties
+   (variabili CSS, es. --background) sono valori con nome che le classi leggono via @theme. */
 :root,
 [data-theme="campus"] {
+  /* raggio base degli angoli; le scale rounded-sm/md/lg/xl sono derivate da questo */
   --radius: 1rem;
 
   --background: #f6f5f2;
@@ -33,8 +47,10 @@
   --input: #d2cec4;
   --ring: #18233e;
   --glow: #e3e7ef;
+  /* quanto colore della track entra nelle card pastello (vedi .surface-track in fondo) */
   --surface-tint: 16%;
 
+  /* colori della sidebar di shadcn (components/ui/sidebar), stessi ruoli con prefisso */
   --sidebar: #ffffff;
   --sidebar-foreground: #18233e;
   --sidebar-primary: #18233e;
@@ -45,6 +61,7 @@
   --sidebar-ring: #18233e;
 
   /* one colour per roadmap track (Track 0 → --track-1) */
+  /* i colori sono 12 e si ripetono: la track N usa --track-((N % 12) + 1), vedi lib/api.ts */
   --track-1: #1d4ed8;
   --track-2: #4338ca;
   --track-3: #6d28d9;
@@ -59,8 +76,10 @@
   --track-12: #155e75;
 }
 
+/* Temi scuri (plum e midnight): i track diventano pastello per restare leggibili sul fondo */
 [data-theme="plum"],
 [data-theme="midnight"] {
+  /* dice al browser di disegnare in scuro anche scrollbar e campi dei form */
   color-scheme: dark;
   --surface-tint: 22%;
 
@@ -150,10 +169,24 @@
   --sidebar-ring: #8aabff;
 }
 
+/* @theme: registra i token di design per Tailwind. Il NOME decide la classe generata:
+   --color-X -> bg-X, text-X, border-X; --font-X -> font-X; --radius-X -> rounded-X.
+   "inline" = Tailwind inserisce il valore direttamente nelle utility invece di lasciarlo
+   come variabile intermedia. */
 @theme inline {
+  /* Sembra un riferimento circolare, ma non si rompe. Verificato compilando globals.css con
+     Tailwind 4.3.3: Tailwind emette un :root { --font-sans: var(--font-sans) } (vale solo se
+     nessuno lo sovrascrive). Su <html> però c'è la classe creata da next/font per la
+     variabile "--font-sans" (app/layout.tsx, Inter), che NON sta in un @layer: le regole
+     fuori dai layer vincono su quelle dentro @layer theme. Quindi il valore reale e' Inter.
+     Convenzione alternativa della doc Next.js: variable "--font-inter" + --font-sans:
+     var(--font-inter). Lasciata così: non modificata. Verifica nel browser non eseguita. */
   --font-sans: var(--font-sans);
+  /* mono: la variabile arriva da JetBrains_Mono in app/layout.tsx (nome --font-geist-mono) */
   --font-mono: var(--font-geist-mono);
+  /* titoli: Unbounded in app/layout.tsx (--font-display), usato da font-heading */
   --font-heading: var(--font-display);
+  /* colori: ogni --color-X espone una classe Tailwind, es. bg-card, text-muted-foreground */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -185,6 +218,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
   /* the current track's colour, set per element via style={{ "--track": ... }} */
   --color-track: var(--track);
+  /* scala dei raggi: sm/md/lg/xl/2xl sono frazioni o multipli di --radius (1rem) */
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -192,7 +226,10 @@
   --radius-2xl: calc(var(--radius) * 1.8);
 }
 
+/* @layer base: stili di base. Dentro un layer hanno priorità minore delle classi Tailwind,
+   così una classe della pagina può sempre sovrascriverli. */
 @layer base {
+  /* @apply "incolla" classi Tailwind dentro CSS. Ogni bordo prende il colore --border */
   * {
     @apply border-border outline-ring/50;
   }
@@ -202,10 +239,12 @@
     background-image: radial-gradient(60rem 40rem at 85% -10%, var(--glow), transparent 70%);
     background-attachment: fixed;
   }
+  /* la manina sui bottoni attivi: Tailwind 4 non la imposta da solo */
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+  /* font di corpo di tutto il sito: font-sans legge --font-sans (vedi @theme sopra) */
   html {
     @apply font-sans;
   }
@@ -215,6 +254,7 @@
   }
 }
 
+/* accessibilità: chi ha attivo "riduci movimento" nel sistema vede animazioni quasi istantanee */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -270,6 +310,7 @@
   fill: var(--background) !important;
   color: var(--background) !important;
 }
+/* archi (linee) della mappa mentale: sfumature del colore della track */
 .session-mindmap .edge {
   stroke: color-mix(in srgb, var(--track) 50%, var(--card)) !important;
   stroke-width: 2px !important;
